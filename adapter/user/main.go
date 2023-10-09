@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"log"
 )
 
 func main() {
-	fmt.Println("I am user adapter")
+	log.Println("I am user adapter")
 }
