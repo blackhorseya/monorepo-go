@@ -7,9 +7,15 @@ BIN_DIR := $(BUILD_DIR)/bin
 LDFLAGS := -w -s
 
 # Targets
-.PHONY: all build clean
+.PHONY: all help build clean
 
-all: build
+all: help
+
+help:
+	@echo "Usage: make <command>"
+	@echo "Commands:"
+	@echo "  build    Build the project"
+	@echo "  clean    Clean the build directory"
 
 build: $(BIN_DIR)/user
 
