@@ -11,17 +11,15 @@ LDFLAGS := -w -s
 
 all: help
 
-help:
-	@echo "Usage: make <command>"
-	@echo "Commands:"
-	@echo "  build    Build the project"
-	@echo "  clean    Clean the build directory"
+help: ## show help
+	@grep -hE '^[ a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+	awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-17s\033[0m %s\n", $$1, $$2}'
 
-build: $(BIN_DIR)/user
+build: $(BIN_DIR)/user ## build binary
 
 $(BIN_DIR)/user: adapter/user/main.go
 	@mkdir -p $(BIN_DIR)
 	$(GO) build -ldflags "$(LDFLAGS)" -o $@ $<
 
-clean:
+clean: ## clean build directory
 	@rm -rf $(BUILD_DIR)
