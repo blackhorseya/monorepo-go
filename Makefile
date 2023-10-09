@@ -7,13 +7,16 @@ BIN_DIR := $(BUILD_DIR)/bin
 LDFLAGS := -w -s
 
 # Targets
-.PHONY: all help build clean
+.PHONY: all help build clean lint
 
 all: help
 
 help: ## show help
 	@grep -hE '^[ a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 	awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-17s\033[0m %s\n", $$1, $$2}'
+
+lint: ## run golangci-lint
+	@golangci-lint run ./...
 
 build: $(BIN_DIR)/user ## build binary
 
