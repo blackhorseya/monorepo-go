@@ -3,6 +3,7 @@ module github.com/blackhorseya/monorepo-go
 go 1.20
 
 require (
+	go.uber.org/mock v0.3.0
 	go.uber.org/zap v1.26.0
 	google.golang.org/protobuf v1.31.0
 )
