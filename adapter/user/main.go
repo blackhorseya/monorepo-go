@@ -1,9 +1,9 @@
 package main
 
 import (
-	"log"
+	"github.com/blackhorseya/monorepo-go/adapter/user/cmd"
 )
 
 func main() {
-	log.Println("I am user adapter")
+	cmd.Execute()
 }
