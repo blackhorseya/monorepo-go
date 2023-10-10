@@ -7,7 +7,7 @@ BIN_DIR := $(BUILD_DIR)/bin
 LDFLAGS := -w -s
 
 # Targets
-.PHONY: all help build clean lint
+.PHONY: all help build clean lint gen-pb
 
 all: help
 
@@ -26,3 +26,19 @@ $(BIN_DIR)/user: adapter/user/main.go
 
 clean: ## clean build directory
 	@rm -rf $(BUILD_DIR)
+
+gen-pb: ## generate protobuf
+	@$(GO) get -u google.golang.org/protobuf/proto
+	@$(GO) get -u google.golang.org/protobuf/cmd/protoc-gen-go
+
+	## Starting generate pb
+	@protoc --proto_path=./pb \
+		--go_out=paths=source_relative:./ \
+		--go-grpc_out=paths=source_relative,require_unimplemented_servers=false:./ \
+		--go-grpc-mock_out=paths=source_relative,require_unimplemented_servers=false:./ \
+		./pb/entity/domain/*/*/*.proto
+	@echo Successfully generated proto
+
+	## Starting inject tags
+	@protoc-go-inject-tag -input="./entity/domain/*/model/*.pb.go"
+	@echo Successfully injected tags
