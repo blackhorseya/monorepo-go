@@ -7,7 +7,7 @@ BIN_DIR := $(BUILD_DIR)/bin
 LDFLAGS := -w -s
 
 # Targets
-.PHONY: all help build clean lint gen-pb
+.PHONY: all help build clean lint gen-pb gen-mocks
 
 all: help
 
@@ -42,3 +42,6 @@ gen-pb: ## generate protobuf
 	## Starting inject tags
 	@protoc-go-inject-tag -input="./entity/domain/*/model/*.pb.go"
 	@echo Successfully injected tags
+
+gen-mocks: ## generate mocks
+	@$(GO) generate ./...
