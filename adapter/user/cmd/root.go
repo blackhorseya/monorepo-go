@@ -8,10 +8,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var cfgFile string //nolint:gochecknoglobals // cfgFile is required by cobra
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
+// rootCmd represents the base command when called without any subcommands.
+var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // rootCmd is required by cobra
 	Use:   "monorepo-go",
 	Short: "A brief description of your application",
 	// Uncomment the following line if your bare application
@@ -28,6 +28,7 @@ func Execute() {
 	}
 }
 
+//nolint:gochecknoinits // init is required by cobra
 func init() {
 	cobra.OnInitialize(initConfig)
 
@@ -62,6 +63,6 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
+		_, _ = fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}
 }

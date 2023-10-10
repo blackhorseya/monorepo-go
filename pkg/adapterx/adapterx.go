@@ -9,15 +9,15 @@ type Servicer interface {
 	AwaitSignal() error
 }
 
-// Restful is the interface that wraps the restful api method
+// Restful is the interface that wraps the restful api method.
 type Restful interface {
 	Servicer
 
-	// InitRouting init the routing of restful api
+	// InitRouting init the routing of restful api.
 	InitRouting() error
 }
 
-// Grpc is the interface that wraps the grpc api method
+// Grpc is the interface that wraps the grpc api method.
 type Grpc interface {
 	Servicer
 }

@@ -7,14 +7,14 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 )
 
-// IUserBiz is a user biz interface
+// IUserBiz is a user biz interface.
 type IUserBiz interface {
-	// Login serve caller to given username and password to login system
+	// Login serve caller to given username and password to login system.
 	Login(ctx contextx.Contextx, username, password string) (account *userM.UserAccount, err error)
 
-	// Signup serve caller to given username and password to signup system
+	// Signup serve caller to given username and password to signup system.
 	Signup(ctx contextx.Contextx, username, password string) (account *userM.UserAccount, err error)
 
-	// Logout serve caller to logout system
+	// Logout serve caller to logout system.
 	Logout(ctx contextx.Contextx, token string) error
 }
