@@ -16,8 +16,6 @@ help: ## show help
 	awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-17s\033[0m %s\n", $$1, $$2}'
 
 lint: ## run golangci-lint
-	@go get github.com/golangci/golangci-lint/cmd/golangci-lint
-
 	@golangci-lint run ./...
 
 build: $(BIN_DIR)/user ## build binary
