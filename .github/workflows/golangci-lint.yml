@@ -6,13 +6,11 @@ on:
       - main
     paths:
       - '**.go'
-      - '.github/workflows/go.yaml'
   pull_request:
     branches:
       - main
     paths:
       - '**.go'
-      - '.github/workflows/go.yaml'
   workflow_dispatch: { }
 
 permissions:
