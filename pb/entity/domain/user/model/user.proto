@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/user/model";
+
+message Profile {
+    string first_name = 1;
+    string last_name = 2;
+}
+
+message UserAccount {
+    string id = 1;
+    string email = 2;
+    // gotags: json="-"
+    string password = 3;
+    string access_token = 4;
+    string id_token = 5;
+    Profile profile = 6;
+}
