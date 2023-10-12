@@ -21,3 +21,8 @@ type Restful interface {
 type Grpc interface {
 	Servicer
 }
+
+// Cronjob is the interface that wraps the cronjob method.
+type Cronjob interface {
+	Servicer
+}
