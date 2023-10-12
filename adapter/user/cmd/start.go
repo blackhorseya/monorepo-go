@@ -3,6 +3,7 @@ package cmd
 import (
 	"log"
 
+	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/restful"
 	"github.com/spf13/cobra"
 )
 
@@ -34,8 +35,14 @@ var startAPICmd = &cobra.Command{
 	Use:   "api",
 	Short: "start a user api service",
 	Run: func(cmd *cobra.Command, args []string) {
-		// todo: 2023/10/12|sean|impl me
-		log.Println("start api called")
+		service, err := restful.New()
+		cobra.CheckErr(err)
+
+		err = service.Start()
+		cobra.CheckErr(err)
+
+		err = service.AwaitSignal()
+		cobra.CheckErr(err)
 	},
 }
 
