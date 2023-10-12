@@ -16,9 +16,9 @@ import (
 // Injectors from wire.go:
 
 // New will create a new restful adapter instance
-func New(viper2 *viper.Viper, logger *zap.Logger) (adapterx.Restful, error) {
-	restful := newImpl(viper2, logger)
-	return restful, nil
+func New(v *viper.Viper, logger *zap.Logger) adapterx.Servicer {
+	servicer := newImpl(v, logger)
+	return servicer
 }
 
 // wire.go:

@@ -11,7 +11,7 @@ type impl struct {
 	logger *zap.Logger
 }
 
-func newImpl(viper *viper.Viper, logger *zap.Logger) adapterx.Restful {
+func newImpl(viper *viper.Viper, logger *zap.Logger) adapterx.Servicer {
 	return &impl{
 		viper:  viper,
 		logger: logger.With(zap.String("type", "restful")),

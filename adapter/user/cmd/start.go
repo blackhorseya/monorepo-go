@@ -17,6 +17,15 @@ type ServiceCmd struct {
 	Run   func(v *viper.Viper, logger *zap.Logger) adapterx.Servicer
 }
 
+// NewServiceCmd creates a new service command.
+func NewServiceCmd(
+	use string,
+	short string,
+	run func(v *viper.Viper, logger *zap.Logger) adapterx.Servicer,
+) *cobra.Command {
+	return (&ServiceCmd{Use: use, Short: short, Run: run}).NewCmd()
+}
+
 // NewCmd creates a new service command.
 func (s *ServiceCmd) NewCmd() *cobra.Command {
 	cmd := &cobra.Command{
@@ -46,7 +55,7 @@ var startCmd = &cobra.Command{
 }
 
 func init() {
-	startCmd.AddCommand(startAPICmd)
+	startCmd.AddCommand(NewServiceCmd("api", "start a user api service", restful.New))
 	startCmd.AddCommand(startGrpcCmd)
 	startCmd.AddCommand(startCronjobCmd)
 
@@ -61,24 +70,6 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// startCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-var startAPICmd = &cobra.Command{
-	Use:   "api",
-	Short: "start a user api service",
-	Run: func(cmd *cobra.Command, args []string) {
-		v := viper.GetViper()
-		logger := zap.NewExample()
-
-		service, err := restful.New(v, logger)
-		cobra.CheckErr(err)
-
-		err = service.Start()
-		cobra.CheckErr(err)
-
-		err = service.AwaitSignal()
-		cobra.CheckErr(err)
-	},
 }
 
 var startGrpcCmd = &cobra.Command{

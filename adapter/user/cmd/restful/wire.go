@@ -14,6 +14,6 @@ import (
 var providerSet = wire.NewSet(newImpl)
 
 // New will create a new restful adapter instance
-func New(viper *viper.Viper, logger *zap.Logger) (adapterx.Restful, error) {
+func New(v *viper.Viper, logger *zap.Logger) adapterx.Servicer {
 	panic(wire.Build(providerSet))
 }
