@@ -7,7 +7,7 @@ import (
 type impl struct {
 }
 
-func newImpl() adapterx.Cronjob {
+func newImpl() adapterx.Servicer {
 	return &impl{}
 }
 

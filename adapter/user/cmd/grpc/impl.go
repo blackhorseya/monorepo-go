@@ -7,7 +7,7 @@ import (
 type impl struct {
 }
 
-func newImpl() adapterx.Grpc {
+func newImpl() adapterx.Servicer {
 	return &impl{}
 }
 

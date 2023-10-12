@@ -56,8 +56,8 @@ var startCmd = &cobra.Command{
 
 func init() {
 	startCmd.AddCommand(NewServiceCmd("api", "start a user api service", restful.New))
-	startCmd.AddCommand(startGrpcCmd)
-	startCmd.AddCommand(startCronjobCmd)
+	startCmd.AddCommand(NewServiceCmd("grpc", "start a user grpc service", grpc.New))
+	startCmd.AddCommand(NewServiceCmd("cronjob", "start a user cronjob service", cronjob.New))
 
 	rootCmd.AddCommand(startCmd)
 
@@ -70,34 +70,4 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// startCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-var startGrpcCmd = &cobra.Command{
-	Use:   "grpc",
-	Short: "start a user grpc service",
-	Run: func(cmd *cobra.Command, args []string) {
-		service, err := grpc.New()
-		cobra.CheckErr(err)
-
-		err = service.Start()
-		cobra.CheckErr(err)
-
-		err = service.AwaitSignal()
-		cobra.CheckErr(err)
-	},
-}
-
-var startCronjobCmd = &cobra.Command{
-	Use:   "cronjob",
-	Short: "start a user cronjob service",
-	Run: func(cmd *cobra.Command, args []string) {
-		service, err := cronjob.New()
-		cobra.CheckErr(err)
-
-		err = service.Start()
-		cobra.CheckErr(err)
-
-		err = service.AwaitSignal()
-		cobra.CheckErr(err)
-	},
 }

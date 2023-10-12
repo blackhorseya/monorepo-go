@@ -9,14 +9,16 @@ package grpc
 import (
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 // Injectors from wire.go:
 
-// New will create a new grpc adapter instance
-func New() (adapterx.Grpc, error) {
-	grpc := newImpl()
-	return grpc, nil
+// New will create a new restful adapter instance
+func New(v *viper.Viper, logger *zap.Logger) adapterx.Servicer {
+	servicer := newImpl()
+	return servicer
 }
 
 // wire.go:
