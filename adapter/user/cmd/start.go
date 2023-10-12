@@ -4,10 +4,18 @@ import (
 	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/cronjob"
 	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/grpc"
 	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/restful"
+	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
+
+// ServiceCmd represents the service command.
+type ServiceCmd struct {
+	Use   string
+	Short string
+	Run   func(v *viper.Viper, logger *zap.Logger) adapterx.Servicer
+}
 
 // startCmd represents the start command.
 var startCmd = &cobra.Command{
