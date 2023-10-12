@@ -17,6 +17,28 @@ type ServiceCmd struct {
 	Run   func(v *viper.Viper, logger *zap.Logger) adapterx.Servicer
 }
 
+// NewCmd creates a new service command.
+func (s *ServiceCmd) NewCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   s.Use,
+		Short: s.Short,
+		Run: func(cmd *cobra.Command, args []string) {
+			v := viper.GetViper()
+			logger := zap.NewExample()
+
+			service := s.Run(v, logger)
+
+			err := service.Start()
+			cobra.CheckErr(err)
+
+			err = service.AwaitSignal()
+			cobra.CheckErr(err)
+		},
+	}
+
+	return cmd
+}
+
 // startCmd represents the start command.
 var startCmd = &cobra.Command{
 	Use:   "start",
