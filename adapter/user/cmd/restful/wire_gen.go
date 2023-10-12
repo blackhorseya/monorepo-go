@@ -15,10 +15,10 @@ import (
 
 // New will create a new restful adapter instance
 func New() (adapterx.Restful, error) {
-	restful := createRestful()
+	restful := newImpl()
 	return restful, nil
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(createRestful)
+var providerSet = wire.NewSet(newImpl)

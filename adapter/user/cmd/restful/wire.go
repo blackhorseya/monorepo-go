@@ -9,7 +9,7 @@ import (
 	"github.com/google/wire"
 )
 
-var providerSet = wire.NewSet(createRestful)
+var providerSet = wire.NewSet(newImpl)
 
 // New will create a new restful adapter instance
 func New() (adapterx.Restful, error) {

@@ -7,7 +7,7 @@ import (
 type impl struct {
 }
 
-func createRestful() adapterx.Restful {
+func newImpl() adapterx.Restful {
 	return &impl{}
 }
 
