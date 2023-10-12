@@ -2,13 +2,20 @@ package restful
 
 import (
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 type impl struct {
+	viper  *viper.Viper
+	logger *zap.Logger
 }
 
-func newImpl() adapterx.Restful {
-	return &impl{}
+func newImpl(viper *viper.Viper, logger *zap.Logger) adapterx.Restful {
+	return &impl{
+		viper:  viper,
+		logger: logger.With(zap.String("type", "restful")),
+	}
 }
 
 func (i *impl) Start() error {

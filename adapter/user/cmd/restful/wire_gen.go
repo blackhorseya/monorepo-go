@@ -9,13 +9,15 @@ package restful
 import (
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 // Injectors from wire.go:
 
 // New will create a new restful adapter instance
-func New() (adapterx.Restful, error) {
-	restful := newImpl()
+func New(viper2 *viper.Viper, logger *zap.Logger) (adapterx.Restful, error) {
+	restful := newImpl(viper2, logger)
 	return restful, nil
 }
 

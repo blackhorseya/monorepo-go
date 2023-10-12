@@ -5,6 +5,8 @@ import (
 	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/grpc"
 	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/restful"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 // startCmd represents the start command.
@@ -35,7 +37,10 @@ var startAPICmd = &cobra.Command{
 	Use:   "api",
 	Short: "start a user api service",
 	Run: func(cmd *cobra.Command, args []string) {
-		service, err := restful.New()
+		v := viper.GetViper()
+		logger := zap.L()
+
+		service, err := restful.New(v, logger)
 		cobra.CheckErr(err)
 
 		err = service.Start()
