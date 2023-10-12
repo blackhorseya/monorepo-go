@@ -19,13 +19,19 @@ func newImpl(viper *viper.Viper, logger *zap.Logger) adapterx.Restful {
 }
 
 func (i *impl) Start() error {
+	i.logger.Info("start restful service")
+
 	// todo: 2023/10/12|sean|impl me
-	panic("implement me")
+
+	return nil
 }
 
 func (i *impl) AwaitSignal() error {
+	i.logger.Info("await restful service signal")
+
 	// todo: 2023/10/12|sean|impl me
-	panic("implement me")
+
+	return nil
 }
 
 func (i *impl) InitRouting() error {

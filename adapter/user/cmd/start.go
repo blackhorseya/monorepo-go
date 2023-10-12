@@ -38,7 +38,7 @@ var startAPICmd = &cobra.Command{
 	Short: "start a user api service",
 	Run: func(cmd *cobra.Command, args []string) {
 		v := viper.GetViper()
-		logger := zap.L()
+		logger := zap.NewExample()
 
 		service, err := restful.New(v, logger)
 		cobra.CheckErr(err)
