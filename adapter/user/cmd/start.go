@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -10,12 +10,11 @@ import (
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "start a user service",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("start called")
-	},
 }
 
 func init() {
+	startCmd.AddCommand(startAPICmd)
+
 	rootCmd.AddCommand(startCmd)
 
 	// Here you will define your flags and configuration settings.
@@ -27,4 +26,12 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// startCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+var startAPICmd = &cobra.Command{
+	Use:   "api",
+	Short: "start a user api service",
+	Run: func(cmd *cobra.Command, args []string) {
+		log.Println("start api called")
+	},
 }
