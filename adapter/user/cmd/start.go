@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	"log"
-
+	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/cronjob"
 	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/grpc"
 	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/restful"
 	"github.com/spf13/cobra"
@@ -66,7 +65,13 @@ var startCronjobCmd = &cobra.Command{
 	Use:   "cronjob",
 	Short: "start a user cronjob service",
 	Run: func(cmd *cobra.Command, args []string) {
-		// todo: 2023/10/12|sean|impl me
-		log.Println("start cronjob called")
+		service, err := cronjob.New()
+		cobra.CheckErr(err)
+
+		err = service.Start()
+		cobra.CheckErr(err)
+
+		err = service.AwaitSignal()
+		cobra.CheckErr(err)
 	},
 }
