@@ -34,6 +34,7 @@ var startAPICmd = &cobra.Command{
 	Use:   "api",
 	Short: "start a user api service",
 	Run: func(cmd *cobra.Command, args []string) {
+		// todo: 2023/10/12|sean|impl me
 		log.Println("start api called")
 	},
 }
@@ -42,6 +43,7 @@ var startGrpcCmd = &cobra.Command{
 	Use:   "grpc",
 	Short: "start a user grpc service",
 	Run: func(cmd *cobra.Command, args []string) {
+		// todo: 2023/10/12|sean|impl me
 		log.Println("start grpc called")
 	},
 }
@@ -50,6 +52,7 @@ var startCronjobCmd = &cobra.Command{
 	Use:   "cronjob",
 	Short: "start a user cronjob service",
 	Run: func(cmd *cobra.Command, args []string) {
+		// todo: 2023/10/12|sean|impl me
 		log.Println("start cronjob called")
 	},
 }
