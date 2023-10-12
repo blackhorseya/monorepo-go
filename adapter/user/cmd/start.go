@@ -14,6 +14,8 @@ var startCmd = &cobra.Command{
 
 func init() {
 	startCmd.AddCommand(startAPICmd)
+	startCmd.AddCommand(startGrpcCmd)
+	startCmd.AddCommand(startCronjobCmd)
 
 	rootCmd.AddCommand(startCmd)
 
@@ -33,5 +35,21 @@ var startAPICmd = &cobra.Command{
 	Short: "start a user api service",
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Println("start api called")
+	},
+}
+
+var startGrpcCmd = &cobra.Command{
+	Use:   "grpc",
+	Short: "start a user grpc service",
+	Run: func(cmd *cobra.Command, args []string) {
+		log.Println("start grpc called")
+	},
+}
+
+var startCronjobCmd = &cobra.Command{
+	Use:   "cronjob",
+	Short: "start a user cronjob service",
+	Run: func(cmd *cobra.Command, args []string) {
+		log.Println("start cronjob called")
 	},
 }
