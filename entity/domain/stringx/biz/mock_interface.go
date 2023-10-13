@@ -5,6 +5,9 @@
 package biz
 
 import (
+	reflect "reflect"
+
+	contextx "github.com/blackhorseya/monorepo-go/pkg/contextx"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -29,4 +32,33 @@ func NewMockIStringBiz(ctrl *gomock.Controller) *MockIStringBiz {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockIStringBiz) EXPECT() *MockIStringBizMockRecorder {
 	return m.recorder
+}
+
+// Count mocks base method.
+func (m *MockIStringBiz) Count(ctx contextx.Contextx, value string) int {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Count", ctx, value)
+	ret0, _ := ret[0].(int)
+	return ret0
+}
+
+// Count indicates an expected call of Count.
+func (mr *MockIStringBizMockRecorder) Count(ctx, value interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Count", reflect.TypeOf((*MockIStringBiz)(nil).Count), ctx, value)
+}
+
+// Uppercase mocks base method.
+func (m *MockIStringBiz) Uppercase(ctx contextx.Contextx, value string) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Uppercase", ctx, value)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Uppercase indicates an expected call of Uppercase.
+func (mr *MockIStringBizMockRecorder) Uppercase(ctx, value interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Uppercase", reflect.TypeOf((*MockIStringBiz)(nil).Uppercase), ctx, value)
 }
