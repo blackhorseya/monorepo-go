@@ -17,7 +17,7 @@ type uppercaseResponse struct {
 	Err string `json:"err,omitempty"`
 }
 
-func makeUppercaseEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
+func MakeUppercaseEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
 	return func(_ context.Context, request interface{}) (response interface{}, err error) {
 		req, _ := request.(uppercaseRequest)
 		ctx := contextx.Background()
@@ -39,7 +39,7 @@ type countResponse struct {
 	V int `json:"v"`
 }
 
-func makeCountEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
+func MakeCountEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
 	return func(_ context.Context, request interface{}) (response interface{}, err error) {
 		req, _ := request.(countRequest)
 		ctx := contextx.Background()
