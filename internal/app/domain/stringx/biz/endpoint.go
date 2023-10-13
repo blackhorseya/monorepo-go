@@ -19,7 +19,7 @@ type uppercaseResponse struct {
 
 func makeUppercaseEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
 	return func(_ context.Context, request interface{}) (response interface{}, err error) {
-		req := request.(uppercaseRequest)
+		req, _ := request.(uppercaseRequest)
 		ctx := contextx.Background()
 
 		v, err := svc.Uppercase(ctx, req.S)
@@ -41,7 +41,7 @@ type countResponse struct {
 
 func makeCountEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
 	return func(_ context.Context, request interface{}) (response interface{}, err error) {
-		req := request.(countRequest)
+		req, _ := request.(countRequest)
 		ctx := contextx.Background()
 
 		v := svc.Count(ctx, req.S)
