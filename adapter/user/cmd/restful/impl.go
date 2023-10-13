@@ -33,8 +33,3 @@ func (i *impl) AwaitSignal() error {
 
 	return nil
 }
-
-func (i *impl) InitRouting() error {
-	// todo: 2023/10/12|sean|impl me
-	panic("implement me")
-}
