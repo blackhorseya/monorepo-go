@@ -3,6 +3,7 @@ module github.com/blackhorseya/monorepo-go
 go 1.20
 
 require (
+	github.com/go-kit/kit v0.13.0
 	github.com/google/wire v0.5.0
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.17.0
