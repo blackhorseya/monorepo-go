@@ -1,6 +1,7 @@
 package restful
 
 import (
+	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -9,12 +10,15 @@ import (
 type impl struct {
 	viper  *viper.Viper
 	logger *zap.Logger
+
+	svc biz.IStringBiz
 }
 
-func newImpl(viper *viper.Viper, logger *zap.Logger) adapterx.Servicer {
+func newImpl(viper *viper.Viper, logger *zap.Logger, svc biz.IStringBiz) adapterx.Servicer {
 	return &impl{
 		viper:  viper,
 		logger: logger.With(zap.String("type", "restful")),
+		svc:    svc,
 	}
 }
 
