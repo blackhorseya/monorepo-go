@@ -1,7 +1,10 @@
 package biz
 
 import (
+	"context"
+
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/go-kit/kit/endpoint"
 )
 
@@ -15,8 +18,17 @@ type uppercaseResponse struct {
 }
 
 func makeUppercaseEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
-	// todo: 2023/10/13|sean|impl me
-	panic("implement me")
+	return func(_ context.Context, request interface{}) (response interface{}, err error) {
+		req := request.(uppercaseRequest)
+		ctx := contextx.Background()
+
+		v, err := svc.Uppercase(ctx, req.S)
+		if err != nil {
+			return uppercaseResponse{v, err.Error()}, nil
+		}
+
+		return uppercaseResponse{v, ""}, nil
+	}
 }
 
 type countRequest struct {
@@ -28,6 +40,12 @@ type countResponse struct {
 }
 
 func makeCountEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
-	// todo: 2023/10/13|sean|impl me
-	panic("implement me")
+	return func(_ context.Context, request interface{}) (response interface{}, err error) {
+		req := request.(countRequest)
+		ctx := contextx.Background()
+
+		v := svc.Count(ctx, req.S)
+
+		return countResponse{v}, nil
+	}
 }
