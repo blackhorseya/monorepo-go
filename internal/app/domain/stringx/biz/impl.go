@@ -1,6 +1,9 @@
 package biz
 
 import (
+	"errors"
+	"strings"
+
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 )
@@ -14,11 +17,13 @@ func New() biz.IStringBiz {
 }
 
 func (i *impl) Uppercase(ctx contextx.Contextx, value string) (upper string, err error) {
-	// todo: 2023/10/13|sean|impl me
-	panic("implement me")
+	if value == "" {
+		return "", errors.New("value is empty")
+	}
+
+	return strings.ToUpper(value), nil
 }
 
 func (i *impl) Count(ctx contextx.Contextx, value string) int {
-	// todo: 2023/10/13|sean|impl me
-	panic("implement me")
+	return len(value)
 }
