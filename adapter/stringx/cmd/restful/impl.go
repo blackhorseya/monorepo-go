@@ -2,6 +2,7 @@ package restful
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -71,8 +72,10 @@ func (i *impl) Start() error {
 	i.router.POST("/uppercase", gin.WrapH(uppercaseHandler))
 	i.router.POST("/count", gin.WrapH(countHandler))
 
+	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
+
 	i.server = &http.Server{
-		Addr:                         "0.0.0.0:8080",
+		Addr:                         addr,
 		Handler:                      i.router,
 		DisableGeneralOptionsHandler: false,
 		TLSConfig:                    nil,
