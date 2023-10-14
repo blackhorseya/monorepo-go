@@ -5,9 +5,14 @@ import (
 	"strconv"
 )
 
+const (
+	_startPort = 30000
+	_endPort   = 32767
+)
+
 // GetAvailablePort will get an available port.
 func GetAvailablePort() int {
-	for port := 1; port < 65536; port++ { // Ports range from 1 to 65535
+	for port := _startPort; port <= _endPort; port++ { // Ports range from 1 to 65535
 		address := ":" + strconv.Itoa(port)
 		listener, err := net.Listen("tcp", address)
 		if err == nil {

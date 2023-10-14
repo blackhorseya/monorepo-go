@@ -1,6 +1,7 @@
 package configx
 
 import (
+	"github.com/blackhorseya/monorepo-go/pkg/netx"
 	"github.com/spf13/viper"
 )
 
@@ -27,13 +28,13 @@ type GRPC struct {
 func NewExample() *Config {
 	return &Config{
 		HTTP: HTTP{
-			Host: "0.0.0.0",
-			Port: 1992,
+			Host: "",
+			Port: netx.GetAvailablePort(),
 			Mode: "debug",
 		},
 		GRPC: GRPC{
-			Host: "0.0.0.0",
-			Port: 11992,
+			Host: "",
+			Port: netx.GetAvailablePort(),
 		},
 	}
 }
