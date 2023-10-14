@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/model"
+	"github.com/go-kit/kit/endpoint"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
 	"github.com/go-kit/kit/transport/grpc/_grpc_test/pb"
 )
@@ -16,8 +17,11 @@ type grpc struct {
 }
 
 // New grpc transport.
-func New() model.StringxServiceServer {
-	return &grpc{}
+func New(toUpper, count endpoint.Endpoint) model.StringxServiceServer {
+	return &grpc{
+		toUpper: grpctransport.NewServer(toUpper, decodeToUpperRequest, encodeToUpperResponse),
+		count:   grpctransport.NewServer(count, decodeCountRequest, encodeCountResponse),
+	}
 }
 
 func (g *grpc) ToUpper(ctx context.Context, request *model.ToUpperRequest) (*model.ToUpperResponse, error) {
