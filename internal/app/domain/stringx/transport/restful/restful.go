@@ -1,4 +1,4 @@
-package transport
+package restful
 
 import (
 	"context"

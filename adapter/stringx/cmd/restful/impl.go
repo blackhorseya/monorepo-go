@@ -10,7 +10,7 @@ import (
 
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport"
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport/restful"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	ginzap "github.com/gin-contrib/zap"
@@ -56,8 +56,8 @@ func (i *impl) Start() error {
 		})
 	}))
 
-	uppercaseHandler := transport.MakeUppercaseHandler(contextx.Background(), endpoints.MakeUppercaseEndpoint(i.svc))
-	countHandler := transport.MakeCountHandler(contextx.Background(), endpoints.MakeCountEndpoint(i.svc))
+	uppercaseHandler := restful.MakeUppercaseHandler(contextx.Background(), endpoints.MakeUppercaseEndpoint(i.svc))
+	countHandler := restful.MakeCountHandler(contextx.Background(), endpoints.MakeCountEndpoint(i.svc))
 
 	i.router.POST("/uppercase", gin.WrapH(uppercaseHandler))
 	i.router.POST("/count", gin.WrapH(countHandler))
