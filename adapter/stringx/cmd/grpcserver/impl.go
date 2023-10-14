@@ -1,6 +1,7 @@
 package grpcserver
 
 import (
+	"fmt"
 	"net"
 	"os"
 	"os/signal"
@@ -10,6 +11,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/model"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport/grpc"
+	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -18,15 +20,17 @@ import (
 
 type impl struct {
 	viper  *viper.Viper
+	config *configx.Config
 	logger *zap.Logger
 
 	server *grpcserver.Server
 	svc    biz.IStringBiz
 }
 
-func newImpl(viper *viper.Viper, logger *zap.Logger, svc biz.IStringBiz) adapterx.Servicer {
+func newImpl(viper *viper.Viper, config *configx.Config, logger *zap.Logger, svc biz.IStringBiz) adapterx.Servicer {
 	return &impl{
 		viper:  viper,
+		config: config,
 		logger: logger.With(zap.String("type", "grpc")),
 		server: nil,
 		svc:    svc,
@@ -41,8 +45,10 @@ func (i *impl) Start() error {
 		endpoints.MakeCountEndpoint(i.svc),
 	))
 
+	addr := fmt.Sprintf("%s:%d", i.config.GRPC.Host, i.config.GRPC.Port)
+
 	go func() {
-		listen, err := net.Listen("tcp", ":1234") //nolint:gosec // todo: 2023/10/12|sean|impl me
+		listen, err := net.Listen("tcp", addr)
 		if err != nil {
 			i.logger.Fatal("listen error", zap.Error(err))
 		}
