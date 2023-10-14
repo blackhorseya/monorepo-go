@@ -4,7 +4,7 @@
 //go:build !wireinject
 // +build !wireinject
 
-package grpc
+package grpcserver
 
 import (
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"

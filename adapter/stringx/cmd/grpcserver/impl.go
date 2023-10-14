@@ -1,4 +1,4 @@
-package grpc
+package grpcserver
 
 import (
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"

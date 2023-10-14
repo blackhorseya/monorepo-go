@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/cronjob"
-	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpc"
+	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpcserver"
 	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/restful"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/spf13/cobra"
@@ -56,7 +56,7 @@ var startCmd = &cobra.Command{
 
 func init() {
 	startCmd.AddCommand(NewServiceCmd("api", "start a user api service", restful.New))
-	startCmd.AddCommand(NewServiceCmd("grpc", "start a user grpc service", grpc.New))
+	startCmd.AddCommand(NewServiceCmd("grpc", "start a user grpc service", grpcserver.New))
 	startCmd.AddCommand(NewServiceCmd("cronjob", "start a user cronjob service", cronjob.New))
 
 	rootCmd.AddCommand(startCmd)
