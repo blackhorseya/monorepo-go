@@ -21,11 +21,19 @@ func New() model.StringxServiceServer {
 }
 
 func (g *grpc) ToUpper(ctx context.Context, request *model.ToUpperRequest) (*model.ToUpperResponse, error) {
-	// todo: 2023/10/14|sean|impl me
-	panic("implement me")
+	_, resp, err := g.toUpper.ServeGRPC(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.(*model.ToUpperResponse), nil
 }
 
 func (g *grpc) Count(ctx context.Context, request *model.CountRequest) (*model.CountResponse, error) {
-	// todo: 2023/10/14|sean|impl me
-	panic("implement me")
+	_, resp, err := g.count.ServeGRPC(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.(*model.CountResponse), nil
 }
