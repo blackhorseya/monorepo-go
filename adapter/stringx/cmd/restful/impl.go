@@ -28,7 +28,6 @@ type impl struct {
 }
 
 func newRouter() *gin.Engine {
-
 	// todo: 2023/10/14|sean|impl me
 	return gin.Default()
 }
@@ -56,7 +55,7 @@ func (i *impl) Start() error {
 		DisableGeneralOptionsHandler: false,
 		TLSConfig:                    nil,
 		ReadTimeout:                  0,
-		ReadHeaderTimeout:            0,
+		ReadHeaderTimeout:            3 * time.Second,
 		WriteTimeout:                 0,
 		IdleTimeout:                  0,
 		MaxHeaderBytes:               0,
