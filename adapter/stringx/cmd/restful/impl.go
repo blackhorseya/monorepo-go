@@ -8,6 +8,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
@@ -15,14 +16,21 @@ import (
 type impl struct {
 	viper  *viper.Viper
 	logger *zap.Logger
+	router *gin.Engine
 
 	svc biz.IStringBiz
 }
 
-func newImpl(viper *viper.Viper, logger *zap.Logger, svc biz.IStringBiz) adapterx.Servicer {
+func newRouter() *gin.Engine {
+	// todo: 2023/10/14|sean|impl me
+	return gin.Default()
+}
+
+func newImpl(viper *viper.Viper, logger *zap.Logger, svc biz.IStringBiz, router *gin.Engine) adapterx.Servicer {
 	return &impl{
 		viper:  viper,
 		logger: logger.With(zap.String("type", "restful")),
+		router: router,
 		svc:    svc,
 	}
 }

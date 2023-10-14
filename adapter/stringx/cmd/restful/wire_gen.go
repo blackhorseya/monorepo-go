@@ -19,10 +19,13 @@ import (
 // New will create a new restful adapter instance
 func New(v *viper.Viper, logger *zap.Logger) adapterx.Servicer {
 	iStringBiz := biz.New()
-	servicer := newImpl(v, logger, iStringBiz)
+	engine := newRouter()
+	servicer := newImpl(v, logger, iStringBiz, engine)
 	return servicer
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(biz.New, newImpl)
+var providerSet = wire.NewSet(
+	newRouter, biz.New, newImpl,
+)
