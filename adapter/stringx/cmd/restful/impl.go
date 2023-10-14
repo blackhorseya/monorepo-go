@@ -2,6 +2,9 @@ package restful
 
 import (
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
@@ -17,6 +20,8 @@ type impl struct {
 	logger *zap.Logger
 
 	svc biz.IStringBiz
+
+	s chan error
 }
 
 func newImpl(viper *viper.Viper, logger *zap.Logger, svc biz.IStringBiz) adapterx.Servicer {
@@ -29,8 +34,6 @@ func newImpl(viper *viper.Viper, logger *zap.Logger, svc biz.IStringBiz) adapter
 
 func (i *impl) Start() error {
 	i.logger.Info("start restful service")
-
-	// todo: 2023/10/12|sean|impl me
 
 	uppercaseHandler := transport.MakeUppercaseHandler(contextx.Background(), endpoints.MakeUppercaseEndpoint(i.svc))
 	countHandler := transport.MakeCountHandler(contextx.Background(), endpoints.MakeCountEndpoint(i.svc))
@@ -64,9 +67,15 @@ func (i *impl) Start() error {
 }
 
 func (i *impl) AwaitSignal() error {
-	i.logger.Info("await restful service signal")
+	c := make(chan os.Signal, 1)
+	signal.Reset(syscall.SIGTERM, syscall.SIGINT)
+	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
 
-	// todo: 2023/10/12|sean|impl me
+	if sig := <-c; true {
+		i.logger.Info("receive signal", zap.String("signal", sig.String()))
+
+		os.Exit(0)
+	}
 
 	return nil
 }
