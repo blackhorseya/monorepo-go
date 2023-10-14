@@ -8,6 +8,11 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+// NewExample will create a new example logger instance.
+func NewExample() *zap.Logger {
+	return zap.NewExample()
+}
+
 // NewLoggerWithConfig will create a new logger instance with config.
 func NewLoggerWithConfig(config *configx.Config) (logger *zap.Logger, err error) {
 	level := zap.NewAtomicLevel()

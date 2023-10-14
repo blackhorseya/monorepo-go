@@ -9,17 +9,21 @@ package restful
 import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/internal/pkg/logx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
 )
 
 // Injectors from wire.go:
 
 // New will create a new restful adapter instance
-func New(v *viper.Viper, logger *zap.Logger) (adapterx.Servicer, error) {
+func New(v *viper.Viper) (adapterx.Servicer, error) {
 	config, err := configx.NewWithViper(v)
+	if err != nil {
+		return nil, err
+	}
+	logger, err := logx.NewLoggerWithConfig(config)
 	if err != nil {
 		return nil, err
 	}
@@ -31,4 +35,4 @@ func New(v *viper.Viper, logger *zap.Logger) (adapterx.Servicer, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(configx.NewWithViper, newRouter, biz.New, newImpl)
+var providerSet = wire.NewSet(configx.NewWithViper, logx.NewLoggerWithConfig, newRouter, biz.New, newImpl)

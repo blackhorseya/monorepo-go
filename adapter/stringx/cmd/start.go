@@ -7,21 +7,20 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
 )
 
 // ServiceCmd represents the service command.
 type ServiceCmd struct {
 	Use   string
 	Short string
-	Run   func(v *viper.Viper, logger *zap.Logger) (adapterx.Servicer, error)
+	Run   func(v *viper.Viper) (adapterx.Servicer, error)
 }
 
 // NewServiceCmd creates a new service command.
 func NewServiceCmd(
 	use string,
 	short string,
-	run func(v *viper.Viper, logger *zap.Logger) (adapterx.Servicer, error),
+	run func(v *viper.Viper) (adapterx.Servicer, error),
 ) *cobra.Command {
 	return (&ServiceCmd{Use: use, Short: short, Run: run}).NewCmd()
 }
@@ -33,9 +32,8 @@ func (s *ServiceCmd) NewCmd() *cobra.Command {
 		Short: s.Short,
 		Run: func(cmd *cobra.Command, args []string) {
 			v := viper.GetViper()
-			logger := zap.NewExample()
 
-			service, err := s.Run(v, logger)
+			service, err := s.Run(v)
 			cobra.CheckErr(err)
 
 			err = service.Start()
