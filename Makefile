@@ -7,7 +7,10 @@ BIN_DIR := $(BUILD_DIR)/bin
 LDFLAGS := -w -s
 
 # Targets
-.PHONY: all help build clean lint gen-pb gen-mocks
+.PHONY: all help
+.PHONY: lint build clean
+.PHONY: gazelle gazelle-repos
+.PHONY: gen-pb gen-mocks
 
 all: help
 
@@ -45,3 +48,9 @@ gen-pb: ## generate protobuf
 
 gen-mocks: ## generate mocks
 	@$(GO) generate ./...
+
+gazelle-repos: ## update gazelle repos
+	@bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies -prune
+
+gazelle: gazelle-repos ## run gazelle with bazel
+	@bazel run //:gazelle
