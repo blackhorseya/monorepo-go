@@ -14,13 +14,13 @@ func decodeToUpperRequest(c context.Context, r interface{}) (interface{}, error)
 		return nil, errors.New("grpc server decode to upper request error")
 	}
 
-	return &endpoints.UppercaseRequest{
+	return endpoints.UppercaseRequest{
 		S: req.Value,
 	}, nil
 }
 
 func encodeToUpperResponse(_ context.Context, r interface{}) (interface{}, error) {
-	resp, ok := r.(*endpoints.UppercaseResponse)
+	resp, ok := r.(endpoints.UppercaseResponse)
 	if !ok {
 		return nil, errors.New("grpc server encode to upper response error")
 	}
@@ -40,13 +40,13 @@ func decodeCountRequest(ctx context.Context, r interface{}) (interface{}, error)
 		return nil, errors.New("grpc server decode count request error")
 	}
 
-	return &endpoints.CountRequest{
+	return endpoints.CountRequest{
 		S: req.Value,
 	}, nil
 }
 
 func encodeCountResponse(_ context.Context, r interface{}) (interface{}, error) {
-	resp, ok := r.(*endpoints.CountResponse)
+	resp, ok := r.(endpoints.CountResponse)
 	if !ok {
 		return nil, errors.New("grpc server encode count response error")
 	}

@@ -7,6 +7,7 @@
 package grpcserver
 
 import (
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
@@ -17,10 +18,11 @@ import (
 
 // New will create a new restful adapter instance
 func New(v *viper.Viper, logger *zap.Logger) adapterx.Servicer {
-	servicer := newImpl(v, logger)
+	iStringBiz := biz.New()
+	servicer := newImpl(v, logger, iStringBiz)
 	return servicer
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(newImpl)
+var providerSet = wire.NewSet(biz.New, newImpl)
