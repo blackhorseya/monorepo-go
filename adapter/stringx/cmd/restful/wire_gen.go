@@ -23,7 +23,7 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	logger, err := logx.NewLoggerWithConfig(config)
+	logger, err := logx.NewWithConfig(config)
 	if err != nil {
 		return nil, err
 	}
@@ -35,4 +35,4 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(configx.NewWithViper, logx.NewLoggerWithConfig, newRouter, biz.New, newImpl)
+var providerSet = wire.NewSet(configx.NewWithViper, logx.NewWithConfig, newRouter, biz.New, newImpl)

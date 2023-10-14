@@ -19,8 +19,14 @@ import (
 
 // New will create a new restful adapter instance
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	config := configx.NewExample()
-	logger := logx.NewExample()
+	config, err := configx.NewWithViper(v)
+	if err != nil {
+		return nil, err
+	}
+	logger, err := logx.NewWithConfig(config)
+	if err != nil {
+		return nil, err
+	}
 	iStringBiz := biz.New()
 	servicer := newImpl(v, config, logger, iStringBiz)
 	return servicer, nil
@@ -28,4 +34,4 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(configx.NewExample, logx.NewExample, biz.New, newImpl)
+var providerSet = wire.NewSet(configx.NewWithViper, logx.NewWithConfig, biz.New, newImpl)

@@ -13,8 +13,8 @@ func NewExample() *zap.Logger {
 	return zap.NewExample()
 }
 
-// NewLoggerWithConfig will create a new logger instance with config.
-func NewLoggerWithConfig(config *configx.Config) (logger *zap.Logger, err error) {
+// NewWithConfig will create a new logger instance with config.
+func NewWithConfig(config *configx.Config) (logger *zap.Logger, err error) {
 	level := zap.NewAtomicLevel()
 	err = level.UnmarshalText([]byte(config.Log.Level))
 	if err != nil {

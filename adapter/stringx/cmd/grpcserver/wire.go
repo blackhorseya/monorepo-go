@@ -14,8 +14,8 @@ import (
 )
 
 var providerSet = wire.NewSet(
-	configx.NewExample,
-	logx.NewExample,
+	configx.NewWithViper,
+	logx.NewWithConfig,
 	biz.New,
 	newImpl,
 )

@@ -15,7 +15,7 @@ import (
 
 var providerSet = wire.NewSet(
 	configx.NewWithViper,
-	logx.NewLoggerWithConfig,
+	logx.NewWithConfig,
 	newRouter,
 	biz.New,
 	newImpl,
