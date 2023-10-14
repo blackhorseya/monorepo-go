@@ -5,5 +5,5 @@ go_library(
     srcs = ["contextx.go"],
     importpath = "github.com/blackhorseya/monorepo-go/pkg/contextx",
     visibility = ["//visibility:public"],
-    deps = ["@org_uber_go_zap//:go_default_library"],
+    deps = ["@org_uber_go_zap//:zap"],
 )

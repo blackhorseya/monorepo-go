@@ -11,7 +11,7 @@ go_library(
     deps = [
         "//internal/pkg/logx",
         "//pkg/adapterx",
-        "@com_github_google_wire//:go_default_library",
-        "@com_github_spf13_viper//:go_default_library",
+        "@com_github_google_wire//:wire",
+        "@com_github_spf13_viper//:viper",
     ],
 )

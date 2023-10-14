@@ -12,8 +12,8 @@ go_library(
     deps = [
         "//entity/domain/stringx/model",
         "//internal/app/domain/stringx/endpoints",
-        "@com_github_go_kit_kit//endpoint:go_default_library",
-        "@com_github_go_kit_kit//transport/grpc:go_default_library",
-        "@com_github_go_kit_kit//transport/grpc/_grpc_test/pb:go_default_library",
+        "@com_github_go_kit_kit//endpoint",
+        "@com_github_go_kit_kit//transport/grpc",
+        "@com_github_go_kit_kit//transport/grpc/_grpc_test/pb",
     ],
 )
