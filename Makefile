@@ -8,7 +8,7 @@ LDFLAGS := -w -s
 
 # Targets
 .PHONY: all help
-.PHONY: lint build clean
+.PHONY: lint build clean test
 .PHONY: gazelle gazelle-repos
 .PHONY: gen-pb gen-mocks
 
@@ -29,6 +29,9 @@ $(BIN_DIR)/user: adapter/stringx/main.go
 
 clean: ## clean build directory
 	@rm -rf $(BUILD_DIR)
+
+test: ## run test
+	@bazel test //...
 
 gen-pb: ## generate protobuf
 	@$(GO) get -u google.golang.org/protobuf/proto
