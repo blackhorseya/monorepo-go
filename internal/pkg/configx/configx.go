@@ -9,6 +9,7 @@ import (
 type Config struct {
 	HTTP HTTP `json:"http" yaml:"http"`
 	GRPC GRPC `json:"grpc" yaml:"grpc"`
+	Log  Log  `json:"log" yaml:"log"`
 }
 
 // HTTP defines the http config struct.
@@ -24,17 +25,27 @@ type GRPC struct {
 	Port int    `json:"port" yaml:"port"`
 }
 
+// Log defines the log config struct.
+type Log struct {
+	Level  string `json:"level" yaml:"level"`
+	Format string `json:"format" yaml:"format"`
+}
+
 // NewExample will create a new example config instance.
 func NewExample() *Config {
 	return &Config{
 		HTTP: HTTP{
 			Host: "",
 			Port: netx.GetAvailablePort(),
-			Mode: "debug",
+			Mode: "release",
 		},
 		GRPC: GRPC{
 			Host: "",
 			Port: netx.GetAvailablePort(),
+		},
+		Log: Log{
+			Level:  "info",
+			Format: "json",
 		},
 	}
 }
