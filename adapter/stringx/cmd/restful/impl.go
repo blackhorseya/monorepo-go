@@ -37,6 +37,7 @@ func newImpl(viper *viper.Viper, logger *zap.Logger, svc biz.IStringBiz, router 
 		viper:  viper,
 		logger: logger.With(zap.String("type", "restful")),
 		router: router,
+		server: nil,
 		svc:    svc,
 	}
 }
@@ -50,7 +51,7 @@ func (i *impl) Start() error {
 
 	i.server = &http.Server{
 		Addr:                         "0.0.0.0:8080",
-		Handler:                      nil,
+		Handler:                      i.router,
 		DisableGeneralOptionsHandler: false,
 		TLSConfig:                    nil,
 		ReadTimeout:                  0,
