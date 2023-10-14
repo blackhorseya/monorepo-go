@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/cronjob"
-	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/grpc"
-	"github.com/blackhorseya/monorepo-go/adapter/user/cmd/restful"
+	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/cronjob"
+	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpc"
+	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/restful"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

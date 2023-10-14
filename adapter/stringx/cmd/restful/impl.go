@@ -38,7 +38,24 @@ func (i *impl) Start() error {
 	http.Handle("/uppercase", uppercaseHandler)
 	http.Handle("/count", countHandler)
 
-	err := http.ListenAndServe("0.0.0.0:8080", nil)
+	server := &http.Server{
+		Addr:                         "0.0.0.0:8080",
+		Handler:                      nil,
+		DisableGeneralOptionsHandler: false,
+		TLSConfig:                    nil,
+		ReadTimeout:                  0,
+		ReadHeaderTimeout:            0,
+		WriteTimeout:                 0,
+		IdleTimeout:                  0,
+		MaxHeaderBytes:               0,
+		TLSNextProto:                 nil,
+		ConnState:                    nil,
+		ErrorLog:                     nil,
+		BaseContext:                  nil,
+		ConnContext:                  nil,
+	}
+
+	err := server.ListenAndServe()
 	if err != nil {
 		return err
 	}

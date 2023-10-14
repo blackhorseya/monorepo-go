@@ -8,11 +8,11 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string //nolint:gochecknoglobals // cfgFile is required by cobra
+var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands.
-var rootCmd = &cobra.Command{ //nolint:gochecknoglobals // rootCmd is required by cobra
-	Use:   "monorepo-go",
+var rootCmd = &cobra.Command{
+	Use:   "stringx",
 	Short: "A brief description of your application",
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
@@ -28,7 +28,6 @@ func Execute() {
 	}
 }
 
-//nolint:gochecknoinits // init is required by cobra
 func init() {
 	cobra.OnInitialize(initConfig)
 
