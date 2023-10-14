@@ -8,6 +8,7 @@ package restful
 
 import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/biz"
+	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
@@ -18,14 +19,13 @@ import (
 
 // New will create a new restful adapter instance
 func New(v *viper.Viper, logger *zap.Logger) adapterx.Servicer {
+	config := configx.NewExample()
 	iStringBiz := biz.New()
 	engine := newRouter()
-	servicer := newImpl(v, logger, iStringBiz, engine)
+	servicer := newImpl(v, config, logger, iStringBiz, engine)
 	return servicer
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(
-	newRouter, biz.New, newImpl,
-)
+var providerSet = wire.NewSet(configx.NewExample, newRouter, biz.New, newImpl)

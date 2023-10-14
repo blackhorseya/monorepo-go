@@ -6,6 +6,7 @@ package restful
 
 import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/biz"
+	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
@@ -13,6 +14,7 @@ import (
 )
 
 var providerSet = wire.NewSet(
+	configx.NewExample,
 	newRouter,
 	biz.New,
 	newImpl,

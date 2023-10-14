@@ -11,6 +11,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport/restful"
+	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	ginzap "github.com/gin-contrib/zap"
@@ -21,9 +22,10 @@ import (
 
 type impl struct {
 	viper  *viper.Viper
+	config *configx.Config
 	logger *zap.Logger
-	router *gin.Engine
 
+	router *gin.Engine
 	server *http.Server
 	svc    biz.IStringBiz
 }
@@ -32,9 +34,16 @@ func newRouter() *gin.Engine {
 	return gin.New()
 }
 
-func newImpl(viper *viper.Viper, logger *zap.Logger, svc biz.IStringBiz, router *gin.Engine) adapterx.Servicer {
+func newImpl(
+	viper *viper.Viper,
+	config *configx.Config,
+	logger *zap.Logger,
+	svc biz.IStringBiz,
+	router *gin.Engine,
+) adapterx.Servicer {
 	return &impl{
 		viper:  viper,
+		config: config,
 		logger: logger.With(zap.String("type", "restful")),
 		router: router,
 		server: nil,
