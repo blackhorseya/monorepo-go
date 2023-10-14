@@ -18,3 +18,18 @@ type GRPC struct {
 	Host string `json:"host" yaml:"host"`
 	Port int    `json:"port" yaml:"port"`
 }
+
+// NewExample will create a new example config instance.
+func NewExample() *Config {
+	return &Config{
+		HTTP: HTTP{
+			Host: "0.0.0.0",
+			Port: 1992,
+			Mode: "debug",
+		},
+		GRPC: GRPC{
+			Host: "0.0.0.0",
+			Port: 11992,
+		},
+	}
+}
