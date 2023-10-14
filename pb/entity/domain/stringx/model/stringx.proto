@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package stringx;
+
+option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/stringx/model";
+
+message ToUpperRequest {
+    string value = 1;
+}
+
+message ToUpperResponse {
+    string value = 1;
+}
+
+message CountRequest {
+    string value = 1;
+}
+
+message CountResponse {
+    int32 value = 1;
+}
+
+service StringxService {
+    rpc ToUpper (ToUpperRequest) returns (ToUpperResponse) {}
+    rpc Count (CountRequest) returns (CountResponse) {}
+}
