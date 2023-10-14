@@ -13,6 +13,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -28,8 +29,7 @@ type impl struct {
 }
 
 func newRouter() *gin.Engine {
-	// todo: 2023/10/14|sean|impl me
-	return gin.Default()
+	return gin.New()
 }
 
 func newImpl(viper *viper.Viper, logger *zap.Logger, svc biz.IStringBiz, router *gin.Engine) adapterx.Servicer {
@@ -43,6 +43,19 @@ func newImpl(viper *viper.Viper, logger *zap.Logger, svc biz.IStringBiz, router 
 }
 
 func (i *impl) Start() error {
+	i.router.Use(ginzap.GinzapWithConfig(i.logger, &ginzap.Config{
+		TimeFormat: time.RFC3339,
+		UTC:        true,
+		SkipPaths:  []string{"/api/healthz'"},
+		Context:    nil,
+	}))
+	i.router.Use(ginzap.CustomRecoveryWithZap(i.logger, true, func(c *gin.Context, err any) {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"code": http.StatusInternalServerError,
+			"msg":  "internal server error",
+		})
+	}))
+
 	uppercaseHandler := transport.MakeUppercaseHandler(contextx.Background(), endpoints.MakeUppercaseEndpoint(i.svc))
 	countHandler := transport.MakeCountHandler(contextx.Background(), endpoints.MakeCountEndpoint(i.svc))
 

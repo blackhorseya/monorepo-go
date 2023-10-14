@@ -3,6 +3,7 @@ module github.com/blackhorseya/monorepo-go
 go 1.20
 
 require (
+	github.com/gin-contrib/zap v0.2.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-kit/kit v0.13.0
 	github.com/google/wire v0.5.0
