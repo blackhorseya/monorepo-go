@@ -13,7 +13,7 @@ type UppercaseRequest struct {
 	S string `json:"s"`
 }
 
-type uppercaseResponse struct {
+type UppercaseResponse struct {
 	V   string `json:"v"`
 	Err string `json:"err,omitempty"`
 }
@@ -25,10 +25,10 @@ func MakeUppercaseEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
 
 		v, err := svc.Uppercase(ctx, req.S)
 		if err != nil {
-			return uppercaseResponse{v, err.Error()}, nil
+			return UppercaseResponse{v, err.Error()}, nil
 		}
 
-		return uppercaseResponse{v, ""}, nil
+		return UppercaseResponse{v, ""}, nil
 	}
 }
 
@@ -37,7 +37,7 @@ type CountRequest struct {
 	S string `json:"s"`
 }
 
-type countResponse struct {
+type CountResponse struct {
 	V int `json:"v"`
 }
 
@@ -48,6 +48,6 @@ func MakeCountEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
 
 		v := svc.Count(ctx, req.S)
 
-		return countResponse{v}, nil
+		return CountResponse{v}, nil
 	}
 }
