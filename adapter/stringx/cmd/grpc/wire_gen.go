@@ -17,7 +17,7 @@ import (
 
 // New will create a new restful adapter instance
 func New(v *viper.Viper, logger *zap.Logger) adapterx.Servicer {
-	servicer := newImpl()
+	servicer := newImpl(v, logger)
 	return servicer
 }
 

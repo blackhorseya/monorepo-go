@@ -2,13 +2,20 @@ package grpc
 
 import (
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 type impl struct {
+	viper  *viper.Viper
+	logger *zap.Logger
 }
 
-func newImpl() adapterx.Servicer {
-	return &impl{}
+func newImpl(viper *viper.Viper, logger *zap.Logger) adapterx.Servicer {
+	return &impl{
+		viper:  viper,
+		logger: logger.With(zap.String("type", "grpc")),
+	}
 }
 
 func (i *impl) Start() error {
