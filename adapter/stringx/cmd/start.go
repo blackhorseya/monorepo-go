@@ -14,14 +14,14 @@ import (
 type ServiceCmd struct {
 	Use   string
 	Short string
-	Run   func(v *viper.Viper, logger *zap.Logger) adapterx.Servicer
+	Run   func(v *viper.Viper, logger *zap.Logger) (adapterx.Servicer, error)
 }
 
 // NewServiceCmd creates a new service command.
 func NewServiceCmd(
 	use string,
 	short string,
-	run func(v *viper.Viper, logger *zap.Logger) adapterx.Servicer,
+	run func(v *viper.Viper, logger *zap.Logger) (adapterx.Servicer, error),
 ) *cobra.Command {
 	return (&ServiceCmd{Use: use, Short: short, Run: run}).NewCmd()
 }
@@ -35,9 +35,10 @@ func (s *ServiceCmd) NewCmd() *cobra.Command {
 			v := viper.GetViper()
 			logger := zap.NewExample()
 
-			service := s.Run(v, logger)
+			service, err := s.Run(v, logger)
+			cobra.CheckErr(err)
 
-			err := service.Start()
+			err = service.Start()
 			cobra.CheckErr(err)
 
 			err = service.AwaitSignal()

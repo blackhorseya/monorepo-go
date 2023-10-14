@@ -18,14 +18,17 @@ import (
 // Injectors from wire.go:
 
 // New will create a new restful adapter instance
-func New(v *viper.Viper, logger *zap.Logger) adapterx.Servicer {
-	config := configx.NewExample()
+func New(v *viper.Viper, logger *zap.Logger) (adapterx.Servicer, error) {
+	config, err := configx.NewWithViper(v)
+	if err != nil {
+		return nil, err
+	}
 	iStringBiz := biz.New()
 	engine := newRouter()
 	servicer := newImpl(v, config, logger, iStringBiz, engine)
-	return servicer
+	return servicer, nil
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(configx.NewExample, newRouter, biz.New, newImpl)
+var providerSet = wire.NewSet(configx.NewWithViper, newRouter, biz.New, newImpl)

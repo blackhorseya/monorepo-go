@@ -14,15 +14,22 @@ func TestImpl_Start(t *testing.T) {
 	v := viper.GetViper()
 	logger := zap.NewExample()
 
-	service := restful.New(v, logger)
-	err := service.Start()
+	service, err := restful.New(v, logger)
+	if err != nil {
+		t.Errorf("New() error = %v", err)
+		return
+	}
+
+	err = service.Start()
 	if err != nil {
 		t.Errorf("Start() error = %v", err)
+		return
 	}
 
 	err = service.AwaitSignal()
 	if err != nil {
 		t.Errorf("AwaitSignal() error = %v", err)
+		return
 	}
 
 	t.Skip("skip external test")

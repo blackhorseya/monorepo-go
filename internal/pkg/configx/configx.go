@@ -40,13 +40,8 @@ func NewExample() *Config {
 
 // NewWithViper will create a new config instance with viper.
 func NewWithViper(v *viper.Viper) (*Config, error) {
-	err := v.ReadInConfig()
-	if err != nil {
-		return nil, err
-	}
-
 	cfg := NewExample()
-	err = v.Unmarshal(cfg)
+	err := v.Unmarshal(cfg)
 	if err != nil {
 		return nil, err
 	}
