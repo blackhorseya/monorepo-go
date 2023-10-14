@@ -13,6 +13,7 @@ import (
 )
 
 var providerSet = wire.NewSet(
+	newRouter,
 	biz.New,
 	newImpl,
 )
