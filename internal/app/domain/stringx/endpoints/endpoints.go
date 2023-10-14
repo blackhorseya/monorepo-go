@@ -8,7 +8,8 @@ import (
 	"github.com/go-kit/kit/endpoint"
 )
 
-type uppercaseRequest struct {
+// UppercaseRequest uppercase request struct.
+type UppercaseRequest struct {
 	S string `json:"s"`
 }
 
@@ -19,7 +20,7 @@ type uppercaseResponse struct {
 
 func MakeUppercaseEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
 	return func(_ context.Context, request interface{}) (response interface{}, err error) {
-		req, _ := request.(uppercaseRequest)
+		req, _ := request.(UppercaseRequest)
 		ctx := contextx.Background()
 
 		v, err := svc.Uppercase(ctx, req.S)
@@ -31,7 +32,8 @@ func MakeUppercaseEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
 	}
 }
 
-type countRequest struct {
+// CountRequest count request struct.
+type CountRequest struct {
 	S string `json:"s"`
 }
 
@@ -41,7 +43,7 @@ type countResponse struct {
 
 func MakeCountEndpoint(svc biz.IStringBiz) endpoint.Endpoint {
 	return func(_ context.Context, request interface{}) (response interface{}, err error) {
-		req, _ := request.(countRequest)
+		req, _ := request.(CountRequest)
 		ctx := contextx.Background()
 
 		v := svc.Count(ctx, req.S)

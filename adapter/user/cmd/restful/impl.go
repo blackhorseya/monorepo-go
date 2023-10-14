@@ -3,7 +3,6 @@ package restful
 import (
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
-	httptransport "github.com/go-kit/kit/transport/http"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
@@ -27,7 +26,6 @@ func (i *impl) Start() error {
 	i.logger.Info("start restful service")
 
 	// todo: 2023/10/12|sean|impl me
-	httptransport.NewServer(nil, nil, nil)
 
 	return nil
 }
