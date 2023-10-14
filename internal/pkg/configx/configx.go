@@ -1,5 +1,9 @@
 package configx
 
+import (
+	"github.com/spf13/viper"
+)
+
 // Config defines the config struct.
 type Config struct {
 	HTTP HTTP `json:"http" yaml:"http"`
@@ -32,4 +36,20 @@ func NewExample() *Config {
 			Port: 11992,
 		},
 	}
+}
+
+// NewWithViper will create a new config instance with viper.
+func NewWithViper(v *viper.Viper) (*Config, error) {
+	err := v.ReadInConfig()
+	if err != nil {
+		return nil, err
+	}
+
+	cfg := NewExample()
+	err = v.Unmarshal(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return cfg, nil
 }
