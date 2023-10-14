@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "configx",
+    srcs = ["configx.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/pkg/configx",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//pkg/netx",
+        "@com_github_spf13_viper//:go_default_library",
+    ],
+)

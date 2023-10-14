@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "stringx_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/stringx",
+    visibility = ["//visibility:private"],
+    deps = ["//adapter/stringx/cmd"],
+)
+
+go_binary(
+    name = "stringx",
+    embed = [":stringx_lib"],
+    visibility = ["//visibility:public"],
+)

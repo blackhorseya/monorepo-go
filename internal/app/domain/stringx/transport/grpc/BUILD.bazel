@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "grpc",
+    srcs = [
+        "client.go",
+        "grpc.go",
+        "model.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport/grpc",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//entity/domain/stringx/model",
+        "//internal/app/domain/stringx/endpoints",
+        "@com_github_go_kit_kit//endpoint:go_default_library",
+        "@com_github_go_kit_kit//transport/grpc:go_default_library",
+        "@com_github_go_kit_kit//transport/grpc/_grpc_test/pb:go_default_library",
+    ],
+)

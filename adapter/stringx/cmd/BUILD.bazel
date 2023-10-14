@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "cmd",
+    srcs = [
+        "root.go",
+        "start.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/stringx/cmd",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//adapter/stringx/cmd/cronjob",
+        "//adapter/stringx/cmd/grpcserver",
+        "//adapter/stringx/cmd/restful",
+        "//pkg/adapterx",
+        "@com_github_spf13_cobra//:go_default_library",
+        "@com_github_spf13_viper//:go_default_library",
+    ],
+)

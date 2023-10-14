@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "logx",
+    srcs = ["logx.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/pkg/logx",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//internal/pkg/configx",
+        "@org_uber_go_zap//:go_default_library",
+        "@org_uber_go_zap//zapcore:go_default_library",
+    ],
+)

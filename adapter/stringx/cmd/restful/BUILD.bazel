@@ -1,0 +1,26 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "restful",
+    srcs = [
+        "impl.go",
+        "wire_gen.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/restful",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//entity/domain/stringx/biz",
+        "//internal/app/domain/stringx/biz",
+        "//internal/app/domain/stringx/endpoints",
+        "//internal/app/domain/stringx/transport/restful",
+        "//internal/pkg/configx",
+        "//internal/pkg/logx",
+        "//pkg/adapterx",
+        "//pkg/contextx",
+        "@com_github_gin_contrib_zap//:go_default_library",
+        "@com_github_gin_gonic_gin//:go_default_library",
+        "@com_github_google_wire//:go_default_library",
+        "@com_github_spf13_viper//:go_default_library",
+        "@org_uber_go_zap//:go_default_library",
+    ],
+)
