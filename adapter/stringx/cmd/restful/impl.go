@@ -28,6 +28,7 @@ type impl struct {
 }
 
 func newRouter() *gin.Engine {
+
 	// todo: 2023/10/14|sean|impl me
 	return gin.Default()
 }
@@ -46,8 +47,8 @@ func (i *impl) Start() error {
 	uppercaseHandler := transport.MakeUppercaseHandler(contextx.Background(), endpoints.MakeUppercaseEndpoint(i.svc))
 	countHandler := transport.MakeCountHandler(contextx.Background(), endpoints.MakeCountEndpoint(i.svc))
 
-	http.Handle("/uppercase", uppercaseHandler)
-	http.Handle("/count", countHandler)
+	i.router.POST("/uppercase", gin.WrapH(uppercaseHandler))
+	i.router.POST("/count", gin.WrapH(countHandler))
 
 	i.server = &http.Server{
 		Addr:                         "0.0.0.0:8080",
