@@ -1,14 +1,24 @@
 package cronjob
 
 import (
+	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 type impl struct {
+	viper  *viper.Viper
+	config *configx.Config
+	logger *zap.Logger
 }
 
-func newImpl() adapterx.Servicer {
-	return &impl{}
+func newImpl(viper *viper.Viper, config *configx.Config, logger *zap.Logger) adapterx.Servicer {
+	return &impl{
+		viper:  viper,
+		config: config,
+		logger: logger.With(zap.String("type", "cronjob")),
+	}
 }
 
 func (i *impl) Start() error {

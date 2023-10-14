@@ -7,6 +7,7 @@
 package cronjob
 
 import (
+	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/logx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
@@ -17,10 +18,12 @@ import (
 
 // New will create a new restful adapter instance
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	servicer := newImpl()
+	config := configx.NewExample()
+	logger := logx.NewExample()
+	servicer := newImpl(v, config, logger)
 	return servicer, nil
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(newImpl, logx.NewExample)
+var providerSet = wire.NewSet(configx.NewExample, logx.NewExample, newImpl)
