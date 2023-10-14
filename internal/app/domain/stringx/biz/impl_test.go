@@ -73,3 +73,39 @@ func (s *suiteUnit) Test_impl_Uppercase() {
 		})
 	}
 }
+
+func (s *suiteUnit) Test_impl_Count() {
+	type args struct {
+		ctx   contextx.Contextx
+		value string
+		mock  func()
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{
+			name: "empty string then 0",
+			args: args{value: ""},
+			want: 0,
+		},
+		{
+			name: "normal string then success",
+			args: args{value: "hello"},
+			want: 5,
+		},
+	}
+	for _, tt := range tests {
+		s.T().Run(tt.name, func(t *testing.T) {
+			tt.args.ctx = contextx.WithLogger(s.logger)
+			if tt.args.mock != nil {
+				tt.args.mock()
+			}
+
+			if got := s.biz.Count(tt.args.ctx, tt.args.value); got != tt.want {
+				t.Errorf("Count() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
