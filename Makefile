@@ -18,9 +18,9 @@ help: ## show help
 lint: ## run golangci-lint
 	@golangci-lint run ./...
 
-build: $(BIN_DIR)/user ## build binary
+build: $(BIN_DIR)/stringx ## build binary
 
-$(BIN_DIR)/user: adapter/user/main.go
+$(BIN_DIR)/user: adapter/stringx/main.go
 	@mkdir -p $(BIN_DIR)
 	$(GO) build -ldflags "$(LDFLAGS)" -o $@ $<
 
