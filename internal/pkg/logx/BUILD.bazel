@@ -7,7 +7,7 @@ go_library(
     visibility = ["//:__subpackages__"],
     deps = [
         "//internal/pkg/configx",
-        "@org_uber_go_zap//:zap",
-        "@org_uber_go_zap//zapcore",
+        "@org_uber_go_zap//:go_default_library",
+        "@org_uber_go_zap//zapcore:go_default_library",
     ],
 )

@@ -18,7 +18,7 @@ go_test(
         ":biz",
         "//entity/domain/stringx/biz",
         "//pkg/contextx",
-        "@com_github_stretchr_testify//suite",
-        "@org_uber_go_zap//:zap",
+        "@com_github_stretchr_testify//suite:go_default_library",
+        "@org_uber_go_zap//:go_default_library",
     ],
 )
