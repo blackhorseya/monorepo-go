@@ -21,7 +21,7 @@ pkg_tar(
     srcs = [":stringx"],
 )
 
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
 
 oci_image(
     name = "image",
@@ -34,4 +34,10 @@ oci_tarball(
     name = "tarball",
     image = ":image",
     repo_tags = ["gcr.io/sean-side/stringx:latest"],
+)
+
+oci_push(
+    name = "push",
+    image = ":image",
+    repository = "gcr.io/sean-side/stringx",
 )
