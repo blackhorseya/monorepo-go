@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	_ "github.com/blackhorseya/monorepo-go/adapter/stringx/api/docs" // swagger docs
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport/restful"
@@ -18,6 +19,8 @@ import (
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
 )
 
@@ -68,6 +71,8 @@ func (i *impl) Start() error {
 
 	uppercaseHandler := restful.MakeUppercaseHandler(contextx.Background(), endpoints.MakeUppercaseEndpoint(i.svc))
 	countHandler := restful.MakeCountHandler(contextx.Background(), endpoints.MakeCountEndpoint(i.svc))
+
+	i.router.GET("/api/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	i.router.POST("/uppercase", gin.WrapH(uppercaseHandler))
 	i.router.POST("/count", gin.WrapH(countHandler))

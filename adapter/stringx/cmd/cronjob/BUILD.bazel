@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "cronjob",
@@ -15,14 +15,5 @@ go_library(
         "@com_github_google_wire//:wire",
         "@com_github_spf13_viper//:viper",
         "@org_uber_go_zap//:zap",
-    ],
-)
-
-go_test(
-    name = "cronjob_test",
-    srcs = ["impl_external_test.go"],
-    deps = [
-        ":cronjob",
-        "@com_github_spf13_viper//:viper",
     ],
 )
