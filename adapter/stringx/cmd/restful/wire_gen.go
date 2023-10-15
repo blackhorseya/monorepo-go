@@ -33,6 +33,20 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	return servicer, nil
 }
 
+// NewExternal will create a new restful adapter instance for external test.
+func NewExternal(v *viper.Viper) (adapterx.Servicer, error) {
+	config := configx.NewExample()
+	logger := logx.NewExample()
+	iStringBiz := biz.New()
+	engine := newRouter()
+	servicer := newImpl(v, config, logger, iStringBiz, engine)
+	return servicer, nil
+}
+
 // wire.go:
 
 var providerSet = wire.NewSet(configx.NewWithViper, logx.NewWithConfig, newRouter, biz.New, newImpl)
+
+var testProviderSet = wire.NewSet(configx.NewExample, logx.NewExample, newRouter,
+	newImpl, biz.New,
+)

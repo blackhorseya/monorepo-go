@@ -22,3 +22,14 @@ var providerSet = wire.NewSet(
 func New(v *viper.Viper) (adapterx.Servicer, error) {
 	panic(wire.Build(providerSet))
 }
+
+var testProviderSet = wire.NewSet(
+	configx.NewExample,
+	logx.NewExample,
+	newImpl,
+)
+
+// NewExternal will create a new restful adapter instance for external test.
+func NewExternal(v *viper.Viper) (adapterx.Servicer, error) {
+	panic(wire.Build(testProviderSet))
+}

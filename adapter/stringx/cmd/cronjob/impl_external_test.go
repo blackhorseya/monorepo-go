@@ -1,18 +1,18 @@
 //go:build !unit
 
-package grpcserver_test
+package cronjob_test
 
 import (
 	"testing"
 
-	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpcserver"
+	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/cronjob"
 	"github.com/spf13/viper"
 )
 
 func TestImpl_Start(t *testing.T) {
 	v := viper.GetViper()
 
-	service, err := grpcserver.NewExternal(v)
+	service, err := cronjob.NewExternal(v)
 	if err != nil {
 		t.Errorf("NewExternal() error = %v", err)
 		return

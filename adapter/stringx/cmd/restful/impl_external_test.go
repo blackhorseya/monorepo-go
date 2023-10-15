@@ -1,4 +1,4 @@
-//go:build external
+//go:build !unit
 
 package restful_test
 
@@ -7,14 +7,12 @@ import (
 
 	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/restful"
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
 )
 
 func TestImpl_Start(t *testing.T) {
 	v := viper.GetViper()
-	logger := zap.NewExample()
 
-	service, err := restful.New(v, logger)
+	service, err := restful.NewExternal(v)
 	if err != nil {
 		t.Errorf("New() error = %v", err)
 		return

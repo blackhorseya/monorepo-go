@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "grpcserver",
@@ -21,5 +21,14 @@ go_library(
         "@com_github_spf13_viper//:viper",
         "@org_golang_google_grpc//:grpc",
         "@org_uber_go_zap//:zap",
+    ],
+)
+
+go_test(
+    name = "grpcserver_test",
+    srcs = ["impl_external_test.go"],
+    deps = [
+        ":grpcserver",
+        "@com_github_spf13_viper//:viper",
     ],
 )
