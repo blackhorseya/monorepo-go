@@ -8,6 +8,6 @@ go_library(
     deps = [
         "//entity/domain/stringx/biz",
         "//pkg/contextx",
-        "@com_github_go_kit_kit//endpoint:go_default_library",
+        "@com_github_go_kit_kit//endpoint",
     ],
 )

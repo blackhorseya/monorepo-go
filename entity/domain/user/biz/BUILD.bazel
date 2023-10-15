@@ -11,6 +11,6 @@ go_library(
     deps = [
         "//entity/domain/user/model",
         "//pkg/contextx",
-        "@org_uber_go_mock//gomock:go_default_library",
+        "@org_uber_go_mock//gomock",
     ],
 )

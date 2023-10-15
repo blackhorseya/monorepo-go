@@ -12,7 +12,7 @@ go_library(
     deps = [
         "//internal/app/domain/stringx/endpoints",
         "//pkg/contextx",
-        "@com_github_go_kit_kit//endpoint:go_default_library",
-        "@com_github_go_kit_kit//transport/http:go_default_library",
+        "@com_github_go_kit_kit//endpoint",
+        "@com_github_go_kit_kit//transport/http",
     ],
 )
