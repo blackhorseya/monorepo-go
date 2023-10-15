@@ -11,5 +11,129 @@
         "version": "0.1.0"
     },
     "basePath": "/api",
-    "paths": {}
+    "paths": {
+        "/v1/string/count": {
+            "post": {
+                "description": "count",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "String"
+                ],
+                "summary": "count",
+                "parameters": [
+                    {
+                        "description": "count request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.CountRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.CountResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.CountResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/string/uppercase": {
+            "post": {
+                "description": "uppercase",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "String"
+                ],
+                "summary": "uppercase",
+                "parameters": [
+                    {
+                        "description": "uppercase request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.UppercaseRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.UppercaseResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.UppercaseResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.UppercaseResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "endpoints.CountRequest": {
+            "type": "object",
+            "properties": {
+                "s": {
+                    "type": "string"
+                }
+            }
+        },
+        "endpoints.CountResponse": {
+            "type": "object",
+            "properties": {
+                "v": {
+                    "type": "integer"
+                }
+            }
+        },
+        "endpoints.UppercaseRequest": {
+            "type": "object",
+            "properties": {
+                "s": {
+                    "type": "string"
+                }
+            }
+        },
+        "endpoints.UppercaseResponse": {
+            "type": "object",
+            "properties": {
+                "err": {
+                    "type": "string"
+                },
+                "v": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }

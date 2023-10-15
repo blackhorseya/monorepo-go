@@ -74,8 +74,8 @@ func (i *impl) Start() error {
 
 	i.router.GET("/api/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	i.router.POST("/uppercase", gin.WrapH(uppercaseHandler))
-	i.router.POST("/count", gin.WrapH(countHandler))
+	i.router.POST("/api/v1/string/uppercase", gin.WrapH(uppercaseHandler))
+	i.router.POST("/api/v1/string/count", gin.WrapH(countHandler))
 
 	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
 

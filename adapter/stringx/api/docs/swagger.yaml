@@ -1,4 +1,27 @@
 basePath: /api
+definitions:
+  endpoints.CountRequest:
+    properties:
+      s:
+        type: string
+    type: object
+  endpoints.CountResponse:
+    properties:
+      v:
+        type: integer
+    type: object
+  endpoints.UppercaseRequest:
+    properties:
+      s:
+        type: string
+    type: object
+  endpoints.UppercaseResponse:
+    properties:
+      err:
+        type: string
+      v:
+        type: string
+    type: object
 info:
   contact:
     email: blackhorseya@gmail.com
@@ -7,5 +30,61 @@ info:
   description: This is a sample server for stringx.
   title: Stringx API
   version: 0.1.0
-paths: {}
+paths:
+  /v1/string/count:
+    post:
+      consumes:
+      - application/json
+      description: count
+      parameters:
+      - description: count request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/endpoints.CountRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/endpoints.CountResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/endpoints.CountResponse'
+      summary: count
+      tags:
+      - String
+  /v1/string/uppercase:
+    post:
+      consumes:
+      - application/json
+      description: uppercase
+      parameters:
+      - description: uppercase request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/endpoints.UppercaseRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/endpoints.UppercaseResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/endpoints.UppercaseResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/endpoints.UppercaseResponse'
+      summary: uppercase
+      tags:
+      - String
 swagger: "2.0"
