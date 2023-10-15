@@ -25,7 +25,7 @@ load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
 
 oci_image(
     name = "image",
-    base = "@distroless_base",
+    base = "@alpine",
     entrypoint = ["/stringx"],
     tars = [":tar"],
 )
