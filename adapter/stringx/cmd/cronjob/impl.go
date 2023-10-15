@@ -27,7 +27,7 @@ func newImpl(viper *viper.Viper, config *configx.Config, logger *zap.Logger) ada
 		config: config,
 		logger: logger.With(zap.String("type", "cronjob")),
 		taskC:  make(chan time.Time, 1),
-		done:   make(chan struct{}, 0),
+		done:   make(chan struct{}),
 	}
 }
 
@@ -35,8 +35,9 @@ func (i *impl) Start() error {
 	i.logger.Info("start cronjob")
 
 	go func() {
-		// todo: 2023/10/15|sean|pass config to cronjob
-		ticker := time.NewTicker(1 * time.Second)
+		ticker := time.NewTicker(time.Duration(i.config.Cronjob.Interval) * time.Second)
+
+		i.taskC <- time.Now()
 
 		for {
 			select {

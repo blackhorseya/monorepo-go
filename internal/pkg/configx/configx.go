@@ -7,9 +7,16 @@ import (
 
 // Config defines the config struct.
 type Config struct {
-	HTTP HTTP `json:"http" yaml:"http"`
-	GRPC GRPC `json:"grpc" yaml:"grpc"`
-	Log  Log  `json:"log" yaml:"log"`
+	Log     Log     `json:"log" yaml:"log"`
+	HTTP    HTTP    `json:"http" yaml:"http"`
+	GRPC    GRPC    `json:"grpc" yaml:"grpc"`
+	Cronjob Cronjob `json:"cronjob" yaml:"cronjob"`
+}
+
+// Log defines the log config struct.
+type Log struct {
+	Level  string `json:"level" yaml:"level"`
+	Format string `json:"format" yaml:"format"`
 }
 
 // HTTP defines the http config struct.
@@ -25,15 +32,18 @@ type GRPC struct {
 	Port int    `json:"port" yaml:"port"`
 }
 
-// Log defines the log config struct.
-type Log struct {
-	Level  string `json:"level" yaml:"level"`
-	Format string `json:"format" yaml:"format"`
+// Cronjob defines the cronjob config struct.
+type Cronjob struct {
+	Interval int `json:"interval" yaml:"interval"`
 }
 
 // NewExample will create a new example config instance.
 func NewExample() *Config {
 	return &Config{
+		Log: Log{
+			Level:  "info",
+			Format: "json",
+		},
 		HTTP: HTTP{
 			Host: "",
 			Port: netx.GetAvailablePort(),
@@ -43,9 +53,8 @@ func NewExample() *Config {
 			Host: "",
 			Port: netx.GetAvailablePort(),
 		},
-		Log: Log{
-			Level:  "info",
-			Format: "json",
+		Cronjob: Cronjob{
+			Interval: 5,
 		},
 	}
 }
