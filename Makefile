@@ -22,7 +22,7 @@ lint: ## run golangci-lint
 
 build: $(BIN_DIR)/stringx ## build binary
 
-$(BIN_DIR)/user: adapter/stringx/main.go
+$(BIN_DIR)/stringx: adapter/stringx/main.go
 	@mkdir -p $(BIN_DIR)
 	$(GO) build -ldflags "$(LDFLAGS)" -o $@ $<
 
