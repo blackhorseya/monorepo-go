@@ -13,3 +13,25 @@ go_binary(
     embed = [":stringx_lib"],
     visibility = ["//visibility:public"],
 )
+
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+pkg_tar(
+    name = "tar",
+    srcs = [":stringx"],
+)
+
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+
+oci_image(
+    name = "image",
+    base = "@distroless_base",
+    entrypoint = ["/stringx"],
+    tars = [":tar"],
+)
+
+oci_tarball(
+    name = "tarball",
+    image = ":image",
+    repo_tags = ["gcr.io/sean-side/stringx:latest"],
+)

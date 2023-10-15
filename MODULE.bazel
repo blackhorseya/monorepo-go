@@ -1,4 +1,5 @@
 bazel_dep(name = "rules_oci", version = "1.4.0")
+bazel_dep(name = "rules_pkg", version = "0.9.1")
 
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 
