@@ -10,7 +10,7 @@ LDFLAGS := -w -s
 .PHONY: all help
 .PHONY: lint build clean test
 .PHONY: gazelle gazelle-repos
-.PHONY: gen-pb gen-mocks
+.PHONY: gen-pb gen-mocks gen-swagger
 
 all: help
 
@@ -51,6 +51,9 @@ gen-pb: ## generate protobuf
 
 gen-mocks: ## generate mocks
 	@$(GO) generate ./...
+
+gen-swagger: ## generate swagger
+	@swag init -q -d ./adapter/stringx,./pkg,./entity -o ./adapter/stringx/api/docs
 
 gazelle-repos: ## update gazelle repos
 	@bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies -prune
