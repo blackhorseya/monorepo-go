@@ -1,0 +1,15 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server for stringx.",
+        "title": "Stringx API",
+        "contact": {
+            "name": "Sean Zheng",
+            "url": "https://blog.seancheng.space",
+            "email": "blackhorseya@gmail.com"
+        },
+        "version": "0.1.0"
+    },
+    "basePath": "/api",
+    "paths": {}
+}
