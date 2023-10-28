@@ -11,10 +11,11 @@ message Profile {
 
 message UserAccount {
     string id = 1;
-    string email = 2;
+    string username = 2;
+    string email = 3;
     // gotags: json="-"
-    string password = 3;
-    string access_token = 4;
-    string id_token = 5;
-    Profile profile = 6;
+    string password = 4;
+    string access_token = 5;
+    string id_token = 6;
+    Profile profile = 7;
 }
