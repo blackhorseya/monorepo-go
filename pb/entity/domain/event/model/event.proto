@@ -14,3 +14,11 @@ message RedPacket {
     string created_at = 7;
     string updated_at = 8;
 }
+
+message GrabRecord {
+    string id = 1;
+    string red_packet_id = 2;
+    string user_id = 3;
+    uint64 amount = 4;
+    string created_at = 5;
+}
