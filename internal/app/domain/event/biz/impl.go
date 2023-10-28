@@ -15,12 +15,21 @@ func New() biz.IEventBiz {
 	return &impl{}
 }
 
-func (i *impl) CreateRedPacket(ctx contextx.Contextx, who *userM.UserAccount, amount uint64, count uint32) (packet *eventM.RedPacket, err error) {
+func (i *impl) CreateRedPacket(
+	ctx contextx.Contextx,
+	who *userM.UserAccount,
+	amount uint64,
+	count uint32,
+) (packet *eventM.RedPacket, err error) {
 	// todo: 2023/10/28|sean|impl me
 	panic("implement me")
 }
 
-func (i *impl) GrabRedPacket(ctx contextx.Contextx, who *userM.UserAccount, packetID string) (amount uint64, err error) {
+func (i *impl) GrabRedPacket(
+	ctx contextx.Contextx,
+	who *userM.UserAccount,
+	packetID string,
+) (amount uint64, err error) {
 	// todo: 2023/10/28|sean|impl me
 	panic("implement me")
 }
