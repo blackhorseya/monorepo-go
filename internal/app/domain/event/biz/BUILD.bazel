@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "biz",
+    srcs = ["impl.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//entity/domain/event/biz",
+        "//entity/domain/event/model",
+        "//entity/domain/user/model",
+        "//pkg/contextx",
+    ],
+)
