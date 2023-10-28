@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package event;
+
+option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/event/model";
+
+message RedPacket {
+    string id = 1;
+    string creator_id = 2;
+    uint64 total_amount = 3;
+    uint64 remaining_amount = 4;
+    uint32 total_count = 5;
+    uint32 remaining_count = 6;
+    string created_at = 7;
+    string updated_at = 8;
+}
