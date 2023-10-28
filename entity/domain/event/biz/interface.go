@@ -19,5 +19,5 @@ type IEventBiz interface {
 	) (packet *eventM.RedPacket, err error)
 
 	// GrabRedPacket serve caller to grab a red packet
-	GrabRedPacket(ctx contextx.Contextx, who *userM.UserAccount, packetID string) (amount uint64, err error)
+	GrabRedPacket(ctx contextx.Contextx, who *userM.UserAccount, packetID string) (record *eventM.GrabRecord, err error)
 }

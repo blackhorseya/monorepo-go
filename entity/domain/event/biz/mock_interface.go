@@ -52,10 +52,10 @@ func (mr *MockIEventBizMockRecorder) CreateRedPacket(ctx, who, amount, count int
 }
 
 // GrabRedPacket mocks base method.
-func (m *MockIEventBiz) GrabRedPacket(ctx contextx.Contextx, who *model0.UserAccount, packetID string) (uint64, error) {
+func (m *MockIEventBiz) GrabRedPacket(ctx contextx.Contextx, who *model0.UserAccount, packetID string) (*model.GrabRecord, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GrabRedPacket", ctx, who, packetID)
-	ret0, _ := ret[0].(uint64)
+	ret0, _ := ret[0].(*model.GrabRecord)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

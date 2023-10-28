@@ -29,7 +29,7 @@ func (i *impl) GrabRedPacket(
 	ctx contextx.Contextx,
 	who *userM.UserAccount,
 	packetID string,
-) (amount uint64, err error) {
+) (record *eventM.GrabRecord, err error) {
 	// todo: 2023/10/28|sean|impl me
 	panic("implement me")
 }
