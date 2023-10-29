@@ -7,11 +7,11 @@ import (
 
 // Config defines the config struct.
 type Config struct {
-	Log         Log         `json:"log" yaml:"log"`
-	HTTP        HTTP        `json:"http" yaml:"http"`
-	GRPC        GRPC        `json:"grpc" yaml:"grpc"`
-	Cronjob     Cronjob     `json:"cronjob" yaml:"cronjob"`
-	Persistence Persistence `json:"persistence" yaml:"persistence"`
+	Log     Log     `json:"log" yaml:"log"`
+	HTTP    HTTP    `json:"http" yaml:"http"`
+	GRPC    GRPC    `json:"grpc" yaml:"grpc"`
+	Cronjob Cronjob `json:"cronjob" yaml:"cronjob"`
+	Storage Storage `json:"storage" yaml:"storage"`
 }
 
 // Log defines the log config struct.
@@ -38,8 +38,8 @@ type Cronjob struct {
 	Interval int `json:"interval" yaml:"interval"`
 }
 
-// Persistence defines the persistence config struct.
-type Persistence struct {
+// Storage defines the storage config struct.
+type Storage struct {
 	DSN   string `json:"dsn" yaml:"dsn"`
 	Conns int    `json:"conns" yaml:"conns"`
 }
@@ -63,7 +63,7 @@ func NewExample() *Config {
 		Cronjob: Cronjob{
 			Interval: 5,
 		},
-		Persistence: Persistence{
+		Storage: Storage{
 			DSN:   "",
 			Conns: 100,
 		},

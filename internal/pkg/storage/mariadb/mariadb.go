@@ -15,14 +15,14 @@ const (
 
 // NewClient create a new mariadb client.
 func NewClient(config *configx.Config) (*sqlx.DB, error) {
-	db, err := sqlx.Open("mysql", config.Persistence.DSN)
+	db, err := sqlx.Open("mysql", config.Storage.DSN)
 	if err != nil {
 		return nil, errors.Wrap(err, "open mariadb failed")
 	}
 
 	conns := defaultConns
-	if config.Persistence.Conns > 0 {
-		conns = config.Persistence.Conns
+	if config.Storage.Conns > 0 {
+		conns = config.Storage.Conns
 	}
 
 	db.SetConnMaxLifetime(15 * time.Minute)
