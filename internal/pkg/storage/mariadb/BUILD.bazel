@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "mariadb",
+    srcs = ["mariadb.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/pkg/storage/mariadb",
+    visibility = ["//:__subpackages__"],
+    deps = ["@com_github_jmoiron_sqlx//:sqlx"],
+)
