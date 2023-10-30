@@ -8,6 +8,7 @@ go_library(
     deps = [
         "//entity/domain/event/model",
         "//internal/app/domain/event/biz/repo",
+        "//pkg/contextx",
     ],
 )
 

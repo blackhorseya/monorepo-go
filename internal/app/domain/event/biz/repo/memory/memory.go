@@ -3,6 +3,7 @@ package memory
 import (
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo"
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 )
 
 type impl struct {
@@ -11,6 +12,25 @@ type impl struct {
 
 // New create a new memory storage.
 func New() repo.Storager {
-	// todo: 2023/10/30|sean|impl me
-	panic("implement me")
+	return &impl{
+		packets: make(map[string]*eventM.RedPacket),
+	}
+}
+
+func (i *impl) CreateRedPacket(ctx contextx.Contextx, packet *eventM.RedPacket) error {
+	i.packets[packet.Id] = packet
+
+	return nil
+}
+
+func (i *impl) ListRedPacket(
+	ctx contextx.Contextx,
+	cond repo.ListRedPacketCondition,
+) (packets []*eventM.RedPacket, err error) {
+	ret := make([]*eventM.RedPacket, 0, len(i.packets))
+	for _, packet := range i.packets {
+		packets = append(packets, packet)
+	}
+
+	return ret, nil
 }
