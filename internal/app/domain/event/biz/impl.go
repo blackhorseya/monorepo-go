@@ -41,12 +41,13 @@ func (i *impl) CreateRedPacket(
 		return nil, errors.New("count is 0")
 	}
 
+	totalAmount := amount * uint64(count)
 	now := time.Now()
 	ret := &eventM.RedPacket{
 		Id:              uuid.New().String(),
 		CreatorId:       who.Id,
-		TotalAmount:     amount,
-		RemainingAmount: amount,
+		TotalAmount:     totalAmount,
+		RemainingAmount: totalAmount,
 		TotalCount:      count,
 		RemainingCount:  count,
 		CreatedAt:       now.UTC().Format(time.RFC3339),
