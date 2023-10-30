@@ -4,15 +4,19 @@ import (
 	"context"
 	"errors"
 
+	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/go-kit/kit/endpoint"
 )
 
 // ListRedPacketRequest list red packet request struct.
 type ListRedPacketRequest struct {
+	Page uint32 `json:"page,omitempty"`
+	Size uint32 `json:"size,omitempty"`
 }
 
 // ListRedPacketResponse list red packet response struct.
 type ListRedPacketResponse struct {
+	response.Response `json:",inline"`
 }
 
 // MakeListRedPacketEndpoint make list red packet endpoint.
