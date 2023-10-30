@@ -109,3 +109,43 @@ func (s *suiteTester) Test_impl_CreateRedPacket() {
 		})
 	}
 }
+
+func (s *suiteTester) Test_impl_ListRedPacket() {
+	type args struct {
+		ctx  contextx.Contextx
+		cond eventB.ListRedPacketCondition
+		mock func()
+	}
+	tests := []struct {
+		name     string
+		args     args
+		wantList []*eventM.RedPacket
+		wantErr  bool
+	}{
+		{
+			name: "list red packet then error",
+			args: args{mock: func() {
+				s.storage.EXPECT().ListRedPacket(gomock.Any(), gomock.Any()).Return(nil, errors.New("error"))
+			}},
+			wantList: nil,
+			wantErr:  true,
+		},
+	}
+	for _, tt := range tests {
+		s.T().Run(tt.name, func(t *testing.T) {
+			tt.args.ctx = contextx.WithLogger(s.logger)
+			if tt.args.mock != nil {
+				tt.args.mock()
+			}
+
+			gotList, err := s.biz.ListRedPacket(tt.args.ctx, tt.args.cond)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ListRedPacket() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotList, tt.wantList) {
+				t.Errorf("ListRedPacket() gotList = %v, want %v", gotList, tt.wantList)
+			}
+		})
+	}
+}

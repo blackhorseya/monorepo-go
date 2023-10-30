@@ -67,9 +67,17 @@ func (i *impl) CreateRedPacket(
 	return ret, nil
 }
 
-func (i *impl) ListRedPacket(ctx contextx.Contextx, cond eventB.ListRedPacketCondition) (list []*eventM.RedPacket, err error) {
-	// todo: 2023/10/30|sean|impl me
-	panic("implement me")
+func (i *impl) ListRedPacket(
+	ctx contextx.Contextx,
+	cond eventB.ListRedPacketCondition,
+) (list []*eventM.RedPacket, err error) {
+	ret, err := i.storage.ListRedPacket(ctx, repo.ListRedPacketCondition{})
+	if err != nil {
+		ctx.Error("list red packet failed", zap.Error(err))
+		return nil, err
+	}
+
+	return ret, nil
 }
 
 func (i *impl) GrabRedPacket(
