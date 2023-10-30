@@ -18,6 +18,9 @@ type IEventBiz interface {
 		count uint32,
 	) (packet *eventM.RedPacket, err error)
 
+	// ListRedPacket serve caller to list red packet
+	ListRedPacket(ctx contextx.Contextx) (list []*eventM.RedPacket, err error)
+
 	// GrabRedPacket serve caller to grab a red packet
 	GrabRedPacket(ctx contextx.Contextx, who *userM.UserAccount, packetID string) (record *eventM.GrabRecord, err error)
 }

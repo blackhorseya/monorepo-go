@@ -67,6 +67,11 @@ func (i *impl) CreateRedPacket(
 	return ret, nil
 }
 
+func (i *impl) ListRedPacket(ctx contextx.Contextx) (list []*eventM.RedPacket, err error) {
+	// todo: 2023/10/30|sean|impl me
+	panic("implement me")
+}
+
 func (i *impl) GrabRedPacket(
 	ctx contextx.Contextx,
 	who *userM.UserAccount,

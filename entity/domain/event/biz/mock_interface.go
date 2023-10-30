@@ -65,3 +65,18 @@ func (mr *MockIEventBizMockRecorder) GrabRedPacket(ctx, who, packetID interface{
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GrabRedPacket", reflect.TypeOf((*MockIEventBiz)(nil).GrabRedPacket), ctx, who, packetID)
 }
+
+// ListRedPacket mocks base method.
+func (m *MockIEventBiz) ListRedPacket(ctx contextx.Contextx) ([]*model.RedPacket, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListRedPacket", ctx)
+	ret0, _ := ret[0].([]*model.RedPacket)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListRedPacket indicates an expected call of ListRedPacket.
+func (mr *MockIEventBizMockRecorder) ListRedPacket(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRedPacket", reflect.TypeOf((*MockIEventBiz)(nil).ListRedPacket), ctx)
+}
