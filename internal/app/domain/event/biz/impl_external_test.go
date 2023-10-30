@@ -4,35 +4,10 @@ package biz_test
 
 import (
 	"testing"
-
-	eventB "github.com/blackhorseya/monorepo-go/entity/domain/event/biz"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo/memory"
-	"github.com/stretchr/testify/suite"
-	"go.uber.org/zap"
 )
 
-type suiteExternal struct {
-	suite.Suite
+func TestImpl_CreateRedPacket(t *testing.T) {
+	// todo: 2023/10/30|sean|implement this test
 
-	logger  *zap.Logger
-	storage repo.Storager
-	biz     eventB.IEventBiz
-}
-
-func (s *suiteExternal) SetupTest() {
-	s.logger = zap.NewExample()
-	s.storage = memory.New()
-	s.biz = biz.New(s.storage)
-}
-
-func TestExternal(t *testing.T) {
-	suite.Run(t, new(suiteExternal))
-}
-
-func (s *suiteExternal) TestCreateRedPacket() {
-	t := s.T()
-
-	t.Skip()
+	t.Skip("skip external test")
 }
