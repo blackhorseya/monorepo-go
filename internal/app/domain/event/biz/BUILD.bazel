@@ -9,6 +9,7 @@ go_library(
         "//entity/domain/event/biz",
         "//entity/domain/event/model",
         "//entity/domain/user/model",
+        "//internal/app/domain/event/biz/repo",
         "//pkg/contextx",
     ],
 )
@@ -19,7 +20,7 @@ go_test(
     deps = [
         ":biz",
         "//entity/domain/event/biz",
-        "//internal/app/domain/event/biz/storage",
+        "//internal/app/domain/event/biz/repo",
         "@com_github_stretchr_testify//suite",
         "@org_uber_go_mock//gomock",
         "@org_uber_go_zap//:zap",

@@ -4,10 +4,12 @@ import (
 	"github.com/blackhorseya/monorepo-go/entity/domain/event/biz"
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"
 	userM "github.com/blackhorseya/monorepo-go/entity/domain/user/model"
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 )
 
 type impl struct {
+	storage repo.Storager
 }
 
 // New create a new event biz.

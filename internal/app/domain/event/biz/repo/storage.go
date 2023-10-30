@@ -1,6 +1,6 @@
 //go:generate mockgen -destination=./mock_${GOFILE} -package=${GOPACKAGE} -source=${GOFILE}
 
-package storage
+package repo
 
 import (
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"

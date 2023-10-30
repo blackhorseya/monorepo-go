@@ -5,7 +5,7 @@ import (
 
 	eventB "github.com/blackhorseya/monorepo-go/entity/domain/event/biz"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/storage"
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
 	"go.uber.org/zap"
@@ -16,14 +16,14 @@ type tester struct {
 
 	logger  *zap.Logger
 	ctrl    *gomock.Controller
-	storage *storage.MockStorager
+	storage *repo.MockStorager
 	biz     eventB.IEventBiz
 }
 
 func (s *tester) SetupTest() {
 	s.logger = zap.NewExample()
 	s.ctrl = gomock.NewController(s.T())
-	s.storage = storage.NewMockStorager(s.ctrl)
+	s.storage = repo.NewMockStorager(s.ctrl)
 	s.biz = biz.New()
 }
 
