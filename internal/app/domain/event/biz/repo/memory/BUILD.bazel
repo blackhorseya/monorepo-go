@@ -15,4 +15,12 @@ go_library(
 go_test(
     name = "memory_test",
     srcs = ["memory_test.go"],
+    deps = [
+        ":memory",
+        "//entity/domain/event/model",
+        "//internal/app/domain/event/biz/repo",
+        "//pkg/contextx",
+        "@com_github_stretchr_testify//suite",
+        "@org_uber_go_zap//:zap",
+    ],
 )

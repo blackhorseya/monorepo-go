@@ -27,7 +27,7 @@ func (i *impl) ListRedPacket(
 	ctx contextx.Contextx,
 	cond repo.ListRedPacketCondition,
 ) (packets []*eventM.RedPacket, err error) {
-	ret := make([]*eventM.RedPacket, 0, len(i.packets))
+	var ret []*eventM.RedPacket
 	for _, packet := range i.packets {
 		packets = append(packets, packet)
 	}
