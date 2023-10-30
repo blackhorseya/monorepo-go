@@ -10,6 +10,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/google/uuid"
+	"go.uber.org/zap"
 )
 
 type impl struct {
@@ -30,14 +31,17 @@ func (i *impl) CreateRedPacket(
 	count uint32,
 ) (packet *eventM.RedPacket, err error) {
 	if who == nil {
+		ctx.Error("who is nil")
 		return nil, errors.New("who is nil")
 	}
 
 	if amount == 0 {
+		ctx.Error("amount is 0")
 		return nil, errors.New("amount is 0")
 	}
 
 	if count == 0 {
+		ctx.Error("count is 0")
 		return nil, errors.New("count is 0")
 	}
 
@@ -56,6 +60,7 @@ func (i *impl) CreateRedPacket(
 
 	err = i.storage.CreateRedPacket(ctx, ret)
 	if err != nil {
+		ctx.Error("create red packet failed", zap.Error(err))
 		return nil, err
 	}
 
