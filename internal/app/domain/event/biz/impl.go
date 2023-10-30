@@ -13,8 +13,10 @@ type impl struct {
 }
 
 // New create a new event biz.
-func New() biz.IEventBiz {
-	return &impl{}
+func New(storage repo.Storager) biz.IEventBiz {
+	return &impl{
+		storage: storage,
+	}
 }
 
 func (i *impl) CreateRedPacket(

@@ -24,7 +24,7 @@ func (s *tester) SetupTest() {
 	s.logger = zap.NewExample()
 	s.ctrl = gomock.NewController(s.T())
 	s.storage = repo.NewMockStorager(s.ctrl)
-	s.biz = biz.New()
+	s.biz = biz.New(s.storage)
 }
 
 func (s *tester) TearDownSuite() {
