@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/blackhorseya/monorepo-go/entity/domain/event/biz"
+	eventB "github.com/blackhorseya/monorepo-go/entity/domain/event/biz"
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"
 	userM "github.com/blackhorseya/monorepo-go/entity/domain/user/model"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo"
@@ -17,8 +17,8 @@ type impl struct {
 	storage repo.Storager
 }
 
-// New create a new event biz.
-func New(storage repo.Storager) biz.IEventBiz {
+// New create a new event eventB.
+func New(storage repo.Storager) eventB.IEventBiz {
 	return &impl{
 		storage: storage,
 	}
@@ -67,7 +67,7 @@ func (i *impl) CreateRedPacket(
 	return ret, nil
 }
 
-func (i *impl) ListRedPacket(ctx contextx.Contextx) (list []*eventM.RedPacket, err error) {
+func (i *impl) ListRedPacket(ctx contextx.Contextx, cond eventB.ListRedPacketCondition) (list []*eventM.RedPacket, err error) {
 	// todo: 2023/10/30|sean|impl me
 	panic("implement me")
 }
