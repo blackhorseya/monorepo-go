@@ -46,6 +46,16 @@ func (s *suiteTester) Test_impl_ListRedPacket() {
 			wantPackets: nil,
 			wantErr:     false,
 		},
+		{
+			name: "list found return packets",
+			args: args{mock: func() {
+				_ = s.storage.CreateRedPacket(contextx.Background(), &eventM.RedPacket{
+					Id: "test",
+				})
+			}},
+			wantPackets: []*eventM.RedPacket{{Id: "test"}},
+			wantErr:     false,
+		},
 	}
 	for _, tt := range tests {
 		s.T().Run(tt.name, func(t *testing.T) {

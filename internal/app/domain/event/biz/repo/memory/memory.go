@@ -27,10 +27,9 @@ func (i *impl) ListRedPacket(
 	ctx contextx.Contextx,
 	cond repo.ListRedPacketCondition,
 ) (packets []*eventM.RedPacket, err error) {
-	var ret []*eventM.RedPacket
 	for _, packet := range i.packets {
 		packets = append(packets, packet)
 	}
 
-	return ret, nil
+	return packets, nil
 }
