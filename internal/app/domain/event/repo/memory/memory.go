@@ -2,7 +2,7 @@ package memory
 
 import (
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo"
+	eventR "github.com/blackhorseya/monorepo-go/entity/domain/event/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 )
 
@@ -11,7 +11,7 @@ type impl struct {
 }
 
 // New create a new memory storage.
-func New() repo.Storager {
+func New() eventR.Storager {
 	return &impl{
 		packets: make(map[string]*eventM.RedPacket),
 	}
@@ -25,7 +25,7 @@ func (i *impl) CreateRedPacket(ctx contextx.Contextx, packet *eventM.RedPacket) 
 
 func (i *impl) ListRedPacket(
 	ctx contextx.Contextx,
-	cond repo.ListRedPacketCondition,
+	cond eventR.ListRedPacketCondition,
 ) (packets []*eventM.RedPacket, err error) {
 	for _, packet := range i.packets {
 		packets = append(packets, packet)

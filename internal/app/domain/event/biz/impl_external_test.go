@@ -7,7 +7,7 @@ import (
 
 	userM "github.com/blackhorseya/monorepo-go/entity/domain/user/model"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo/memory"
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/repo/memory"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/google/uuid"
 	"go.uber.org/zap"
