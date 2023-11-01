@@ -6,6 +6,7 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/internal/app/domain/event/endpoints",
     visibility = ["//:__subpackages__"],
     deps = [
+        "//entity/domain/user/model",
         "//pkg/response",
         "@com_github_go_kit_kit//endpoint",
     ],
