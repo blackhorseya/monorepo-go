@@ -1,0 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "restful",
+    srcs = [
+        "model.go",
+        "restful.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/app/domain/event/transports/restful",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//internal/app/domain/event/endpoints",
+        "//pkg/contextx",
+        "@com_github_go_kit_kit//endpoint",
+        "@com_github_go_kit_kit//transport/http",
+    ],
+)
