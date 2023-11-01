@@ -6,19 +6,19 @@ import (
 
 	eventB "github.com/blackhorseya/monorepo-go/entity/domain/event/biz"
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"
+	eventR "github.com/blackhorseya/monorepo-go/entity/domain/event/repo"
 	userM "github.com/blackhorseya/monorepo-go/entity/domain/user/model"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/google/uuid"
 	"go.uber.org/zap"
 )
 
 type impl struct {
-	storage repo.Storager
+	storage eventR.Storager
 }
 
 // New create a new event eventB.
-func New(storage repo.Storager) eventB.IEventBiz {
+func New(storage eventR.Storager) eventB.IEventBiz {
 	return &impl{
 		storage: storage,
 	}
@@ -71,7 +71,7 @@ func (i *impl) ListRedPacket(
 	ctx contextx.Contextx,
 	cond eventB.ListRedPacketCondition,
 ) (list []*eventM.RedPacket, err error) {
-	ret, err := i.storage.ListRedPacket(ctx, repo.ListRedPacketCondition{})
+	ret, err := i.storage.ListRedPacket(ctx, eventR.ListRedPacketCondition{})
 	if err != nil {
 		ctx.Error("list red packet failed", zap.Error(err))
 		return nil, err

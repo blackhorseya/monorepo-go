@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo"
+	eventR "github.com/blackhorseya/monorepo-go/entity/domain/event/repo"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo/memory"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/stretchr/testify/suite"
@@ -16,7 +16,7 @@ type suiteTester struct {
 	suite.Suite
 
 	logger  *zap.Logger
-	storage repo.Storager
+	storage eventR.Storager
 }
 
 func (s *suiteTester) SetupTest() {
@@ -31,7 +31,7 @@ func TestAll(t *testing.T) {
 func (s *suiteTester) Test_impl_ListRedPacket() {
 	type args struct {
 		ctx  contextx.Contextx
-		cond repo.ListRedPacketCondition
+		cond eventR.ListRedPacketCondition
 		mock func()
 	}
 	tests := []struct {

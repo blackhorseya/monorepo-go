@@ -7,7 +7,7 @@ go_library(
     visibility = ["//:__subpackages__"],
     deps = [
         "//entity/domain/event/model",
-        "//internal/app/domain/event/biz/repo",
+        "//entity/domain/event/repo",
         "//pkg/contextx",
     ],
 )
@@ -18,7 +18,7 @@ go_test(
     deps = [
         ":memory",
         "//entity/domain/event/model",
-        "//internal/app/domain/event/biz/repo",
+        "//entity/domain/event/repo",
         "//pkg/contextx",
         "@com_github_stretchr_testify//suite",
         "@org_uber_go_zap//:zap",
