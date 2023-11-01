@@ -6,7 +6,7 @@ import (
 
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"
 	eventR "github.com/blackhorseya/monorepo-go/entity/domain/event/repo"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo/memory"
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/repo/memory"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/zap"

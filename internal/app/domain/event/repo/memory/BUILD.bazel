@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 go_library(
     name = "memory",
     srcs = ["memory.go"],
-    importpath = "github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz/repo/memory",
+    importpath = "github.com/blackhorseya/monorepo-go/internal/app/domain/event/repo/memory",
     visibility = ["//:__subpackages__"],
     deps = [
         "//entity/domain/event/model",
