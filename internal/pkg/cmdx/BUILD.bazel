@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "cmdx",
+    srcs = ["cmdx.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/pkg/cmdx",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//pkg/adapterx",
+        "@com_github_spf13_cobra//:cobra",
+        "@com_github_spf13_viper//:viper",
+    ],
+)
