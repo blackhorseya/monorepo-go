@@ -45,6 +45,7 @@ jobs:
       - name: Build and push
         run: |
           bazel run //adapter/stringx:push
+          bazel run //adapter/redpacket:push
 
   create-release:
     runs-on: ubuntu-latest
