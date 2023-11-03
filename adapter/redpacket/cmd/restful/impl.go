@@ -9,11 +9,14 @@ import (
 	"syscall"
 	"time"
 
+	_ "github.com/blackhorseya/monorepo-go/adapter/redpacket/api/docs" // swagger docs
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
 )
 
@@ -47,6 +50,8 @@ func (i *impl) Start() error {
 			"msg":  "internal server error",
 		})
 	}))
+
+	i.router.GET("/api/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
 	i.server = &http.Server{
