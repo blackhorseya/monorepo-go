@@ -5,6 +5,7 @@ go_library(
     srcs = ["main.go"],
     importpath = "github.com/blackhorseya/monorepo-go/adapter/redpacket",
     visibility = ["//visibility:private"],
+    deps = ["//adapter/redpacket/cmd"],
 )
 
 go_binary(
