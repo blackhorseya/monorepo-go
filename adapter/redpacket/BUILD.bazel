@@ -13,3 +13,31 @@ go_binary(
     embed = [":redpacket_lib"],
     visibility = ["//visibility:public"],
 )
+
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+pkg_tar(
+    name = "tar",
+    srcs = [":redpacket"],
+)
+
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
+
+oci_image(
+    name = "image",
+    base = "@alpine",
+    entrypoint = ["/redpacket"],
+    tars = [":tar"],
+)
+
+oci_tarball(
+    name = "tarball",
+    image = ":image",
+    repo_tags = ["gcr.io/sean-side/redpacket:latest"],
+)
+
+oci_push(
+    name = "push",
+    image = ":image",
+    repository = "gcr.io/sean-side/redpacket",
+)
