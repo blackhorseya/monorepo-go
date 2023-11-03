@@ -13,6 +13,11 @@ type ServiceCmd struct {
 	Run   func(v *viper.Viper) (adapterx.Servicer, error)
 }
 
+// NewServiceCmd creates a new service command.
+func NewServiceCmd(use string, short string, run func(v *viper.Viper) (adapterx.Servicer, error)) *cobra.Command {
+	return (&ServiceCmd{Use: use, Short: short, Run: run}).NewCmd()
+}
+
 func (s *ServiceCmd) NewCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   s.Use,
