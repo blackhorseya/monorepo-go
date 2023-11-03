@@ -4,48 +4,9 @@ import (
 	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/cronjob"
 	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpcserver"
 	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/restful"
-	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/internal/pkg/cmdx"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
-
-// ServiceCmd represents the service command.
-type ServiceCmd struct {
-	Use   string
-	Short string
-	Run   func(v *viper.Viper) (adapterx.Servicer, error)
-}
-
-// NewServiceCmd creates a new service command.
-func NewServiceCmd(
-	use string,
-	short string,
-	run func(v *viper.Viper) (adapterx.Servicer, error),
-) *cobra.Command {
-	return (&ServiceCmd{Use: use, Short: short, Run: run}).NewCmd()
-}
-
-// NewCmd creates a new service command.
-func (s *ServiceCmd) NewCmd() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   s.Use,
-		Short: s.Short,
-		Run: func(cmd *cobra.Command, args []string) {
-			v := viper.GetViper()
-
-			service, err := s.Run(v)
-			cobra.CheckErr(err)
-
-			err = service.Start()
-			cobra.CheckErr(err)
-
-			err = service.AwaitSignal()
-			cobra.CheckErr(err)
-		},
-	}
-
-	return cmd
-}
 
 // startCmd represents the start command.
 var startCmd = &cobra.Command{
@@ -54,9 +15,9 @@ var startCmd = &cobra.Command{
 }
 
 func init() {
-	startCmd.AddCommand(NewServiceCmd("api", "start a user api service", restful.New))
-	startCmd.AddCommand(NewServiceCmd("grpc", "start a user grpc service", grpcserver.New))
-	startCmd.AddCommand(NewServiceCmd("cronjob", "start a user cronjob service", cronjob.New))
+	startCmd.AddCommand(cmdx.NewServiceCmd("api", "start a user api service", restful.New))
+	startCmd.AddCommand(cmdx.NewServiceCmd("grpc", "start a user grpc service", grpcserver.New))
+	startCmd.AddCommand(cmdx.NewServiceCmd("cronjob", "start a user cronjob service", cronjob.New))
 
 	rootCmd.AddCommand(startCmd)
 
