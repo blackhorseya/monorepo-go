@@ -1,0 +1,11 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "redpackets",
+    srcs = [
+        "get_list.go",
+        "post.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/redpacket/cmd/restful/v1/redpackets",
+    visibility = ["//visibility:public"],
+)
