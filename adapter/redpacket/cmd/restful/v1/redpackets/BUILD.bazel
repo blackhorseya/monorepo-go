@@ -8,4 +8,11 @@ go_library(
     ],
     importpath = "github.com/blackhorseya/monorepo-go/adapter/redpacket/cmd/restful/v1/redpackets",
     visibility = ["//visibility:public"],
+    deps = [
+        "//internal/app/domain/event/endpoints",
+        "//pkg/contextx",
+        "//pkg/response",
+        "@com_github_go_kit_kit//endpoint",
+        "@com_github_go_kit_kit//transport/http",
+    ],
 )
