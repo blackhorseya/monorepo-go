@@ -1,6 +1,8 @@
 package response
 
 import (
+	"context"
+	"encoding/json"
 	"net/http"
 )
 
@@ -26,4 +28,9 @@ func (resp *Response) WithData(data any) *Response {
 		Message: resp.Message,
 		Data:    data,
 	}
+}
+
+// EncodeJSON encode response to json.
+func EncodeJSON(_ context.Context, w http.ResponseWriter, response interface{}) error {
+	return json.NewEncoder(w).Encode(response)
 }
