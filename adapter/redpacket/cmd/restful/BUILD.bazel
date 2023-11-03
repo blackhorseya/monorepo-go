@@ -10,6 +10,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//adapter/redpacket/api/docs",
+        "//adapter/redpacket/cmd/restful/v1:restful",
         "//internal/pkg/configx",
         "//internal/pkg/logx",
         "//pkg/adapterx",

@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	userM "github.com/blackhorseya/monorepo-go/entity/domain/user/model"
+	"github.com/blackhorseya/monorepo-go/entity/domain/user/model"
 	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/go-kit/kit/endpoint"
 )
@@ -30,7 +30,7 @@ func MakeListRedPacketEndpoint() endpoint.Endpoint {
 
 // CreateRedPacketRequest create red packet request struct.
 type CreateRedPacketRequest struct {
-	Who    *userM.UserAccount `json:"who,omitempty"`
+	Who    *model.UserAccount `json:"who,omitempty"`
 	Amount uint64             `json:"amount,omitempty"`
 	Count  uint32             `json:"count,omitempty"`
 }
