@@ -12,7 +12,7 @@ go_library(
         "//adapter/stringx/cmd/cronjob",
         "//adapter/stringx/cmd/grpcserver",
         "//adapter/stringx/cmd/restful",
-        "//pkg/adapterx",
+        "//internal/pkg/cmdx",
         "@com_github_spf13_cobra//:cobra",
         "@com_github_spf13_viper//:viper",
     ],
