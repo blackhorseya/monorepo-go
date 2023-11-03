@@ -2,9 +2,14 @@ package restful
 
 import (
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -32,6 +37,22 @@ func (i *impl) Start() error {
 }
 
 func (i *impl) AwaitSignal() error {
-	// todo: 2023/11/3|sean|implement me
-	panic("implement me")
+	c := make(chan os.Signal, 1)
+	signal.Reset(syscall.SIGTERM, syscall.SIGINT)
+	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
+
+	if sig := <-c; true {
+		i.logger.Info("receive signal", zap.String("signal", sig.String()))
+
+		timeout, cancelFunc := contextx.WithTimeout(contextx.Background(), 5*time.Second)
+		defer cancelFunc()
+
+		err := i.server.Shutdown(timeout)
+		if err != nil {
+			i.logger.Error("shutdown restful server error", zap.Error(err))
+			return err
+		}
+	}
+
+	return nil
 }
