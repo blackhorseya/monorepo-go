@@ -10,6 +10,7 @@ import (
 	"time"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/redpacket/api/docs" // swagger docs
+	v1 "github.com/blackhorseya/monorepo-go/adapter/redpacket/cmd/restful/v1"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -52,6 +53,10 @@ func (i *impl) Start() error {
 	}))
 
 	i.router.GET("/api/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	api := i.router.Group("/api")
+	{
+		v1.Handle(api.Group("/v1"))
+	}
 
 	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
 	i.server = &http.Server{
