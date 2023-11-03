@@ -12,6 +12,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -34,6 +35,19 @@ func newImpl(config *configx.Config, logger *zap.Logger) adapterx.Servicer {
 }
 
 func (i *impl) Start() error {
+	i.router.Use(ginzap.GinzapWithConfig(i.logger, &ginzap.Config{
+		TimeFormat: time.RFC3339,
+		UTC:        true,
+		SkipPaths:  []string{"/api/healthz'"},
+		Context:    nil,
+	}))
+	i.router.Use(ginzap.CustomRecoveryWithZap(i.logger, true, func(c *gin.Context, err any) {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"code": http.StatusInternalServerError,
+			"msg":  "internal server error",
+		})
+	}))
+
 	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
 	i.server = &http.Server{
 		Addr:                         addr,
