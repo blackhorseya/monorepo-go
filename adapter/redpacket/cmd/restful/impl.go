@@ -1,6 +1,8 @@
 package restful
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -32,8 +34,34 @@ func newImpl(config *configx.Config, logger *zap.Logger) adapterx.Servicer {
 }
 
 func (i *impl) Start() error {
-	// todo: 2023/11/3|sean|implement me
-	panic("implement me")
+	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
+	i.server = &http.Server{
+		Addr:                         addr,
+		Handler:                      i.router,
+		DisableGeneralOptionsHandler: false,
+		TLSConfig:                    nil,
+		ReadTimeout:                  0,
+		ReadHeaderTimeout:            3 * time.Second,
+		WriteTimeout:                 0,
+		IdleTimeout:                  0,
+		MaxHeaderBytes:               0,
+		TLSNextProto:                 nil,
+		ConnState:                    nil,
+		ErrorLog:                     nil,
+		BaseContext:                  nil,
+		ConnContext:                  nil,
+	}
+
+	go func() {
+		i.logger.Info("start restful service", zap.String("addr", i.server.Addr))
+
+		err := i.server.ListenAndServe()
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
+			i.logger.Fatal("restful service error", zap.Error(err))
+		}
+	}()
+
+	return nil
 }
 
 func (i *impl) AwaitSignal() error {
