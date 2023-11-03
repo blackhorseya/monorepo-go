@@ -1,0 +1,11 @@
+basePath: /api
+info:
+  contact:
+    email: blackhorseya@gmail.com
+    name: Sean Zheng
+    url: https://blog.seancheng.space
+  description: This is a sample server for redpacket.
+  title: RedPacket API
+  version: 0.1.0
+paths: {}
+swagger: "2.0"

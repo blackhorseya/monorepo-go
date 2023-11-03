@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "redpacket_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/redpacket",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "redpacket",
+    embed = [":redpacket_lib"],
+    visibility = ["//visibility:public"],
+)
