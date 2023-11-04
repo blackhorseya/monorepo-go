@@ -32,7 +32,7 @@ func decodeCreateRedPacketRequest(_ context.Context, r *http.Request) (interface
 // @Success 200 {object} endpoints.CreateRedPacketResponse
 // @Failure 400 {object} endpoints.CreateRedPacketResponse
 // @Failure 500 {object} endpoints.CreateRedPacketResponse
-// @Router /api/v1/redpackets [post]
+// @Router /v1/redpackets [post]
 func MakeCreateRedPacketHandler(ctx contextx.Contextx, endpoint endpoint.Endpoint) http.Handler {
 	return httptransport.NewServer(endpoint, decodeCreateRedPacketRequest, response.EncodeJSON)
 }

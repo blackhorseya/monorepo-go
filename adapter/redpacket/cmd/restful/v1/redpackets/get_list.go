@@ -31,7 +31,7 @@ func decodeListRedPacketRequest(_ context.Context, r *http.Request) (interface{}
 // @Success 200 {object} endpoints.ListRedPacketResponse
 // @Failure 400 {object} endpoints.ListRedPacketResponse
 // @Failure 500 {object} endpoints.ListRedPacketResponse
-// @Router /api/v1/redpackets [get]
+// @Router /v1/redpackets [get]
 func MakeListRedPacketHandler(ctx contextx.Contextx, endpoint endpoint.Endpoint) http.Handler {
 	return httptransport.NewServer(endpoint, decodeListRedPacketRequest, response.EncodeJSON)
 }
