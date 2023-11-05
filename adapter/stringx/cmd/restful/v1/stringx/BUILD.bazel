@@ -1,0 +1,11 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "stringx",
+    srcs = [
+        "post_count.go",
+        "post_uppercase.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/restful/v1/stringx",
+    visibility = ["//visibility:public"],
+)
