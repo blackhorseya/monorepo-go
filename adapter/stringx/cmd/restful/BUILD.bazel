@@ -10,10 +10,9 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//adapter/stringx/api/docs",
+        "//adapter/stringx/cmd/restful/v1:restful",
         "//entity/domain/stringx/biz",
         "//internal/app/domain/stringx/biz",
-        "//internal/app/domain/stringx/endpoints",
-        "//internal/app/domain/stringx/transport/restful",
         "//internal/pkg/configx",
         "//internal/pkg/logx",
         "//pkg/adapterx",

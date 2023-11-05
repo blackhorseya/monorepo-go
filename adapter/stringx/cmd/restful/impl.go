@@ -10,9 +10,8 @@ import (
 	"time"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/stringx/api/docs" // swagger docs
+	v1 "github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/restful/v1"
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport/restful"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -69,16 +68,13 @@ func (i *impl) Start() error {
 		})
 	}))
 
-	uppercaseHandler := restful.MakeUppercaseHandler(contextx.Background(), endpoints.MakeUppercaseEndpoint(i.svc))
-	countHandler := restful.MakeCountHandler(contextx.Background(), endpoints.MakeCountEndpoint(i.svc))
-
 	i.router.GET("/api/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	i.router.POST("/api/v1/string/uppercase", gin.WrapH(uppercaseHandler))
-	i.router.POST("/api/v1/string/count", gin.WrapH(countHandler))
+	api := i.router.Group("/api")
+	{
+		v1.Handle(api.Group("/v1"), i.svc)
+	}
 
 	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
-
 	i.server = &http.Server{
 		Addr:                         addr,
 		Handler:                      i.router,
