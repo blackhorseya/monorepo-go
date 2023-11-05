@@ -11,6 +11,11 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//entity/domain/stringx/biz",
+        "//internal/app/domain/stringx/endpoints",
+        "//pkg/contextx",
+        "//pkg/response",
         "@com_github_gin_gonic_gin//:gin",
+        "@com_github_go_kit_kit//endpoint",
+        "@com_github_go_kit_kit//transport/http",
     ],
 )
