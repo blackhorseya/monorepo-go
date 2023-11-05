@@ -52,7 +52,7 @@ gen-mocks: ## generate mocks
 	@$(GO) generate ./...
 
 gen-swagger: ## generate swagger
-	@swag init -q -d ./adapter/stringx,./pkg,./entity,./internal/app/domain/stringx -o ./adapter/stringx/api/docs
+	@swag init -q -d ./adapter/stringx,./pkg,./entity,./internal -o ./adapter/stringx/api/docs
 
 	@swag init -q -d ./adapter/redpacket,./pkg,./entity,./internal -o ./adapter/redpacket/api/docs
 

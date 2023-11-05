@@ -11,5 +11,163 @@
         "version": "0.1.0"
     },
     "basePath": "/api",
-    "paths": {}
+    "paths": {
+        "/v1/redpackets": {
+            "get": {
+                "description": "list red packet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "RedPacket"
+                ],
+                "summary": "list red packet",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.ListRedPacketResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.ListRedPacketResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.ListRedPacketResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create red packet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "RedPacket"
+                ],
+                "summary": "create red packet",
+                "parameters": [
+                    {
+                        "description": "create red packet request",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.CreateRedPacketRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.CreateRedPacketResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.CreateRedPacketResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.CreateRedPacketResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "endpoints.CreateRedPacketRequest": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "who": {
+                    "$ref": "#/definitions/model.UserAccount"
+                }
+            }
+        },
+        "endpoints.CreateRedPacketResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "endpoints.ListRedPacketResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Profile": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UserAccount": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "id_token": {
+                    "type": "string"
+                },
+                "password": {
+                    "description": "gotags: json=\"-\"",
+                    "type": "string"
+                },
+                "profile": {
+                    "$ref": "#/definitions/model.Profile"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }
