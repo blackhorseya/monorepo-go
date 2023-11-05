@@ -8,5 +8,5 @@ import (
 
 // Handle will handle the stringx api.
 func Handle(g *gin.RouterGroup, svc biz.IStringBiz) {
-	stringx.Handle(g.Group("/stringx"), svc)
+	stringx.Handle(g.Group("/string"), svc)
 }
