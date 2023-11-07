@@ -7,10 +7,10 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpcserver/s2s"
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/model"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport/grpc"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/spf13/viper"
@@ -40,7 +40,7 @@ func newImpl(viper *viper.Viper, config *configx.Config, logger *zap.Logger, svc
 func (i *impl) Start() error {
 	i.server = grpcserver.NewServer()
 
-	model.RegisterStringxServiceServer(i.server, grpc.New(
+	model.RegisterStringxServiceServer(i.server, s2s.NewServer(
 		endpoints.MakeUppercaseEndpoint(i.svc),
 		endpoints.MakeCountEndpoint(i.svc),
 	))
