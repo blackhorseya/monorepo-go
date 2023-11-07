@@ -1,14 +1,10 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
-    name = "grpc",
-    srcs = [
-        "client.go",
-        "grpc.go",
-        "model.go",
-    ],
-    importpath = "github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/transport/grpc",
-    visibility = ["//:__subpackages__"],
+    name = "s2s",
+    srcs = ["s2s.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpcserver/s2s",
+    visibility = ["//visibility:public"],
     deps = [
         "//entity/domain/stringx/model",
         "//internal/app/domain/stringx/endpoints",

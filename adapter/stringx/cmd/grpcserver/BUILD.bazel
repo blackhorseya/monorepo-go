@@ -9,11 +9,11 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpcserver",
     visibility = ["//visibility:public"],
     deps = [
+        "//adapter/stringx/cmd/grpcserver/s2s",
         "//entity/domain/stringx/biz",
         "//entity/domain/stringx/model",
         "//internal/app/domain/stringx/biz",
         "//internal/app/domain/stringx/endpoints",
-        "//internal/app/domain/stringx/transport/grpc",
         "//internal/pkg/configx",
         "//internal/pkg/logx",
         "//pkg/adapterx",
