@@ -1,4 +1,4 @@
-package grpcserver
+package s2s
 
 import (
 	"context"
