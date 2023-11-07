@@ -34,7 +34,7 @@ func MakeListRedPacketEndpoint(svc eventB.IEventBiz) endpoint.Endpoint {
 		if err != nil {
 			return ListRedPacketResponse{
 				Response: response.Err.WrapError(err),
-			}, err
+			}, nil
 		}
 
 		return ListRedPacketResponse{
@@ -65,7 +65,7 @@ func MakeCreateRedPacketEndpoint(svc eventB.IEventBiz) endpoint.Endpoint {
 		if err != nil {
 			return CreateRedPacketResponse{
 				Response: response.Err.WrapError(err),
-			}, err
+			}, nil
 		}
 
 		return CreateRedPacketResponse{
