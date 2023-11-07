@@ -9,6 +9,6 @@ import (
 
 // Handle register redpacket api.
 func Handle(g *gin.RouterGroup, svc eventB.IEventBiz) {
-	g.GET("/", gin.WrapH(MakeListRedPacketHandler(contextx.Background(), endpoints.MakeListRedPacketEndpoint(svc))))
-	g.POST("/", gin.WrapH(MakeCreateRedPacketHandler(contextx.Background(), endpoints.MakeCreateRedPacketEndpoint(svc))))
+	g.GET("", gin.WrapH(MakeListRedPacketHandler(contextx.Background(), endpoints.MakeListRedPacketEndpoint(svc))))
+	g.POST("", gin.WrapH(MakeCreateRedPacketHandler(contextx.Background(), endpoints.MakeCreateRedPacketEndpoint(svc))))
 }
