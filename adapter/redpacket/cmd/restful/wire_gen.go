@@ -7,11 +7,17 @@
 package restful
 
 import (
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz"
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/repo/memory"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/logx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
+)
+
+import (
+	_ "github.com/blackhorseya/monorepo-go/adapter/redpacket/api/docs"
 )
 
 // Injectors from wire.go:
@@ -25,10 +31,12 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	servicer := newImpl(config, logger)
+	storager := memory.New()
+	iEventBiz := biz.New(storager)
+	servicer := newImpl(config, logger, iEventBiz)
 	return servicer, nil
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(configx.NewWithViper, logx.NewWithConfig, newImpl)
+var providerSet = wire.NewSet(configx.NewWithViper, logx.NewWithConfig, newImpl, biz.New, memory.New)
