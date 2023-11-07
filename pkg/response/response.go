@@ -30,6 +30,15 @@ func (resp *Response) WithData(data any) *Response {
 	}
 }
 
+// WrapError wrap error to response.
+func (resp *Response) WrapError(err error) *Response {
+	return &Response{
+		Code:    resp.Code,
+		Message: err.Error(),
+		Data:    nil,
+	}
+}
+
 // EncodeJSON encode response to json.
 func EncodeJSON(_ context.Context, w http.ResponseWriter, response interface{}) error {
 	return json.NewEncoder(w).Encode(response)

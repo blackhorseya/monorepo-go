@@ -11,6 +11,9 @@ go_library(
     deps = [
         "//adapter/redpacket/api/docs",
         "//adapter/redpacket/cmd/restful/v1:restful",
+        "//entity/domain/event/biz",
+        "//internal/app/domain/event/biz",
+        "//internal/app/domain/event/repo/memory",
         "//internal/pkg/configx",
         "//internal/pkg/logx",
         "//pkg/adapterx",

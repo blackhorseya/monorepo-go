@@ -5,6 +5,8 @@
 package restful
 
 import (
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz"
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/repo/memory"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/logx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
@@ -17,6 +19,8 @@ var providerSet = wire.NewSet(
 	logx.NewWithConfig,
 
 	newImpl,
+	biz.New,
+	memory.New,
 )
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {

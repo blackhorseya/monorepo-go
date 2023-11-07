@@ -11,6 +11,7 @@ import (
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/redpacket/api/docs" // swagger docs
 	v1 "github.com/blackhorseya/monorepo-go/adapter/redpacket/cmd/restful/v1"
+	eventB "github.com/blackhorseya/monorepo-go/entity/domain/event/biz"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -27,14 +28,16 @@ type impl struct {
 
 	router *gin.Engine
 	server *http.Server
+	svc    eventB.IEventBiz
 }
 
-func newImpl(config *configx.Config, logger *zap.Logger) adapterx.Servicer {
+func newImpl(config *configx.Config, logger *zap.Logger, svc eventB.IEventBiz) adapterx.Servicer {
 	return &impl{
 		config: config,
 		logger: logger.With(zap.String("type", "restful")),
 		router: gin.New(),
 		server: nil,
+		svc:    svc,
 	}
 }
 
@@ -55,7 +58,7 @@ func (i *impl) Start() error {
 	i.router.GET("/api/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	api := i.router.Group("/api")
 	{
-		v1.Handle(api.Group("/v1"))
+		v1.Handle(api.Group("/v1"), i.svc)
 	}
 
 	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)

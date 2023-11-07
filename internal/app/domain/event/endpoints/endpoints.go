@@ -2,9 +2,10 @@ package endpoints
 
 import (
 	"context"
-	"errors"
 
+	eventB "github.com/blackhorseya/monorepo-go/entity/domain/event/biz"
 	"github.com/blackhorseya/monorepo-go/entity/domain/user/model"
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/go-kit/kit/endpoint"
 )
@@ -17,14 +18,28 @@ type ListRedPacketRequest struct {
 
 // ListRedPacketResponse list red packet response struct.
 type ListRedPacketResponse struct {
-	response.Response `json:",inline"`
+	*response.Response `json:",inline"`
 }
 
 // MakeListRedPacketEndpoint make list red packet endpoint.
-func MakeListRedPacketEndpoint() endpoint.Endpoint {
-	return func(_ context.Context, request interface{}) (response interface{}, err error) {
-		// todo: 2023/10/30|sean|implement list red packet endpoint
-		return ListRedPacketResponse{}, errors.New("implement me")
+func MakeListRedPacketEndpoint(svc eventB.IEventBiz) endpoint.Endpoint {
+	return func(_ context.Context, request interface{}) (resp interface{}, err error) {
+		req, _ := request.(ListRedPacketRequest)
+		ctx := contextx.Background()
+
+		ret, err := svc.ListRedPacket(ctx, eventB.ListRedPacketCondition{
+			Page:    req.Page,
+			PerPage: req.Size,
+		})
+		if err != nil {
+			return ListRedPacketResponse{
+				Response: response.Err.WrapError(err),
+			}, err
+		}
+
+		return ListRedPacketResponse{
+			Response: response.OK.WithData(ret),
+		}, nil
 	}
 }
 
@@ -37,13 +52,24 @@ type CreateRedPacketRequest struct {
 
 // CreateRedPacketResponse create red packet response struct.
 type CreateRedPacketResponse struct {
-	response.Response `json:",inline"`
+	*response.Response `json:",inline"`
 }
 
 // MakeCreateRedPacketEndpoint make create red packet endpoint.
-func MakeCreateRedPacketEndpoint() endpoint.Endpoint {
-	return func(_ context.Context, request interface{}) (response interface{}, err error) {
-		// todo: 2023/11/1|sean|implement create red packet endpoint
-		return CreateRedPacketResponse{}, errors.New("implement me")
+func MakeCreateRedPacketEndpoint(svc eventB.IEventBiz) endpoint.Endpoint {
+	return func(_ context.Context, request interface{}) (resp interface{}, err error) {
+		req, _ := request.(CreateRedPacketRequest)
+		ctx := contextx.Background()
+
+		ret, err := svc.CreateRedPacket(ctx, req.Who, req.Amount, req.Count)
+		if err != nil {
+			return CreateRedPacketResponse{
+				Response: response.Err.WrapError(err),
+			}, err
+		}
+
+		return CreateRedPacketResponse{
+			Response: response.OK.WithData(ret),
+		}, nil
 	}
 }
