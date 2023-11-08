@@ -160,8 +160,8 @@ def go_dependencies():
     go_repository(
         name = "com_github_cpuguy83_go_md2man_v2",
         importpath = "github.com/cpuguy83/go-md2man/v2",
-        sum = "h1:p1EgwI/C7NhT0JmVkwCD2ZBK8j4aeHQX2pMHHBfMQ6w=",
-        version = "v2.0.2",
+        sum = "h1:qMCsGGgs+MAzDFyp9LpAe1Lqy/fY/qCovCm0qnXZOBM=",
+        version = "v2.0.3",
     )
     go_repository(
         name = "com_github_creack_pty",
@@ -928,8 +928,8 @@ def go_dependencies():
     go_repository(
         name = "com_github_spf13_cobra",
         importpath = "github.com/spf13/cobra",
-        sum = "h1:hyqWnYt1ZQShIddO5kBpj3vu05/++x6tJ6dg8EC572I=",
-        version = "v1.7.0",
+        sum = "h1:7aJaZx1B85qltLMc546zn58BxxfZdR/W22ej9CFoEf0=",
+        version = "v1.8.0",
     )
     go_repository(
         name = "com_github_spf13_pflag",
