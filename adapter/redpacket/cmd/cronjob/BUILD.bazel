@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "cronjob",
+    srcs = [
+        "impl.go",
+        "wire_gen.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/redpacket/cmd/cronjob",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//internal/pkg/configx",
+        "//internal/pkg/logx",
+        "//pkg/adapterx",
+        "//pkg/contextx",
+        "@com_github_google_uuid//:uuid",
+        "@com_github_google_wire//:wire",
+        "@com_github_spf13_viper//:viper",
+        "@org_uber_go_zap//:zap",
+    ],
+)
