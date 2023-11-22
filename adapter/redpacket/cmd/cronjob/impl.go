@@ -66,7 +66,7 @@ func (i *impl) Start() error {
 			case <-i.done:
 				break
 			case ctx := <-i.taskC:
-				ctx.Info("receive task")
+				ctx.Info("receive task", zap.String("id", ctx.Value("id").(string)))
 			}
 		}
 	}()
