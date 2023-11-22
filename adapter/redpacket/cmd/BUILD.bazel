@@ -9,6 +9,7 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/redpacket/cmd",
     visibility = ["//visibility:public"],
     deps = [
+        "//adapter/redpacket/cmd/cronjob",
         "//adapter/redpacket/cmd/restful",
         "//internal/pkg/cmdx",
         "@com_github_spf13_cobra//:cobra",
