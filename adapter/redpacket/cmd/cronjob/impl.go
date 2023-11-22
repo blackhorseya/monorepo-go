@@ -9,6 +9,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"github.com/google/uuid"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
@@ -44,7 +45,8 @@ func (i *impl) Start() error {
 			case <-i.done:
 				break
 			case <-ticker.C:
-				ctx := contextx.WithLogger(i.logger)
+				id := uuid.New().String()
+				ctx := contextx.WithValue(contextx.WithLogger(i.logger), "id", id)
 
 				select {
 				case i.taskC <- ctx:
