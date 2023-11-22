@@ -78,7 +78,9 @@ func (i *impl) AwaitSignal() error {
 	if sig := <-c; true {
 		i.logger.Info("receive signal", zap.String("signal", sig.String()))
 
-		// todo: 2023/11/22|sean|impl me
+		i.done <- struct{}{}
+
+		os.Exit(0)
 	}
 
 	return nil
