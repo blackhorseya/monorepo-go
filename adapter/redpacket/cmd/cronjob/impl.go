@@ -1,7 +1,8 @@
 package cronjob
 
 import (
-	"math/rand"
+	"crypto/rand"
+	"math/big"
 	"os"
 	"os/signal"
 	"syscall"
@@ -37,44 +38,8 @@ func newCronjob(v *viper.Viper, config *configx.Config, logger *zap.Logger) (ada
 func (i *impl) Start() error {
 	i.logger.Info("cronjob service start", zap.Duration("interval", i.interval))
 
-	ticker := time.NewTicker(i.interval)
-
-	// produce task
-	go func() {
-		for {
-			select {
-			case <-i.done:
-				break
-			case <-ticker.C:
-				id := uuid.New().String()
-				ctx := contextx.WithValue(contextx.WithLogger(i.logger), "id", id)
-
-				ctx.Debug("produce task", zap.String("id", id))
-
-				select {
-				case i.taskC <- ctx:
-				case <-time.After(50 * time.Millisecond):
-					ctx.Warn("task channel is full then drop task", zap.String("id", id))
-				}
-			}
-		}
-	}()
-
-	// consume task
-	go func() {
-		for {
-			select {
-			case <-i.done:
-				break
-			case ctx := <-i.taskC:
-				id := ctx.Value("id").(string)
-				delay := time.Duration(1+rand.Intn(10)) * time.Second
-
-				ctx.Info("receive task", zap.String("id", id), zap.Duration("delay", delay))
-				time.Sleep(delay)
-			}
-		}
-	}()
+	go i.produce()
+	go i.consume()
 
 	return nil
 }
@@ -93,4 +58,51 @@ func (i *impl) AwaitSignal() error {
 	}
 
 	return nil
+}
+
+func (i *impl) produce() {
+	ticker := time.NewTicker(i.interval)
+
+	for {
+		select {
+		case <-i.done:
+			break
+		case <-ticker.C:
+			id := uuid.New().String()
+			ctx := contextx.WithValue(contextx.WithLogger(i.logger), "id", id)
+
+			ctx.Debug("produce task", zap.String("id", id))
+
+			select {
+			case i.taskC <- ctx:
+			case <-time.After(50 * time.Millisecond):
+				ctx.Warn("task channel is full then drop task", zap.String("id", id))
+			}
+		}
+	}
+}
+
+func (i *impl) consume() {
+	for {
+		select {
+		case <-i.done:
+			break
+		case ctx := <-i.taskC:
+			id, ok := ctx.Value("id").(string)
+			if !ok {
+				ctx.Error("get task id failed")
+				return
+			}
+
+			n, err := rand.Int(rand.Reader, big.NewInt(10))
+			if err != nil {
+				ctx.Error("get random number failed", zap.Error(err))
+				return
+			}
+			delay := time.Duration(1+n.Int64()) * time.Second
+
+			ctx.Info("receive task", zap.String("id", id), zap.Duration("delay", delay))
+			time.Sleep(delay)
+		}
+	}
 }
