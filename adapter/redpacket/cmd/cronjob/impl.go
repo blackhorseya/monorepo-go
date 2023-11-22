@@ -1,6 +1,8 @@
 package cronjob
 
 import (
+	"time"
+
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/spf13/viper"
@@ -10,12 +12,15 @@ import (
 type impl struct {
 	config *configx.Config
 	logger *zap.Logger
+
+	interval time.Duration
 }
 
 func newCronjob(v *viper.Viper, config *configx.Config, logger *zap.Logger) (adapterx.Servicer, error) {
 	return &impl{
-		config: config,
-		logger: logger,
+		config:   config,
+		logger:   logger,
+		interval: v.GetDuration("interval"),
 	}, nil
 }
 
