@@ -1,6 +1,7 @@
 package cronjob
 
 import (
+	"math/rand"
 	"os"
 	"os/signal"
 	"syscall"
@@ -66,7 +67,11 @@ func (i *impl) Start() error {
 			case <-i.done:
 				break
 			case ctx := <-i.taskC:
-				ctx.Info("receive task", zap.String("id", ctx.Value("id").(string)))
+				id := ctx.Value("id").(string)
+				delay := time.Duration(1+rand.Intn(10)) * time.Second
+
+				ctx.Info("receive task", zap.String("id", id), zap.Duration("delay", delay))
+				time.Sleep(delay)
 			}
 		}
 	}()
