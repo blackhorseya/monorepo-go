@@ -1,6 +1,9 @@
 package cronjob
 
 import (
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
@@ -14,6 +17,7 @@ type impl struct {
 	logger *zap.Logger
 
 	interval time.Duration
+	done     chan struct{}
 }
 
 func newCronjob(v *viper.Viper, config *configx.Config, logger *zap.Logger) (adapterx.Servicer, error) {
@@ -32,6 +36,15 @@ func (i *impl) Start() error {
 }
 
 func (i *impl) AwaitSignal() error {
-	// todo: 2023/11/22|sean|impl me
+	c := make(chan os.Signal, 1)
+	signal.Reset(syscall.SIGTERM, syscall.SIGINT)
+	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
+
+	if sig := <-c; true {
+		i.logger.Info("receive signal", zap.String("signal", sig.String()))
+
+		// todo: 2023/11/22|sean|impl me
+	}
+
 	return nil
 }
