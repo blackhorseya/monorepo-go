@@ -21,6 +21,7 @@ type impl struct {
 	logger *zap.Logger
 
 	interval time.Duration
+	ticker   *time.Ticker
 	taskC    chan contextx.Contextx
 	done     chan struct{}
 }
@@ -30,6 +31,7 @@ func newCronjob(v *viper.Viper, config *configx.Config, logger *zap.Logger) (ada
 		config:   config,
 		logger:   logger,
 		interval: v.GetDuration("interval"),
+		ticker:   time.NewTicker(v.GetDuration("interval")),
 		taskC:    make(chan contextx.Contextx, 1),
 		done:     make(chan struct{}),
 	}, nil
@@ -61,13 +63,11 @@ func (i *impl) AwaitSignal() error {
 }
 
 func (i *impl) produce() {
-	ticker := time.NewTicker(i.interval)
-
 	for {
 		select {
 		case <-i.done:
 			break
-		case <-ticker.C:
+		case <-i.ticker.C:
 			id := uuid.New().String()
 			ctx := contextx.WithValue(contextx.WithLogger(i.logger), "id", id)
 
