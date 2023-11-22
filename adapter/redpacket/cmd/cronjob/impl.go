@@ -25,11 +25,13 @@ func newCronjob(v *viper.Viper, config *configx.Config, logger *zap.Logger) (ada
 }
 
 func (i *impl) Start() error {
+	i.logger.Info("cronjob service start", zap.Duration("interval", i.interval))
+
 	// todo: 2023/11/22|sean|impl me
-	panic("implement me")
+	return nil
 }
 
 func (i *impl) AwaitSignal() error {
 	// todo: 2023/11/22|sean|impl me
-	panic("implement me")
+	return nil
 }
