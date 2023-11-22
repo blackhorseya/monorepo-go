@@ -8,14 +8,14 @@ import (
 
 // ServiceCmd represents the service command.
 type ServiceCmd struct {
-	Use   string
-	Short string
-	Run   func(v *viper.Viper) (adapterx.Servicer, error)
+	Use        string
+	Short      string
+	GetService func(v *viper.Viper) (adapterx.Servicer, error)
 }
 
 // NewServiceCmd creates a new service command.
-func NewServiceCmd(use string, short string, run func(v *viper.Viper) (adapterx.Servicer, error)) *cobra.Command {
-	return (&ServiceCmd{Use: use, Short: short, Run: run}).NewCmd()
+func NewServiceCmd(use string, short string, svc func(v *viper.Viper) (adapterx.Servicer, error)) *cobra.Command {
+	return (&ServiceCmd{Use: use, Short: short, GetService: svc}).NewCmd()
 }
 
 func (s *ServiceCmd) NewCmd() *cobra.Command {
@@ -25,7 +25,7 @@ func (s *ServiceCmd) NewCmd() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			v := viper.GetViper()
 
-			service, err := s.Run(v)
+			service, err := s.GetService(v)
 			cobra.CheckErr(err)
 
 			err = service.Start()
