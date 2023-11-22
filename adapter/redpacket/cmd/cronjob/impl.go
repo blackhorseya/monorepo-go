@@ -48,10 +48,12 @@ func (i *impl) Start() error {
 				id := uuid.New().String()
 				ctx := contextx.WithValue(contextx.WithLogger(i.logger), "id", id)
 
+				ctx.Debug("produce task", zap.String("id", id))
+
 				select {
 				case i.taskC <- ctx:
 				case <-time.After(50 * time.Millisecond):
-					ctx.Warn("task channel is full then drop task")
+					ctx.Warn("task channel is full then drop task", zap.String("id", id))
 				}
 			}
 		}
