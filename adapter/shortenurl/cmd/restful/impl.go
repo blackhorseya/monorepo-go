@@ -29,6 +29,7 @@ type impl struct {
 }
 
 func (i *impl) Start() error {
+	// middleware
 	i.router.Use(ginzap.GinzapWithConfig(i.logger, &ginzap.Config{
 		TimeFormat: time.RFC3339,
 		UTC:        true,
@@ -39,6 +40,13 @@ func (i *impl) Start() error {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, response.Err)
 	}))
 
+	// register router
+	api := i.router.Group("/api")
+	{
+		api.GET("/healthz", i.healthz)
+	}
+
+	// init http server
 	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
 	i.server = &http.Server{
 		Addr:              addr,
@@ -86,4 +94,17 @@ func newRestful(viper *viper.Viper) (adapterx.Servicer, error) {
 		router: gin.New(),
 		server: nil,
 	}, nil
+}
+
+// healthz godoc
+// @Summary health check
+// @Description health check
+// @Tags Healthz
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /healthz [get]
+func (i *impl) healthz(c *gin.Context) {
+	c.JSON(http.StatusOK, response.OK)
 }
