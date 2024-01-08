@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package shortening;
+
+option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/shortening/model";
+
+import "google/protobuf/timestamp.proto";
+
+message ShortenedUrl {
+    int64 id = 1;
+    string original_url = 2;
+    string short_url = 3;
+    // @gotags: swaggertype:"string"
+    google.protobuf.Timestamp created_at = 4;
+    // @gotags: swaggertype:"string"
+    google.protobuf.Timestamp expired_at = 5;
+}
