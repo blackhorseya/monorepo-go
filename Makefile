@@ -29,7 +29,7 @@ $(BIN_DIR)/stringx: adapter/stringx/main.go
 clean: ## clean build directory
 	@rm -rf $(BUILD_DIR)
 
-test: ## run test
+test: gazelle ## run test
 	@bazel test //...
 
 gen-pb: ## generate protobuf
