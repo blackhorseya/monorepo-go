@@ -11,5 +11,6 @@ go_library(
     deps = [
         "//pkg/adapterx",
         "@com_github_google_wire//:wire",
+        "@com_github_spf13_viper//:viper",
     ],
 )
