@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "memory",
+    srcs = ["impl.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/app/domain/shortening/repo/memory",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//entity/domain/shortening/model",
+        "//internal/app/domain/shortening/repo",
+        "//pkg/contextx",
+    ],
+)
