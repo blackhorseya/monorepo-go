@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "memory",
@@ -9,5 +9,18 @@ go_library(
         "//entity/domain/shortening/model",
         "//internal/app/domain/shortening/repo",
         "//pkg/contextx",
+    ],
+)
+
+go_test(
+    name = "memory_test",
+    srcs = ["impl_test.go"],
+    deps = [
+        ":memory",
+        "//entity/domain/shortening/model",
+        "//internal/app/domain/shortening/repo",
+        "//pkg/contextx",
+        "@com_github_stretchr_testify//suite",
+        "@org_uber_go_zap//:zap",
     ],
 )
