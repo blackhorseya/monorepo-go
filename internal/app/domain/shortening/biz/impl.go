@@ -21,8 +21,13 @@ func NewShortening(storage repo.Storager) biz.IShorteningBiz {
 }
 
 func (i *impl) GetURLRecordByShortURL(ctx contextx.Contextx, shortURL string) (record *model.ShortenedUrl, err error) {
-	// todo: 2024/1/9|sean|implement me
-	panic("implement me")
+	ret, err := i.storage.GetURLRecordByShortURL(ctx, shortURL)
+	if err != nil {
+		ctx.Error("get url record by short url error", zap.Error(err), zap.String("short_url", shortURL))
+		return nil, err
+	}
+
+	return ret, nil
 }
 
 func (i *impl) CreateShortenedURL(ctx contextx.Contextx, originalURL string) (record *model.ShortenedUrl, err error) {

@@ -39,6 +39,65 @@ func TestAll(t *testing.T) {
 	suite.Run(t, new(suiteTester))
 }
 
+func (s *suiteTester) Test_impl_GetURLRecordByShortURL() {
+	shortURL1 := "https://www.google.com"
+	record1 := &model.ShortenedUrl{
+		Id:          0,
+		OriginalUrl: shortURL1,
+		ShortUrl:    shortURL1,
+		CreatedAt:   nil,
+		ExpiredAt:   nil,
+	}
+
+	type args struct {
+		ctx      contextx.Contextx
+		shortURL string
+		mock     func()
+	}
+	tests := []struct {
+		name       string
+		args       args
+		wantRecord *model.ShortenedUrl
+		wantErr    bool
+	}{
+		{
+			name: "error",
+			args: args{shortURL: shortURL1, mock: func() {
+				s.storage.EXPECT().GetURLRecordByShortURL(gomock.Any(), shortURL1).
+					Return(nil, errors.New("error")).Times(1)
+			}},
+			wantRecord: nil,
+			wantErr:    true,
+		},
+		{
+			name: "ok",
+			args: args{shortURL: shortURL1, mock: func() {
+				s.storage.EXPECT().GetURLRecordByShortURL(gomock.Any(), shortURL1).
+					Return(record1, nil).Times(1)
+			}},
+			wantRecord: record1,
+			wantErr:    false,
+		},
+	}
+	for _, tt := range tests {
+		s.T().Run(tt.name, func(t *testing.T) {
+			tt.args.ctx = contextx.WithLogger(s.logger)
+			if tt.args.mock != nil {
+				tt.args.mock()
+			}
+
+			gotRecord, err := s.biz.GetURLRecordByShortURL(tt.args.ctx, tt.args.shortURL)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetURLRecordByShortURL() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotRecord, tt.wantRecord) {
+				t.Errorf("GetURLRecordByShortURL() gotRecord = %v, want %v", gotRecord, tt.wantRecord)
+			}
+		})
+	}
+}
+
 func (s *suiteTester) Test_impl_CreateShortenedURL() {
 	longURL1 := "https://www.google.com"
 
