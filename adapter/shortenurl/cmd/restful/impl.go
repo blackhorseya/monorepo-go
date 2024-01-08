@@ -57,7 +57,7 @@ func (i *impl) AwaitSignal() error {
 
 		err := i.server.Shutdown(timeout)
 		if err != nil {
-			i.logger.Error("shutdown restful server error", zap.Error(err))
+			i.logger.Warn("shutdown restful server error", zap.Error(err))
 		}
 	}
 
