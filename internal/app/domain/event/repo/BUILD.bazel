@@ -6,8 +6,8 @@ go_library(
         "mock_storage.go",
         "storage.go",
     ],
-    importpath = "github.com/blackhorseya/monorepo-go/entity/domain/event/repo",
-    visibility = ["//visibility:public"],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/app/domain/event/repo",
+    visibility = ["//:__subpackages__"],
     deps = [
         "//entity/domain/event/model",
         "//pkg/contextx",

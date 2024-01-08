@@ -6,8 +6,8 @@ import (
 
 	eventB "github.com/blackhorseya/monorepo-go/entity/domain/event/biz"
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"
-	eventR "github.com/blackhorseya/monorepo-go/entity/domain/event/repo"
 	userM "github.com/blackhorseya/monorepo-go/entity/domain/user/model"
+	eventR "github.com/blackhorseya/monorepo-go/internal/app/domain/event/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/google/uuid"
 	"go.uber.org/zap"

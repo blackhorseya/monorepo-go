@@ -7,9 +7,9 @@ import (
 
 	eventB "github.com/blackhorseya/monorepo-go/entity/domain/event/biz"
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"
-	eventR "github.com/blackhorseya/monorepo-go/entity/domain/event/repo"
 	userM "github.com/blackhorseya/monorepo-go/entity/domain/user/model"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/event/biz"
+	eventR "github.com/blackhorseya/monorepo-go/internal/app/domain/event/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"

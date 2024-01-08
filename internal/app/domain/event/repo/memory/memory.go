@@ -2,7 +2,7 @@ package memory
 
 import (
 	eventM "github.com/blackhorseya/monorepo-go/entity/domain/event/model"
-	eventR "github.com/blackhorseya/monorepo-go/entity/domain/event/repo"
+	eventR "github.com/blackhorseya/monorepo-go/internal/app/domain/event/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 )
 
