@@ -75,7 +75,18 @@ func (s *suiteTester) Test_impl_CreateURLRecord() {
 		args    args
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name:    "ok",
+			args:    args{record: &model.ShortenedUrl{ShortUrl: "test"}},
+			wantErr: false,
+		},
+		{
+			name: "exists then error",
+			args: args{record: &model.ShortenedUrl{ShortUrl: "test"}, mock: func() {
+				_ = s.storage.CreateURLRecord(contextx.WithLogger(s.logger), &model.ShortenedUrl{ShortUrl: "test"})
+			}},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		s.T().Run(tt.name, func(t *testing.T) {
@@ -86,6 +97,8 @@ func (s *suiteTester) Test_impl_CreateURLRecord() {
 
 			if err := s.storage.CreateURLRecord(tt.args.ctx, tt.args.record); (err != nil) != tt.wantErr {
 				t.Errorf("CreateURLRecord() error = %v, wantErr %v", err, tt.wantErr)
+			} else {
+				tt.args.ctx.Info("got error", zap.Error(err))
 			}
 		})
 	}
