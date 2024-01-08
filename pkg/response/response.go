@@ -11,7 +11,7 @@ var (
 	OK = &Response{Code: http.StatusOK, Message: "ok"}
 
 	// Err request is failed.
-	Err = &Response{Code: http.StatusInternalServerError, Message: "error"}
+	Err = &Response{Code: http.StatusInternalServerError, Message: "unknown error"}
 )
 
 // Response response struct.
