@@ -35,6 +35,21 @@ func (m *MockIShorteningBiz) EXPECT() *MockIShorteningBizMockRecorder {
 	return m.recorder
 }
 
+// CreateShortenedURL mocks base method.
+func (m *MockIShorteningBiz) CreateShortenedURL(ctx contextx.Contextx, originalURL string) (*model.ShortenedUrl, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateShortenedURL", ctx, originalURL)
+	ret0, _ := ret[0].(*model.ShortenedUrl)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateShortenedURL indicates an expected call of CreateShortenedURL.
+func (mr *MockIShorteningBizMockRecorder) CreateShortenedURL(ctx, originalURL interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateShortenedURL", reflect.TypeOf((*MockIShorteningBiz)(nil).CreateShortenedURL), ctx, originalURL)
+}
+
 // GetURLRecordByShortURL mocks base method.
 func (m *MockIShorteningBiz) GetURLRecordByShortURL(ctx contextx.Contextx, shortURL string) (*model.ShortenedUrl, error) {
 	m.ctrl.T.Helper()

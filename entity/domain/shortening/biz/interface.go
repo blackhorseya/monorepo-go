@@ -11,4 +11,7 @@ import (
 type IShorteningBiz interface {
 	// GetURLRecordByShortURL is used to get url record by short url
 	GetURLRecordByShortURL(ctx contextx.Contextx, shortURL string) (record *model.ShortenedUrl, err error)
+
+	// CreateShortenedURL is used to create a new shortened url
+	CreateShortenedURL(ctx contextx.Contextx, originalURL string) (record *model.ShortenedUrl, err error)
 }

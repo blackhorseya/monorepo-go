@@ -18,3 +18,8 @@ func (i *impl) GetURLRecordByShortURL(ctx contextx.Contextx, shortURL string) (r
 	// todo: 2024/1/9|sean|implement me
 	panic("implement me")
 }
+
+func (i *impl) CreateShortenedURL(ctx contextx.Contextx, originalURL string) (record *model.ShortenedUrl, err error) {
+	// todo: 2024/1/9|sean|implement me
+	panic("implement me")
+}
