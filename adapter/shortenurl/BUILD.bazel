@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "shortenurl_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/shortenurl",
+    visibility = ["//visibility:private"],
+    deps = ["//adapter/shortenurl/cmd"],
+)
+
+go_binary(
+    name = "shortenurl",
+    embed = [":shortenurl_lib"],
+    visibility = ["//visibility:public"],
+)
