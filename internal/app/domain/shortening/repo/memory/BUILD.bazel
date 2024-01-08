@@ -9,7 +9,6 @@ go_library(
         "//entity/domain/shortening/model",
         "//internal/app/domain/shortening/repo",
         "//pkg/contextx",
-        "@org_golang_google_protobuf//types/known/timestamppb",
     ],
 )
 

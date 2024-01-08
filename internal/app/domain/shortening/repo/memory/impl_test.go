@@ -32,6 +32,8 @@ func TestAll(t *testing.T) {
 }
 
 func (s *suiteTester) Test_impl_GetURLRecordByShortURL() {
+	url1 := "test1"
+
 	type args struct {
 		ctx      contextx.Contextx
 		shortURL string
@@ -43,7 +45,20 @@ func (s *suiteTester) Test_impl_GetURLRecordByShortURL() {
 		wantRecord *model.ShortenedUrl
 		wantErr    bool
 	}{
-		// TODO: Add test cases.
+		{
+			name:       "not found then error",
+			args:       args{shortURL: url1},
+			wantRecord: nil,
+			wantErr:    true,
+		},
+		{
+			name: "ok",
+			args: args{shortURL: url1, mock: func() {
+				_ = s.storage.CreateURLRecord(contextx.WithLogger(s.logger), &model.ShortenedUrl{ShortUrl: url1})
+			}},
+			wantRecord: &model.ShortenedUrl{ShortUrl: url1},
+			wantErr:    false,
+		},
 	}
 	for _, tt := range tests {
 		s.T().Run(tt.name, func(t *testing.T) {

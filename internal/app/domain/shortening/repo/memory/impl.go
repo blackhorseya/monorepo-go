@@ -7,7 +7,6 @@ import (
 	"github.com/blackhorseya/monorepo-go/entity/domain/shortening/model"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/shortening/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type impl struct {
@@ -24,8 +23,15 @@ func NewStorager() repo.Storager {
 }
 
 func (i *impl) GetURLRecordByShortURL(ctx contextx.Contextx, shortURL string) (record *model.ShortenedUrl, err error) {
-	// todo: 2024/1/9|sean|implement me
-	panic("implement me")
+	i.mu.RLock()
+	defer i.mu.RUnlock()
+
+	record, exists := i.mapper[shortURL]
+	if !exists {
+		return nil, errors.New("short url not exists")
+	}
+
+	return record, nil
 }
 
 func (i *impl) CreateURLRecord(ctx contextx.Contextx, record *model.ShortenedUrl) error {
@@ -37,7 +43,6 @@ func (i *impl) CreateURLRecord(ctx contextx.Contextx, record *model.ShortenedUrl
 		return errors.New("short url already exists")
 	}
 
-	record.CreatedAt = timestamppb.Now()
 	i.mapper[record.ShortUrl] = record
 
 	return nil
