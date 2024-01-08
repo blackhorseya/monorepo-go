@@ -9,8 +9,8 @@ import (
 type impl struct {
 }
 
-// New is used to create a new shortening biz instance.
-func New() biz.IShorteningBiz {
+// NewShortening is used to create a new shortening biz instance.
+func NewShortening() biz.IShorteningBiz {
 	return &impl{}
 }
 
