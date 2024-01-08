@@ -69,7 +69,7 @@ func newRestful(viper *viper.Viper) (adapterx.Servicer, error) {
 		viper:  viper,
 		config: configx.NewExample(),
 		logger: zap.NewExample(),
-		router: nil,
+		router: gin.New(),
 		server: nil,
 	}, nil
 }
