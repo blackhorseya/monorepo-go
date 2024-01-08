@@ -7,11 +7,14 @@ import (
 )
 
 type impl struct {
+	mapper map[string]*model.ShortenedUrl
 }
 
 // NewStorager is used to create a new shortening storage instance.
 func NewStorager() repo.Storager {
-	return &impl{}
+	return &impl{
+		mapper: make(map[string]*model.ShortenedUrl),
+	}
 }
 
 func (i *impl) GetURLRecordByShortURL(ctx contextx.Contextx, shortURL string) (record *model.ShortenedUrl, err error) {
