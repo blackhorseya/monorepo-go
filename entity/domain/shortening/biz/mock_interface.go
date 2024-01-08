@@ -35,17 +35,17 @@ func (m *MockIShorteningBiz) EXPECT() *MockIShorteningBizMockRecorder {
 	return m.recorder
 }
 
-// GetUrlRecordByShortUrl mocks base method.
-func (m *MockIShorteningBiz) GetUrlRecordByShortUrl(ctx contextx.Contextx, shortUrl string) (*model.ShortenedUrl, error) {
+// GetURLRecordByShortURL mocks base method.
+func (m *MockIShorteningBiz) GetURLRecordByShortURL(ctx contextx.Contextx, shortURL string) (*model.ShortenedUrl, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUrlRecordByShortUrl", ctx, shortUrl)
+	ret := m.ctrl.Call(m, "GetURLRecordByShortURL", ctx, shortURL)
 	ret0, _ := ret[0].(*model.ShortenedUrl)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetUrlRecordByShortUrl indicates an expected call of GetUrlRecordByShortUrl.
-func (mr *MockIShorteningBizMockRecorder) GetUrlRecordByShortUrl(ctx, shortUrl interface{}) *gomock.Call {
+// GetURLRecordByShortURL indicates an expected call of GetURLRecordByShortURL.
+func (mr *MockIShorteningBizMockRecorder) GetURLRecordByShortURL(ctx, shortURL interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUrlRecordByShortUrl", reflect.TypeOf((*MockIShorteningBiz)(nil).GetUrlRecordByShortUrl), ctx, shortUrl)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetURLRecordByShortURL", reflect.TypeOf((*MockIShorteningBiz)(nil).GetURLRecordByShortURL), ctx, shortURL)
 }

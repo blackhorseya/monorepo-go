@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "biz",
+    srcs = ["impl.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/app/domain/shortening/biz",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//entity/domain/shortening/biz",
+        "//entity/domain/shortening/model",
+        "//pkg/contextx",
+    ],
+)

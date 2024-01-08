@@ -9,6 +9,6 @@ import (
 
 // IShorteningBiz is a shortening biz interface
 type IShorteningBiz interface {
-	// GetUrlRecordByShortURL is used to get url record by short url
-	GetUrlRecordByShortURL(ctx contextx.Contextx, shortURL string) (record *model.ShortenedUrl, err error)
+	// GetURLRecordByShortURL is used to get url record by short url
+	GetURLRecordByShortURL(ctx contextx.Contextx, shortURL string) (record *model.ShortenedUrl, err error)
 }
