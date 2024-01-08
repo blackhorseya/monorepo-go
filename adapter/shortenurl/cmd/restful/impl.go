@@ -29,7 +29,9 @@ type impl struct {
 func (i *impl) Start() error {
 	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
 	i.server = &http.Server{
-		Addr: addr,
+		Addr:              addr,
+		Handler:           i.router,
+		ReadHeaderTimeout: 5 * time.Second,
 	}
 
 	go func() {
