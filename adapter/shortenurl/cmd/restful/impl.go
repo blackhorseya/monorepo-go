@@ -12,7 +12,6 @@ import (
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
-	"github.com/blackhorseya/monorepo-go/pkg/netx"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -28,17 +27,7 @@ type impl struct {
 }
 
 func (i *impl) Start() error {
-	host := i.config.HTTP.Host
-	if host == "" {
-		host = "0.0.0.0"
-	}
-
-	port := i.config.HTTP.Port
-	if port == 0 {
-		port = netx.GetAvailablePort()
-	}
-
-	addr := fmt.Sprintf("%s:%d", host, port)
+	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
 	i.server = &http.Server{
 		Addr: addr,
 	}
