@@ -2,6 +2,7 @@ package restful
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -11,6 +12,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"github.com/blackhorseya/monorepo-go/pkg/netx"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -26,6 +28,21 @@ type impl struct {
 }
 
 func (i *impl) Start() error {
+	host := i.config.HTTP.Host
+	if host == "" {
+		host = "0.0.0.0"
+	}
+
+	port := i.config.HTTP.Port
+	if port == 0 {
+		port = netx.GetAvailablePort()
+	}
+
+	addr := fmt.Sprintf("%s:%d", host, port)
+	i.server = &http.Server{
+		Addr: addr,
+	}
+
 	go func() {
 		i.logger.Info("start restful service", zap.String("addr", i.server.Addr))
 
@@ -61,8 +78,8 @@ func (i *impl) AwaitSignal() error {
 func newService() (adapterx.Servicer, error) {
 	return &impl{
 		viper:  nil,
-		config: nil,
-		logger: nil,
+		config: configx.NewExample(),
+		logger: zap.NewExample(),
 		router: nil,
 		server: nil,
 	}, nil
