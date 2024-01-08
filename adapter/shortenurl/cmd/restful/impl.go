@@ -64,7 +64,7 @@ func (i *impl) AwaitSignal() error {
 	return nil
 }
 
-func newService() (adapterx.Servicer, error) {
+func newRestful() (adapterx.Servicer, error) {
 	return &impl{
 		viper:  nil,
 		config: configx.NewExample(),

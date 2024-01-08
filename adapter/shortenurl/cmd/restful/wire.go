@@ -11,7 +11,7 @@ import (
 )
 
 var providerSet = wire.NewSet(
-	newService,
+	newRestful,
 )
 
 // NewService will create a new restful service.

@@ -14,8 +14,9 @@ import (
 
 // Injectors from wire.go:
 
+// NewService will create a new restful service.
 func NewService(v *viper.Viper) (adapterx.Servicer, error) {
-	servicer, err := newService()
+	servicer, err := newRestful()
 	if err != nil {
 		return nil, err
 	}
@@ -25,5 +26,5 @@ func NewService(v *viper.Viper) (adapterx.Servicer, error) {
 // wire.go:
 
 var providerSet = wire.NewSet(
-	newService,
+	newRestful,
 )
