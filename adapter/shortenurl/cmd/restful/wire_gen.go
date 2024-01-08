@@ -16,7 +16,7 @@ import (
 
 // NewService will create a new restful service.
 func NewService(v *viper.Viper) (adapterx.Servicer, error) {
-	servicer, err := newRestful()
+	servicer, err := newRestful(v)
 	if err != nil {
 		return nil, err
 	}
