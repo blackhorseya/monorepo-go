@@ -61,3 +61,7 @@ gazelle-repos: ## run gazelle with bazel
 
 gazelle: gazelle-repos ## run gazelle with bazel
 	@bazel run //:gazelle
+
+.PHONY: docker-push
+docker-push: ## push docker image
+

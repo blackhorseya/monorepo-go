@@ -33,11 +33,11 @@ oci_image(
 oci_tarball(
     name = "tarball",
     image = ":image",
-    repo_tags = ["{image_registry}/shortenurl:latest"],
+    repo_tags = ["{image_repository}/shortenurl:latest"],
 )
 
 oci_push(
     name = "push",
     image = ":image",
-    repository = "{image_registry}/shortenurl",
+    repository = "{image_repository}/shortenurl",
 )
