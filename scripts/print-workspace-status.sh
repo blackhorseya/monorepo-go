@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+cat <<EOF
+image_registry: 378881891432.dkr.ecr.ap-northeast-3.amazonaws.com
+EOF
