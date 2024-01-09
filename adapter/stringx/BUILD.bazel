@@ -33,11 +33,11 @@ oci_image(
 oci_tarball(
     name = "tarball",
     image = ":image",
-    repo_tags = ["gcr.io/sean-side/stringx:latest"],
+    repo_tags = ["{image_registry}/stringx:latest"],
 )
 
 oci_push(
     name = "push",
     image = ":image",
-    repository = "gcr.io/sean-side/stringx",
+    repository = "{image_registry}/stringx",
 )
