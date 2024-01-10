@@ -33,11 +33,11 @@ oci_image(
 oci_tarball(
     name = "tarball",
     image = ":image",
-    repo_tags = ["{image_registry}/stringx:latest"],
+    repo_tags = ["378881891432.dkr.ecr.ap-northeast-3.amazonaws.com/stringx:latest"],
 )
 
 oci_push(
     name = "push",
     image = ":image",
-    repository = "{image_registry}/stringx",
+    repository = "378881891432.dkr.ecr.ap-northeast-3.amazonaws.com/stringx",
 )
