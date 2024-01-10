@@ -35,12 +35,12 @@ jobs:
       - name: Test
         run: bazel test //...
 
-      - name: Login to gcr
+      - name: Docker Login
         uses: docker/login-action@v2.1.0
         with:
-          registry: gcr.io
-          username: _json_key
-          password: ${{ secrets.GCR_JSON_KEY }}
+          registry: 378881891432.dkr.ecr.ap-northeast-3.amazonaws.com
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Build and push
         run: |
