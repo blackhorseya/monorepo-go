@@ -62,6 +62,10 @@ gazelle-repos: ## run gazelle with bazel
 gazelle: gazelle-repos ## run gazelle with bazel
 	@bazel run //:gazelle
 
+## docker
 .PHONY: docker-push
-docker-push: ## push docker image
+docker-push: docker-push-shortenurl ## push docker image
 
+.PHONY: docker-push-shortenurl
+docker-push-shortenurl: ## push docker image
+	bazel run //adapter/shortenurl:push
