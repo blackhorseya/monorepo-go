@@ -44,8 +44,7 @@ jobs:
 
       - name: Build and push
         run: |
-          bazel run //adapter/stringx:push
-          bazel run //adapter/redpacket:push
+          make docker-push
 
   create-release:
     runs-on: ubuntu-latest
