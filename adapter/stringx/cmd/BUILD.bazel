@@ -3,6 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "cmd",
     srcs = [
+        "info.go",
         "root.go",
         "start.go",
     ],
@@ -14,8 +15,9 @@ go_library(
         "//adapter/stringx/cmd/restful",
         "//internal/pkg/cmdx",
         "//internal/pkg/configx",
+        "//pkg/contextx",
         "//pkg/logging",
         "@com_github_spf13_cobra//:cobra",
-        "@com_github_spf13_viper//:viper",
+        "@org_uber_go_zap//:zap",
     ],
 )

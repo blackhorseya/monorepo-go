@@ -1,13 +1,11 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 var cfgFile string
@@ -46,28 +44,7 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
-
-		// Search config in home directory with name ".monorepo-go" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigType("yaml")
-		viper.SetConfigName(".stringx")
-	}
-
-	viper.AutomaticEnv() // read in environment variables that match
-
-	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		_, _ = fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
-	}
-
-	err := configx.LoadWithViper(viper.GetViper())
+	err := configx.Load(cfgFile, "stringx")
 	cobra.CheckErr(err)
 
 	err = logging.InitWithConfig(configx.C.Log)

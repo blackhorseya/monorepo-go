@@ -1,6 +1,7 @@
 package configx
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/spf13/viper"
@@ -24,7 +25,7 @@ func Load(path string, name string) error {
 
 		v.AddConfigPath(home)
 		v.SetConfigType("yaml")
-		v.SetConfigName(name)
+		v.SetConfigName("." + name)
 	}
 
 	v.AutomaticEnv()
@@ -33,6 +34,8 @@ func Load(path string, name string) error {
 	if err != nil {
 		return err
 	}
+
+	_, _ = fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 
 	err = v.Unmarshal(&C)
 	if err != nil {

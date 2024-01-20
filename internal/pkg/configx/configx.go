@@ -1,6 +1,7 @@
 package configx
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
@@ -15,6 +16,15 @@ type Config struct {
 	GRPC    GRPC           `json:"grpc" yaml:"grpc"`
 	Cronjob Cronjob        `json:"cronjob" yaml:"cronjob"`
 	Storage Storage        `json:"storage" yaml:"storage"`
+}
+
+func (c *Config) String() string {
+	msg, err := json.MarshalIndent(c, "", "  ")
+	if err != nil {
+		return err.Error()
+	}
+
+	return string(msg)
 }
 
 // HTTP defines the http config struct.
