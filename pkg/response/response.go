@@ -21,6 +21,15 @@ type Response struct {
 	Data    interface{} `json:"data,omitempty"`
 }
 
+// WithMessage set response message.
+func (resp *Response) WithMessage(message string) *Response {
+	return &Response{
+		Code:    resp.Code,
+		Message: message,
+		Data:    resp.Data,
+	}
+}
+
 // WithData set response data.
 func (resp *Response) WithData(data any) *Response {
 	return &Response{

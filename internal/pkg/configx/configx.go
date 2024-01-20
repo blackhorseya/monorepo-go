@@ -1,6 +1,8 @@
 package configx
 
 import (
+	"fmt"
+
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
 	"github.com/blackhorseya/monorepo-go/pkg/netx"
 	"github.com/spf13/viper"
@@ -20,6 +22,19 @@ type HTTP struct {
 	Host string `json:"host" yaml:"host"`
 	Port int    `json:"port" yaml:"port"`
 	Mode string `json:"mode" yaml:"mode"`
+}
+
+// GetAddr will get the http address.
+func (http HTTP) GetAddr() string {
+	if http.Host == "" {
+		http.Host = "0.0.0.0"
+	}
+
+	if http.Port == 0 {
+		http.Port = netx.GetAvailablePort()
+	}
+
+	return fmt.Sprintf("%s:%d", http.Host, http.Port)
 }
 
 // GRPC defines the grpc config struct.

@@ -2,8 +2,14 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "contextx",
-    srcs = ["contextx.go"],
+    srcs = [
+        "contextx.go",
+        "middleware.go",
+    ],
     importpath = "github.com/blackhorseya/monorepo-go/pkg/contextx",
     visibility = ["//visibility:public"],
-    deps = ["@org_uber_go_zap//:zap"],
+    deps = [
+        "@com_github_gin_gonic_gin//:gin",
+        "@org_uber_go_zap//:zap",
+    ],
 )
