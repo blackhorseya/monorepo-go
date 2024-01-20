@@ -17,7 +17,7 @@ type Contextx struct {
 func Background() Contextx {
 	return Contextx{
 		Context: context.Background(),
-		Logger:  zap.NewExample(),
+		Logger:  zap.L(),
 	}
 }
 
