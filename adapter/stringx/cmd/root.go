@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -64,4 +65,7 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		_, _ = fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}
+
+	err := configx.LoadWithViper(viper.GetViper())
+	cobra.CheckErr(err)
 }

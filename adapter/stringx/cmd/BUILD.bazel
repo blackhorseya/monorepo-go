@@ -13,6 +13,7 @@ go_library(
         "//adapter/stringx/cmd/grpcserver",
         "//adapter/stringx/cmd/restful",
         "//internal/pkg/cmdx",
+        "//internal/pkg/configx",
         "@com_github_spf13_cobra//:cobra",
         "@com_github_spf13_viper//:viper",
     ],
