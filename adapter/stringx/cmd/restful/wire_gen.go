@@ -43,7 +43,7 @@ func NewExternal(v *viper.Viper) (adapterx.Servicer, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(configx.NewWithViper, logx.NewWithConfig, newRouter, biz.New, newImpl)
+var providerSet = wire.NewSet(logx.NewWithConfig, newRouter, biz.New, newImpl)
 
 var testProviderSet = wire.NewSet(configx.NewExample, logx.NewExample, newRouter,
 	newImpl, biz.New,

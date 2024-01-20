@@ -25,7 +25,7 @@ type HTTP struct {
 }
 
 // GetAddr will get the http address.
-func (http HTTP) GetAddr() string {
+func (http *HTTP) GetAddr() string {
 	if http.Host == "" {
 		http.Host = "0.0.0.0"
 	}

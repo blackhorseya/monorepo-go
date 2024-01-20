@@ -1,6 +1,7 @@
 package restful
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -9,6 +10,7 @@ import (
 	_ "github.com/blackhorseya/monorepo-go/adapter/stringx/api/docs" // swagger docs
 	v1 "github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/restful/v1"
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
+	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/transports/httpx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -59,6 +61,11 @@ func (i *impl) Start() error {
 	if err != nil {
 		return err
 	}
+
+	ctx.Info(
+		"swagger docs",
+		zap.String("url", fmt.Sprintf("http://localhost:%d/api/docs/index.html", configx.C.HTTP.Port)),
+	)
 
 	return nil
 }
