@@ -19,6 +19,13 @@ func Handle(g *gin.RouterGroup, svc shortB.IShorteningBiz) {
 }
 
 // PostURL will handle the post url request.
+// @Summary Shorten a URL
+// @Description shorten a url
+// @Tags shorten
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Router /v1/shorten [post]
 func (i *impl) PostURL(c *gin.Context) {
 	// todo: 2024/1/20|sean|implement me
 	panic("implement me")

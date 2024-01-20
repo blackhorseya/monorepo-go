@@ -1,8 +1,16 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "This is a sample server for shortenurl.",
+        "title": "Shortenurl API",
+        "contact": {
+            "name": "Sean Zheng",
+            "url": "https://blog.seancheng.space",
+            "email": "blackhorseya@gmail.com"
+        },
+        "version": "0.1.0"
     },
+    "basePath": "/api",
     "paths": {
         "/healthz": {
             "get": {
@@ -26,6 +34,29 @@
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/shorten": {
+            "post": {
+                "description": "shorten a url",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "shorten"
+                ],
+                "summary": "Shorten a URL",
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }

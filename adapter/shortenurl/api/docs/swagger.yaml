@@ -1,3 +1,4 @@
+basePath: /api
 definitions:
   response.Response:
     properties:
@@ -8,7 +9,13 @@ definitions:
         type: string
     type: object
 info:
-  contact: {}
+  contact:
+    email: blackhorseya@gmail.com
+    name: Sean Zheng
+    url: https://blog.seancheng.space
+  description: This is a sample server for shortenurl.
+  title: Shortenurl API
+  version: 0.1.0
 paths:
   /healthz:
     get:
@@ -29,4 +36,19 @@ paths:
       summary: healthz
       tags:
       - healthz
+  /v1/shorten:
+    post:
+      consumes:
+      - application/json
+      description: shorten a url
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Shorten a URL
+      tags:
+      - shorten
 swagger: "2.0"
