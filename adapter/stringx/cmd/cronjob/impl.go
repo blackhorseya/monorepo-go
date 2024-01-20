@@ -8,6 +8,7 @@ import (
 
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
@@ -15,24 +16,23 @@ import (
 type impl struct {
 	viper  *viper.Viper
 	config *configx.Config
-	logger *zap.Logger
 
 	taskC chan time.Time
 	done  chan struct{}
 }
 
-func newImpl(viper *viper.Viper, config *configx.Config, logger *zap.Logger) adapterx.Servicer {
+func newImpl(viper *viper.Viper, config *configx.Config) adapterx.Servicer {
 	return &impl{
 		viper:  viper,
 		config: config,
-		logger: logger.With(zap.String("type", "cronjob")),
 		taskC:  make(chan time.Time, 1),
 		done:   make(chan struct{}),
 	}
 }
 
 func (i *impl) Start() error {
-	i.logger.Info("start cronjob")
+	ctx := contextx.Background()
+	ctx.Info("start cronjob")
 
 	go func() {
 		ticker := time.NewTicker(time.Duration(i.config.Cronjob.Interval) * time.Second)
@@ -48,11 +48,11 @@ func (i *impl) Start() error {
 					return
 				}
 			case <-i.done:
-				i.logger.Info("stop cronjob")
+				ctx.Info("stop cronjob")
 				ticker.Stop()
 				return
 			case t := <-i.taskC:
-				i.logger.Debug("do cronjob", zap.Time("trigger_at", t))
+				ctx.Debug("do cronjob", zap.Time("trigger_at", t))
 			}
 		}
 	}()
@@ -66,7 +66,8 @@ func (i *impl) AwaitSignal() error {
 	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
 
 	if sig := <-c; true {
-		i.logger.Info("receive signal", zap.String("signal", sig.String()))
+		ctx := contextx.Background()
+		ctx.Info("receive signal", zap.String("signal", sig.String()))
 
 		i.done <- struct{}{}
 	}

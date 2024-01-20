@@ -9,7 +9,6 @@ package grpcserver
 import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/logx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
@@ -23,26 +22,21 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	logger, err := logx.NewWithConfig(config)
-	if err != nil {
-		return nil, err
-	}
 	iStringBiz := biz.New()
-	servicer := newImpl(v, config, logger, iStringBiz)
+	servicer := newImpl(v, config, iStringBiz)
 	return servicer, nil
 }
 
 // NewExternal will create a new restful adapter instance for external test.
 func NewExternal(v *viper.Viper) (adapterx.Servicer, error) {
 	config := configx.NewExample()
-	logger := logx.NewExample()
 	iStringBiz := biz.New()
-	servicer := newImpl(v, config, logger, iStringBiz)
+	servicer := newImpl(v, config, iStringBiz)
 	return servicer, nil
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(configx.NewWithViper, logx.NewWithConfig, biz.New, newImpl)
+var providerSet = wire.NewSet(configx.NewWithViper, biz.New, newImpl)
 
-var testProviderSet = wire.NewSet(configx.NewExample, logx.NewExample, newImpl, biz.New)
+var testProviderSet = wire.NewSet(configx.NewExample, newImpl, biz.New)

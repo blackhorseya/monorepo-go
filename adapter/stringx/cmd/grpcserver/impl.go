@@ -13,6 +13,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	grpcserver "google.golang.org/grpc"
@@ -21,23 +22,23 @@ import (
 type impl struct {
 	viper  *viper.Viper
 	config *configx.Config
-	logger *zap.Logger
 
 	server *grpcserver.Server
 	svc    biz.IStringBiz
 }
 
-func newImpl(viper *viper.Viper, config *configx.Config, logger *zap.Logger, svc biz.IStringBiz) adapterx.Servicer {
+func newImpl(viper *viper.Viper, config *configx.Config, svc biz.IStringBiz) adapterx.Servicer {
 	return &impl{
 		viper:  viper,
 		config: config,
-		logger: logger.With(zap.String("type", "grpc")),
 		server: nil,
 		svc:    svc,
 	}
 }
 
 func (i *impl) Start() error {
+	ctx := contextx.Background()
+
 	i.server = grpcserver.NewServer()
 
 	model.RegisterStringxServiceServer(i.server, s2s.NewServer(
@@ -50,13 +51,13 @@ func (i *impl) Start() error {
 	go func() {
 		listen, err := net.Listen("tcp", addr)
 		if err != nil {
-			i.logger.Fatal("listen error", zap.Error(err))
+			ctx.Fatal("listen error", zap.Error(err))
 		}
 
-		i.logger.Info("start grpc server", zap.String("address", listen.Addr().String()))
+		ctx.Info("start grpc server", zap.String("address", listen.Addr().String()))
 		err = i.server.Serve(listen)
 		if err != nil {
-			i.logger.Fatal("serve error", zap.Error(err))
+			ctx.Fatal("serve error", zap.Error(err))
 		}
 	}()
 
@@ -69,7 +70,8 @@ func (i *impl) AwaitSignal() error {
 	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
 
 	if sig := <-c; true {
-		i.logger.Info("receive signal", zap.String("signal", sig.String()))
+		ctx := contextx.Background()
+		ctx.Info("receive signal", zap.String("signal", sig.String()))
 
 		i.server.GracefulStop()
 	}

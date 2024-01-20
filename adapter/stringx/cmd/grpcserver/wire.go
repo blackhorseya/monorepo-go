@@ -7,7 +7,6 @@ package grpcserver
 import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/logx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
@@ -15,7 +14,6 @@ import (
 
 var providerSet = wire.NewSet(
 	configx.NewWithViper,
-	logx.NewWithConfig,
 	biz.New,
 	newImpl,
 )
@@ -27,7 +25,6 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 
 var testProviderSet = wire.NewSet(
 	configx.NewExample,
-	logx.NewExample,
 	newImpl,
 	biz.New,
 )
