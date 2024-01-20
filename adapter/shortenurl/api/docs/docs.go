@@ -61,6 +61,17 @@ const docTemplate = `{
                     "shorten"
                 ],
                 "summary": "Shorten a URL",
+                "parameters": [
+                    {
+                        "description": "shorten url request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/endpoints.CreateShortURLRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -73,6 +84,14 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "endpoints.CreateShortURLRequest": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
         "response.Response": {
             "type": "object",
             "properties": {

@@ -1,5 +1,10 @@
 basePath: /api
 definitions:
+  endpoints.CreateShortURLRequest:
+    properties:
+      url:
+        type: string
+    type: object
   response.Response:
     properties:
       code:
@@ -41,6 +46,13 @@ paths:
       consumes:
       - application/json
       description: shorten a url
+      parameters:
+      - description: shorten url request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/endpoints.CreateShortURLRequest'
       produces:
       - application/json
       responses:

@@ -1,7 +1,12 @@
 package shorten
 
 import (
+	"context"
+	"encoding/json"
+	"net/http"
+
 	shortB "github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/shortening/endpoints"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,12 +23,23 @@ func Handle(g *gin.RouterGroup, svc shortB.IShorteningBiz) {
 	g.POST("", instance.PostURL)
 }
 
+func decodePostURLRequest(_ context.Context, r *http.Request) (interface{}, error) {
+	var req endpoints.CreateShortURLRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // PostURL will handle the post url request.
 // @Summary Shorten a URL
 // @Description shorten a url
 // @Tags shorten
 // @Accept json
 // @Produce json
+// @Param request body endpoints.CreateShortURLRequest true "shorten url request"
 // @Success 200 {object} response.Response
 // @Router /v1/shorten [post]
 func (i *impl) PostURL(c *gin.Context) {

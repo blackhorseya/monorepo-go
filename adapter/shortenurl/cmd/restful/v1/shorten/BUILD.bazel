@@ -7,6 +7,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//entity/domain/shortening/biz",
+        "//internal/app/domain/shortening/endpoints",
         "@com_github_gin_gonic_gin//:gin",
     ],
 )
