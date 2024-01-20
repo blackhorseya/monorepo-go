@@ -22,6 +22,14 @@ definitions:
       v:
         type: string
     type: object
+  response.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg:
+        type: string
+    type: object
 info:
   contact:
     email: blackhorseya@gmail.com
@@ -31,6 +39,21 @@ info:
   title: Stringx API
   version: 0.1.0
 paths:
+  /healthz:
+    get:
+      consumes:
+      - application/json
+      description: Check the health of the service.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: healthz
+      tags:
+      - healthz
   /v1/string/count:
     post:
       consumes:

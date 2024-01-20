@@ -12,6 +12,29 @@
     },
     "basePath": "/api",
     "paths": {
+        "/healthz": {
+            "get": {
+                "description": "Check the health of the service.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "healthz"
+                ],
+                "summary": "healthz",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/string/count": {
             "post": {
                 "description": "count",
@@ -131,6 +154,18 @@
                     "type": "string"
                 },
                 "v": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "msg": {
                     "type": "string"
                 }
             }
