@@ -24,14 +24,20 @@ import (
 // New will create a new restful adapter instance
 func New(v *viper.Viper) (adapterx.Servicer, error) {
 	iStringBiz := biz.New()
-	servicer := newImpl(iStringBiz)
+	servicer, err := newImpl(iStringBiz)
+	if err != nil {
+		return nil, err
+	}
 	return servicer, nil
 }
 
 // NewExternal will create a new restful adapter instance for external test.
 func NewExternal(v *viper.Viper) (adapterx.Servicer, error) {
 	iStringBiz := biz.New()
-	servicer := newImpl(iStringBiz)
+	servicer, err := newImpl(iStringBiz)
+	if err != nil {
+		return nil, err
+	}
 	return servicer, nil
 }
 

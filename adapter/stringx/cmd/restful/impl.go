@@ -30,10 +30,18 @@ func newRouter() *gin.Engine {
 
 func newImpl(
 	svc biz.IStringBiz,
-) adapterx.Servicer {
-	return &impl{
-		svc: svc,
+) (adapterx.Servicer, error) {
+	ctx := contextx.Background()
+
+	server, err := httpx.NewServer(ctx)
+	if err != nil {
+		return nil, err
 	}
+
+	return &impl{
+		server: server,
+		svc:    svc,
+	}, nil
 }
 
 func (i *impl) Start() error {
