@@ -1,67 +1,62 @@
 package restful
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
+	_ "github.com/blackhorseya/monorepo-go/adapter/shortenurl/api/docs" // swagger docs
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/internal/pkg/transports/httpx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/response"
-	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
 )
 
 type impl struct {
-	viper  *viper.Viper
-	config *configx.Config
-	logger *zap.Logger
+	server *httpx.Server
+}
 
-	router *gin.Engine
-	server *http.Server
+// New will create a restful service.
+func New(viper *viper.Viper) (adapterx.Servicer, error) {
+	ctx := contextx.Background()
+
+	server, err := httpx.NewServer(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &impl{
+		server: server,
+	}, nil
 }
 
 func (i *impl) Start() error {
-	// middleware
-	i.router.Use(ginzap.GinzapWithConfig(i.logger, &ginzap.Config{
-		TimeFormat: time.RFC3339,
-		UTC:        true,
-		SkipPaths:  []string{"/api/healthz'"},
-		Context:    nil,
-	}))
-	i.router.Use(ginzap.CustomRecoveryWithZap(i.logger, true, func(c *gin.Context, err any) {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, response.Err)
-	}))
+	ctx := contextx.Background()
 
 	// register router
-	api := i.router.Group("/api")
+	api := i.server.Router.Group("/api")
 	{
 		api.GET("/healthz", i.healthz)
+		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
-	// init http server
-	addr := fmt.Sprintf("%s:%d", i.config.HTTP.Host, i.config.HTTP.Port)
-	i.server = &http.Server{
-		Addr:              addr,
-		Handler:           i.router,
-		ReadHeaderTimeout: 5 * time.Second,
+	err := i.server.Start(ctx)
+	if err != nil {
+		return err
 	}
 
-	go func() {
-		i.logger.Info("start restful service", zap.String("addr", i.server.Addr))
-
-		err := i.server.ListenAndServe()
-		if err != nil && !errors.Is(err, http.ErrServerClosed) {
-			i.logger.Fatal("restful service error", zap.Error(err))
-		}
-	}()
+	ctx.Info(
+		"swagger docs",
+		zap.String("url", fmt.Sprintf("http://localhost:%d/api/docs/index.html", configx.C.HTTP.Port)),
+	)
 
 	return nil
 }
@@ -72,34 +67,23 @@ func (i *impl) AwaitSignal() error {
 	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
 
 	if sig := <-c; true {
-		i.logger.Info("receive signal", zap.String("signal", sig.String()))
+		ctx := contextx.Background()
+		ctx.Info("receive signal", zap.String("signal", sig.String()))
 
-		timeout, cancelFunc := contextx.WithTimeout(contextx.Background(), 5*time.Second)
-		defer cancelFunc()
-
-		err := i.server.Shutdown(timeout)
+		err := i.server.Stop(ctx)
 		if err != nil {
-			i.logger.Warn("shutdown restful server error", zap.Error(err))
+			ctx.Error("shutdown restful server error", zap.Error(err))
+			return err
 		}
 	}
 
 	return nil
 }
 
-func newRestful(viper *viper.Viper) (adapterx.Servicer, error) {
-	return &impl{
-		viper:  viper,
-		config: configx.NewExample(),
-		logger: zap.NewExample(),
-		router: gin.New(),
-		server: nil,
-	}, nil
-}
-
-// healthz godoc
-// @Summary health check
-// @Description health check
-// @Tags Healthz
+// healthz is used to check the health of the service.
+// @Summary healthz
+// @Description Check the health of the service.
+// @Tags healthz
 // @Accept json
 // @Produce json
 // @Success 200 {object} response.Response
