@@ -1,6 +1,7 @@
 package httpx
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -10,6 +11,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/response"
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 // Server is a http server.
@@ -45,4 +47,34 @@ func NewServer(ctx contextx.Contextx) (*Server, error) {
 		httpserver: httpserver,
 		Router:     router,
 	}, nil
+}
+
+// Start starts the http server.
+func (s *Server) Start(ctx contextx.Contextx) error {
+	ctx.Info("start listen and serve", zap.String("addr", s.httpserver.Addr))
+
+	go func() {
+		err := s.httpserver.ListenAndServe()
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
+			ctx.Fatal("start http server error", zap.Error(err))
+		}
+	}()
+
+	return nil
+}
+
+// Stop stops the http server.
+func (s *Server) Stop(ctx contextx.Contextx) error {
+	ctx.Info("shutdown http server")
+
+	timeout, cancelFunc := contextx.WithTimeout(ctx, 5*time.Second)
+	defer cancelFunc()
+
+	err := s.httpserver.Shutdown(timeout)
+	if err != nil {
+		ctx.Error("shutdown http server error", zap.Error(err))
+		return err
+	}
+
+	return nil
 }

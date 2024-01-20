@@ -23,22 +23,15 @@ import (
 
 // New will create a new restful adapter instance
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	config, err := configx.NewWithViper(v)
-	if err != nil {
-		return nil, err
-	}
 	iStringBiz := biz.New()
-	engine := newRouter()
-	servicer := newImpl(v, config, iStringBiz, engine)
+	servicer := newImpl(iStringBiz)
 	return servicer, nil
 }
 
 // NewExternal will create a new restful adapter instance for external test.
 func NewExternal(v *viper.Viper) (adapterx.Servicer, error) {
-	config := configx.NewExample()
 	iStringBiz := biz.New()
-	engine := newRouter()
-	servicer := newImpl(v, config, iStringBiz, engine)
+	servicer := newImpl(iStringBiz)
 	return servicer, nil
 }
 
