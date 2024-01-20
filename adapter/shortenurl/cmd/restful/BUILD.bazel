@@ -10,6 +10,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//adapter/shortenurl/api/docs",
+        "//adapter/shortenurl/cmd/restful/v1:restful",
         "//entity/domain/shortening/biz",
         "//internal/app/domain/shortening/biz",
         "//internal/app/domain/shortening/repo/memory",
