@@ -6,6 +6,7 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/internal/pkg/configx",
     visibility = ["//:__subpackages__"],
     deps = [
+        "//pkg/logging",
         "//pkg/netx",
         "@com_github_spf13_viper//:viper",
     ],

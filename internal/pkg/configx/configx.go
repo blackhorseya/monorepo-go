@@ -1,23 +1,18 @@
 package configx
 
 import (
+	"github.com/blackhorseya/monorepo-go/pkg/logging"
 	"github.com/blackhorseya/monorepo-go/pkg/netx"
 	"github.com/spf13/viper"
 )
 
 // Config defines the config struct.
 type Config struct {
-	Log     Log     `json:"log" yaml:"log"`
-	HTTP    HTTP    `json:"http" yaml:"http"`
-	GRPC    GRPC    `json:"grpc" yaml:"grpc"`
-	Cronjob Cronjob `json:"cronjob" yaml:"cronjob"`
-	Storage Storage `json:"storage" yaml:"storage"`
-}
-
-// Log defines the log config struct.
-type Log struct {
-	Level  string `json:"level" yaml:"level"`
-	Format string `json:"format" yaml:"format"`
+	Log     logging.Config `json:"log" yaml:"log"`
+	HTTP    HTTP           `json:"http" yaml:"http"`
+	GRPC    GRPC           `json:"grpc" yaml:"grpc"`
+	Cronjob Cronjob        `json:"cronjob" yaml:"cronjob"`
+	Storage Storage        `json:"storage" yaml:"storage"`
 }
 
 // HTTP defines the http config struct.
@@ -47,7 +42,7 @@ type Storage struct {
 // NewExample will create a new example config instance.
 func NewExample() *Config {
 	return &Config{
-		Log: Log{
+		Log: logging.Config{
 			Level:  "info",
 			Format: "json",
 		},
