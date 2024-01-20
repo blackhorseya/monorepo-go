@@ -26,7 +26,6 @@ import (
 type impl struct {
 	viper  *viper.Viper
 	config *configx.Config
-	logger *zap.Logger
 
 	router *gin.Engine
 	server *http.Server
@@ -40,14 +39,12 @@ func newRouter() *gin.Engine {
 func newImpl(
 	viper *viper.Viper,
 	config *configx.Config,
-	logger *zap.Logger,
 	svc biz.IStringBiz,
 	router *gin.Engine,
 ) adapterx.Servicer {
 	return &impl{
 		viper:  viper,
 		config: config,
-		logger: logger.With(zap.String("type", "restful")),
 		router: router,
 		server: nil,
 		svc:    svc,
@@ -55,13 +52,15 @@ func newImpl(
 }
 
 func (i *impl) Start() error {
-	i.router.Use(ginzap.GinzapWithConfig(i.logger, &ginzap.Config{
+	ctx := contextx.Background()
+
+	i.router.Use(ginzap.GinzapWithConfig(ctx, &ginzap.Config{
 		TimeFormat: time.RFC3339,
 		UTC:        true,
 		SkipPaths:  []string{"/api/healthz'"},
 		Context:    nil,
 	}))
-	i.router.Use(ginzap.CustomRecoveryWithZap(i.logger, true, func(c *gin.Context, err any) {
+	i.router.Use(ginzap.CustomRecoveryWithZap(ctx, true, func(c *gin.Context, err any) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"code": http.StatusInternalServerError,
 			"msg":  "internal server error",
@@ -93,11 +92,11 @@ func (i *impl) Start() error {
 	}
 
 	go func() {
-		i.logger.Info("start restful service", zap.String("addr", i.server.Addr))
+		ctx.Info("start restful service", zap.String("addr", i.server.Addr))
 
 		err := i.server.ListenAndServe()
 		if err != nil && !errors.Is(err, http.ErrServerClosed) {
-			i.logger.Fatal("restful service error", zap.Error(err))
+			ctx.Fatal("restful service error", zap.Error(err))
 		}
 	}()
 
@@ -110,14 +109,12 @@ func (i *impl) AwaitSignal() error {
 	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
 
 	if sig := <-c; true {
-		i.logger.Info("receive signal", zap.String("signal", sig.String()))
+		ctx := contextx.Background()
+		ctx.Info("receive signal", zap.String("signal", sig.String()))
 
-		timeout, cancelFunc := contextx.WithTimeout(contextx.Background(), 5*time.Second)
-		defer cancelFunc()
-
-		err := i.server.Shutdown(timeout)
+		err := i.server.Shutdown(ctx)
 		if err != nil {
-			i.logger.Error("shutdown restful server error", zap.Error(err))
+			ctx.Error("shutdown restful server error", zap.Error(err))
 			return err
 		}
 	}

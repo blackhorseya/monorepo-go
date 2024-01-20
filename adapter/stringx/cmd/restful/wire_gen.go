@@ -15,6 +15,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+import (
+	_ "github.com/blackhorseya/monorepo-go/adapter/stringx/api/docs"
+)
+
 // Injectors from wire.go:
 
 // New will create a new restful adapter instance
@@ -23,23 +27,18 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	logger, err := logx.NewWithConfig(config)
-	if err != nil {
-		return nil, err
-	}
 	iStringBiz := biz.New()
 	engine := newRouter()
-	servicer := newImpl(v, config, logger, iStringBiz, engine)
+	servicer := newImpl(v, config, iStringBiz, engine)
 	return servicer, nil
 }
 
 // NewExternal will create a new restful adapter instance for external test.
 func NewExternal(v *viper.Viper) (adapterx.Servicer, error) {
 	config := configx.NewExample()
-	logger := logx.NewExample()
 	iStringBiz := biz.New()
 	engine := newRouter()
-	servicer := newImpl(v, config, logger, iStringBiz, engine)
+	servicer := newImpl(v, config, iStringBiz, engine)
 	return servicer, nil
 }
 
