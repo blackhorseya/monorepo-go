@@ -12,6 +12,7 @@ go_library(
         "//adapter/shortenurl/cmd/restful",
         "//internal/pkg/cmdx",
         "//internal/pkg/configx",
+        "//pkg/logging",
         "@com_github_spf13_cobra//:cobra",
         "@com_github_spf13_viper//:viper",
     ],

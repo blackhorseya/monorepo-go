@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/pkg/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -67,5 +68,8 @@ func initConfig() {
 	}
 
 	err := configx.LoadWithViper(viper.GetViper())
+	cobra.CheckErr(err)
+
+	err = logging.InitWithConfig(configx.C.Log)
 	cobra.CheckErr(err)
 }
