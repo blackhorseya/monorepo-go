@@ -8,6 +8,8 @@ go_library(
     deps = [
         "//entity/domain/shortening/biz",
         "//internal/app/domain/shortening/endpoints",
+        "//pkg/response",
         "@com_github_gin_gonic_gin//:gin",
+        "@com_github_go_kit_kit//transport/http",
     ],
 )

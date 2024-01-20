@@ -7,7 +7,9 @@ import (
 
 	shortB "github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/shortening/endpoints"
+	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/gin-gonic/gin"
+	httptransport "github.com/go-kit/kit/transport/http"
 )
 
 type impl struct {
@@ -16,11 +18,7 @@ type impl struct {
 
 // Handle will handle the shortenurl api.
 func Handle(g *gin.RouterGroup, svc shortB.IShorteningBiz) {
-	instance := &impl{
-		svc: svc,
-	}
-
-	g.POST("", instance.PostURL)
+	g.POST("", gin.WrapH(MakePostURLHandler(svc)))
 }
 
 func decodePostURLRequest(_ context.Context, r *http.Request) (interface{}, error) {
@@ -33,7 +31,7 @@ func decodePostURLRequest(_ context.Context, r *http.Request) (interface{}, erro
 	return req, nil
 }
 
-// PostURL will handle the post url request.
+// MakePostURLHandler will handle the post url request.
 // @Summary Shorten a URL
 // @Description shorten a url
 // @Tags shorten
@@ -42,7 +40,10 @@ func decodePostURLRequest(_ context.Context, r *http.Request) (interface{}, erro
 // @Param request body endpoints.CreateShortURLRequest true "shorten url request"
 // @Success 200 {object} response.Response
 // @Router /v1/shorten [post]
-func (i *impl) PostURL(c *gin.Context) {
-	// todo: 2024/1/20|sean|implement me
-	panic("implement me")
+func MakePostURLHandler(svc shortB.IShorteningBiz) http.Handler {
+	return httptransport.NewServer(
+		endpoints.MakeCreateShortURLEndpoint(svc),
+		decodePostURLRequest,
+		response.EncodeJSON,
+	)
 }
