@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/shortenurl/api/docs" // swagger docs
+	shortB "github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/internal/pkg/transports/httpx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
@@ -22,10 +23,12 @@ import (
 
 type impl struct {
 	server *httpx.Server
+
+	svc shortB.IShorteningBiz
 }
 
 // New will create a restful service.
-func New(viper *viper.Viper) (adapterx.Servicer, error) {
+func newRestful(viper *viper.Viper) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServer(ctx)
