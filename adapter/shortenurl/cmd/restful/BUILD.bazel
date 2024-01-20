@@ -11,6 +11,8 @@ go_library(
     deps = [
         "//adapter/shortenurl/api/docs",
         "//entity/domain/shortening/biz",
+        "//internal/app/domain/shortening/biz",
+        "//internal/app/domain/shortening/repo/memory",
         "//internal/pkg/configx",
         "//internal/pkg/transports/httpx",
         "//pkg/adapterx",

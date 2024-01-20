@@ -7,6 +7,8 @@
 package restful
 
 import (
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/shortening/biz"
+	"github.com/blackhorseya/monorepo-go/internal/app/domain/shortening/repo/memory"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
@@ -19,7 +21,9 @@ import (
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	servicer, err := newRestful(v)
+	storager := memory.NewStorager()
+	iShorteningBiz := biz.NewShortening(storager)
+	servicer, err := newRestful(v, iShorteningBiz)
 	if err != nil {
 		return nil, err
 	}
@@ -28,6 +32,4 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(
-	newRestful,
-)
+var providerSet = wire.NewSet(biz.ProviderSet, newRestful)

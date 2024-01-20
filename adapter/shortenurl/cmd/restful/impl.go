@@ -28,7 +28,7 @@ type impl struct {
 }
 
 // New will create a restful service.
-func newRestful(viper *viper.Viper) (adapterx.Servicer, error) {
+func newRestful(viper *viper.Viper, svc shortB.IShorteningBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServer(ctx)
@@ -38,6 +38,7 @@ func newRestful(viper *viper.Viper) (adapterx.Servicer, error) {
 
 	return &impl{
 		server: server,
+		svc:    svc,
 	}, nil
 }
 
