@@ -8,8 +8,6 @@ package restful
 
 import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/biz"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/logx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
@@ -31,20 +29,6 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	return servicer, nil
 }
 
-// NewExternal will create a new restful adapter instance for external test.
-func NewExternal(v *viper.Viper) (adapterx.Servicer, error) {
-	iStringBiz := biz.New()
-	servicer, err := newImpl(iStringBiz)
-	if err != nil {
-		return nil, err
-	}
-	return servicer, nil
-}
-
 // wire.go:
 
-var providerSet = wire.NewSet(logx.NewWithConfig, newRouter, biz.New, newImpl)
-
-var testProviderSet = wire.NewSet(configx.NewExample, logx.NewExample, newRouter,
-	newImpl, biz.New,
-)
+var providerSet = wire.NewSet(biz.New, newImpl)

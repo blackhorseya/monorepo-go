@@ -14,7 +14,6 @@ go_library(
         "//entity/domain/stringx/biz",
         "//internal/app/domain/stringx/biz",
         "//internal/pkg/configx",
-        "//internal/pkg/logx",
         "//internal/pkg/transports/httpx",
         "//pkg/adapterx",
         "//pkg/contextx",

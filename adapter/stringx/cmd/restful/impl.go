@@ -26,13 +26,7 @@ type impl struct {
 	svc    biz.IStringBiz
 }
 
-func newRouter() *gin.Engine {
-	return gin.New()
-}
-
-func newImpl(
-	svc biz.IStringBiz,
-) (adapterx.Servicer, error) {
+func newImpl(svc biz.IStringBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServer(ctx)
