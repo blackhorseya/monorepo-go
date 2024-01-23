@@ -81,6 +81,38 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/shorten/{short_url}": {
+            "get": {
+                "description": "get a url",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "shorten"
+                ],
+                "summary": "Get a URL",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "short url",
+                        "name": "short_url",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

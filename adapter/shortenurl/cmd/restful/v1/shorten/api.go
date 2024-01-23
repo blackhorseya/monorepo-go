@@ -18,6 +18,7 @@ type impl struct {
 
 // Handle will handle the shortenurl api.
 func Handle(g *gin.RouterGroup, svc shortB.IShorteningBiz) {
+	g.GET("/:short_url", gin.WrapH(MakeGetURLHandler(svc)))
 	g.POST("", gin.WrapH(MakePostURLHandler(svc)))
 }
 
@@ -44,6 +45,28 @@ func MakePostURLHandler(svc shortB.IShorteningBiz) http.Handler {
 	return httptransport.NewServer(
 		endpoints.MakeCreateShortURLEndpoint(svc),
 		decodePostURLRequest,
+		response.EncodeJSON,
+	)
+}
+
+func decodeGetURLRequest(_ context.Context, r *http.Request) (interface{}, error) {
+	// todo: 2024/1/23|sean|decode the request
+	panic("implement me")
+}
+
+// MakeGetURLHandler will handle the get url request.
+// @Summary Get a URL
+// @Description get a url
+// @Tags shorten
+// @Accept json
+// @Produce json
+// @Param short_url path string true "short url"
+// @Success 200 {object} response.Response
+// @Router /v1/shorten/{short_url} [get]
+func MakeGetURLHandler(svc shortB.IShorteningBiz) http.Handler {
+	return httptransport.NewServer(
+		endpoints.MakeGetShortURLEndpoint(svc),
+		decodeGetURLRequest,
 		response.EncodeJSON,
 	)
 }

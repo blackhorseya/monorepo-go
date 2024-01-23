@@ -33,3 +33,27 @@ func MakeCreateShortURLEndpoint(svc biz.IShorteningBiz) endpoint.Endpoint {
 		return responsex.OK.WithData(record), nil
 	}
 }
+
+// GetShortURLRequest get short url request struct.
+type GetShortURLRequest struct {
+	URL string `json:"url"`
+}
+
+// MakeGetShortURLEndpoint returns an endpoint via the passed service.
+func MakeGetShortURLEndpoint(svc biz.IShorteningBiz) endpoint.Endpoint {
+	return func(_ context.Context, request interface{}) (response interface{}, err error) {
+		ctx := contextx.Background()
+
+		req, ok := request.(GetShortURLRequest)
+		if !ok {
+			return nil, errors.New("invalid request")
+		}
+
+		record, err := svc.GetURLRecordByShortURL(ctx, req.URL)
+		if err != nil {
+			return responsex.Err.WrapError(err), nil
+		}
+
+		return responsex.OK.WithData(record), nil
+	}
+}

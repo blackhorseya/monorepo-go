@@ -63,4 +63,25 @@ paths:
       summary: Shorten a URL
       tags:
       - shorten
+  /v1/shorten/{short_url}:
+    get:
+      consumes:
+      - application/json
+      description: get a url
+      parameters:
+      - description: short url
+        in: path
+        name: short_url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get a URL
+      tags:
+      - shorten
 swagger: "2.0"
