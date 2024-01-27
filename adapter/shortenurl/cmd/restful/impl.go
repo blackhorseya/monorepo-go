@@ -22,14 +22,18 @@ import (
 	"go.uber.org/zap"
 )
 
-type impl struct {
-	server *httpx.Server
+func initAPP() *configx.Application {
+	return &configx.C.ShortenURL
+}
 
-	svc shortB.IShorteningBiz
+type impl struct {
+	app    *configx.Application
+	server *httpx.Server
+	svc    shortB.IShorteningBiz
 }
 
 // New will create a restful service.
-func newRestful(viper *viper.Viper, svc shortB.IShorteningBiz) (adapterx.Servicer, error) {
+func newRestful(viper *viper.Viper, app *configx.Application, svc shortB.IShorteningBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServer(ctx)
@@ -38,6 +42,7 @@ func newRestful(viper *viper.Viper, svc shortB.IShorteningBiz) (adapterx.Service
 	}
 
 	return &impl{
+		app:    app,
 		server: server,
 		svc:    svc,
 	}, nil

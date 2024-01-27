@@ -21,9 +21,10 @@ import (
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
+	application := initAPP()
 	storager := memory.NewStorager()
 	iShorteningBiz := biz.NewShortening(storager)
-	servicer, err := newRestful(v, iShorteningBiz)
+	servicer, err := newRestful(v, application, iShorteningBiz)
 	if err != nil {
 		return nil, err
 	}
@@ -32,4 +33,6 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(biz.ProviderSet, newRestful)
+var providerSet = wire.NewSet(biz.ProviderSet, initAPP,
+	newRestful,
+)

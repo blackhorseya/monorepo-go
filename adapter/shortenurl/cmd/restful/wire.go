@@ -13,6 +13,7 @@ import (
 
 var providerSet = wire.NewSet(
 	biz.ProviderSet,
+	initAPP,
 	newRestful,
 )
 
