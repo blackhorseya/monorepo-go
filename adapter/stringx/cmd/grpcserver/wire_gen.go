@@ -8,7 +8,6 @@ package grpcserver
 
 import (
 	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/biz"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
@@ -18,25 +17,22 @@ import (
 
 // New will create a new restful adapter instance
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	config, err := configx.NewWithViper(v)
-	if err != nil {
-		return nil, err
-	}
 	iStringBiz := biz.New()
-	servicer := newImpl(v, config, iStringBiz)
+	servicer := newImpl(v, iStringBiz)
 	return servicer, nil
 }
 
 // NewExternal will create a new restful adapter instance for external test.
 func NewExternal(v *viper.Viper) (adapterx.Servicer, error) {
-	config := configx.NewExample()
 	iStringBiz := biz.New()
-	servicer := newImpl(v, config, iStringBiz)
+	servicer := newImpl(v, iStringBiz)
 	return servicer, nil
 }
 
 // wire.go:
 
-var providerSet = wire.NewSet(configx.NewWithViper, biz.New, newImpl)
+var providerSet = wire.NewSet(biz.New, newImpl)
 
-var testProviderSet = wire.NewSet(configx.NewExample, newImpl, biz.New)
+var testProviderSet = wire.NewSet(
+	newImpl, biz.New,
+)

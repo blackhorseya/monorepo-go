@@ -1,7 +1,6 @@
 package grpcserver
 
 import (
-	"fmt"
 	"net"
 	"os"
 	"os/signal"
@@ -20,17 +19,15 @@ import (
 )
 
 type impl struct {
-	viper  *viper.Viper
-	config *configx.Config
+	viper *viper.Viper
 
 	server *grpcserver.Server
 	svc    biz.IStringBiz
 }
 
-func newImpl(viper *viper.Viper, config *configx.Config, svc biz.IStringBiz) adapterx.Servicer {
+func newImpl(viper *viper.Viper, svc biz.IStringBiz) adapterx.Servicer {
 	return &impl{
 		viper:  viper,
-		config: config,
 		server: nil,
 		svc:    svc,
 	}
@@ -46,7 +43,7 @@ func (i *impl) Start() error {
 		endpoints.MakeCountEndpoint(i.svc),
 	))
 
-	addr := fmt.Sprintf("%s:%d", i.config.GRPC.Host, i.config.GRPC.Port)
+	addr := configx.C.GRPC.GetAddr()
 
 	go func() {
 		listen, err := net.Listen("tcp", addr)
