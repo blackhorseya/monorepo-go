@@ -6,7 +6,6 @@ import (
 
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
 	"github.com/blackhorseya/monorepo-go/pkg/netx"
-	"github.com/spf13/viper"
 )
 
 // Application defines the application struct.
@@ -89,25 +88,4 @@ type Cronjob struct {
 type Storage struct {
 	DSN   string `json:"dsn" yaml:"dsn"`
 	Conns int    `json:"conns" yaml:"conns"`
-}
-
-// NewExample will create a new example config instance.
-func NewExample() *Config {
-	return &Config{
-		Log: logging.Config{
-			Level:  "debug",
-			Format: "text",
-		},
-	}
-}
-
-// NewWithViper will create a new config instance with viper.
-func NewWithViper(v *viper.Viper) (*Config, error) {
-	cfg := NewExample()
-	err := v.Unmarshal(cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	return cfg, nil
 }

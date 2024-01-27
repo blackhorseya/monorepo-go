@@ -14,19 +14,17 @@ import (
 )
 
 type impl struct {
-	viper  *viper.Viper
-	config *configx.Config
+	viper *viper.Viper
 
 	taskC chan time.Time
 	done  chan struct{}
 }
 
-func newImpl(viper *viper.Viper, config *configx.Config) adapterx.Servicer {
+func newImpl(viper *viper.Viper) adapterx.Servicer {
 	return &impl{
-		viper:  viper,
-		config: config,
-		taskC:  make(chan time.Time, 1),
-		done:   make(chan struct{}),
+		viper: viper,
+		taskC: make(chan time.Time, 1),
+		done:  make(chan struct{}),
 	}
 }
 
@@ -35,7 +33,7 @@ func (i *impl) Start() error {
 	ctx.Info("start cronjob")
 
 	go func() {
-		ticker := time.NewTicker(time.Duration(i.config.Cronjob.Interval) * time.Second)
+		ticker := time.NewTicker(time.Duration(configx.C.Cronjob.Interval) * time.Second)
 
 		i.taskC <- time.Now()
 

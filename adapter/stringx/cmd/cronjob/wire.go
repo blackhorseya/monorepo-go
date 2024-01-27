@@ -5,14 +5,12 @@
 package cronjob
 
 import (
-	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
 )
 
 var providerSet = wire.NewSet(
-	configx.NewExample,
 	newImpl,
 )
 
@@ -22,7 +20,6 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 }
 
 var testProviderSet = wire.NewSet(
-	configx.NewExample,
 	newImpl,
 )
 
