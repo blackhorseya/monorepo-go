@@ -22,6 +22,13 @@ type Server struct {
 
 // NewServer is used to create a new http server.
 func NewServer(ctx contextx.Contextx) (*Server, error) {
+	return NewServerWithAPP(ctx, &configx.C.ShortenURL)
+}
+
+// NewServerWithAPP is used to create a new http server with app.
+func NewServerWithAPP(ctx contextx.Contextx, app *configx.Application) (*Server, error) {
+	gin.SetMode(app.HTTP.Mode)
+
 	router := gin.New()
 
 	// register middleware
@@ -39,7 +46,7 @@ func NewServer(ctx contextx.Contextx) (*Server, error) {
 
 	// init http server
 	httpserver := &http.Server{
-		Addr:    configx.C.HTTP.GetAddr(),
+		Addr:    app.HTTP.GetAddr(),
 		Handler: router,
 	}
 
