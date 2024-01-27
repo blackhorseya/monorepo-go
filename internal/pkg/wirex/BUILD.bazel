@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "wirex",
+    srcs = ["injector.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/internal/pkg/wirex",
+    visibility = ["//:__subpackages__"],
+    deps = ["//internal/pkg/configx"],
+)
