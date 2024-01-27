@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/shortenurl/api/docs" // swagger docs
@@ -36,7 +37,7 @@ type impl struct {
 func newRestful(viper *viper.Viper, app *configx.Application, svc shortB.IShorteningBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
-	server, err := httpx.NewServer(ctx)
+	server, err := httpx.NewServerWithAPP(ctx, app)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +68,10 @@ func (i *impl) Start() error {
 
 	ctx.Info(
 		"swagger docs",
-		zap.String("url", fmt.Sprintf("http://localhost:%d/api/docs/index.html", configx.C.HTTP.Port)),
+		zap.String("url", fmt.Sprintf(
+			"http://%s/api/docs/index.html",
+			strings.ReplaceAll(i.app.HTTP.GetAddr(), "0.0.0.0", "localhost"),
+		)),
 	)
 
 	return nil
