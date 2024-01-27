@@ -44,7 +44,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.shortenurl.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.sean.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -52,7 +52,7 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	err := configx.Load(cfgFile, "shortenurl")
+	err := configx.Load(cfgFile, "sean")
 	cobra.CheckErr(err)
 
 	err = logging.InitWithConfig(configx.C.Log)
