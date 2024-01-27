@@ -44,13 +44,3 @@ func Load(path string, name string) error {
 
 	return nil
 }
-
-// LoadWithViper loads config from viper.
-func LoadWithViper(v *viper.Viper) error {
-	err := v.Unmarshal(&C)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}

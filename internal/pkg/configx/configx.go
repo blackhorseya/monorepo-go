@@ -20,11 +20,6 @@ type Application struct {
 	Storage Storage        `json:"storage" yaml:"storage"`
 }
 
-// Configuration defines the configuration struct.
-type Configuration struct {
-	ShortenURL Application `json:"shorten_url" yaml:"shortenURL"`
-}
-
 // Config defines the config struct.
 type Config struct {
 	Log     logging.Config `json:"log" yaml:"log"`
@@ -32,6 +27,8 @@ type Config struct {
 	GRPC    GRPC           `json:"grpc" yaml:"grpc"`
 	Cronjob Cronjob        `json:"cronjob" yaml:"cronjob"`
 	Storage Storage        `json:"storage" yaml:"storage"`
+
+	ShortenURL Application `json:"shorten_url" yaml:"shortenURL"`
 }
 
 func (c *Config) String() string {
