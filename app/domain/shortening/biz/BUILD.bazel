@@ -11,6 +11,7 @@ go_library(
     deps = [
         "//app/domain/shortening/repo",
         "//app/domain/shortening/repo/memory",
+        "//app/domain/shortening/repo/redis",
         "//entity/domain/shortening/biz",
         "//entity/domain/shortening/model",
         "//pkg/contextx",
