@@ -5,7 +5,7 @@
 package grpcserver
 
 import (
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/biz"
+	"github.com/blackhorseya/monorepo-go/app/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"

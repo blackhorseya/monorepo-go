@@ -6,8 +6,8 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpcserver/s2s",
     visibility = ["//visibility:public"],
     deps = [
+        "//app/domain/stringx/endpoints",
         "//entity/domain/stringx/model",
-        "//internal/app/domain/stringx/endpoints",
         "@com_github_go_kit_kit//endpoint",
         "@com_github_go_kit_kit//transport/grpc",
         "@com_github_go_kit_kit//transport/grpc/_grpc_test/pb",

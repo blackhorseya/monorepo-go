@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
+	"github.com/blackhorseya/monorepo-go/app/domain/stringx/endpoints"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/go-kit/kit/endpoint"

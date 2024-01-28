@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
+	"github.com/blackhorseya/monorepo-go/app/domain/stringx/endpoints"
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/model"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
 	"github.com/go-kit/kit/endpoint"
 	grpctransport "github.com/go-kit/kit/transport/grpc"
 	"github.com/go-kit/kit/transport/grpc/_grpc_test/pb"

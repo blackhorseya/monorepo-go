@@ -11,9 +11,9 @@ go_library(
     deps = [
         "//adapter/shortenurl/api/docs",
         "//adapter/shortenurl/cmd/restful/v1:restful",
+        "//app/domain/shortening/biz",
+        "//app/domain/shortening/repo/memory",
         "//entity/domain/shortening/biz",
-        "//internal/app/domain/shortening/biz",
-        "//internal/app/domain/shortening/repo/memory",
         "//pkg/adapterx",
         "//pkg/configx",
         "//pkg/contextx",

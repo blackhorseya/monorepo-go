@@ -10,10 +10,10 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//adapter/stringx/cmd/grpcserver/s2s",
+        "//app/domain/stringx/biz",
+        "//app/domain/stringx/endpoints",
         "//entity/domain/stringx/biz",
         "//entity/domain/stringx/model",
-        "//internal/app/domain/stringx/biz",
-        "//internal/app/domain/stringx/endpoints",
         "//pkg/adapterx",
         "//pkg/configx",
         "//pkg/contextx",

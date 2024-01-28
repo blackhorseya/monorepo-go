@@ -1,0 +1,13 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "endpoints",
+    srcs = ["endpoints.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/app/domain/stringx/endpoints",
+    visibility = ["//:__subpackages__"],
+    deps = [
+        "//entity/domain/stringx/biz",
+        "//pkg/contextx",
+        "@com_github_go_kit_kit//endpoint",
+    ],
+)

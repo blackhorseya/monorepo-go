@@ -7,8 +7,8 @@
 package restful
 
 import (
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/shortening/biz"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/shortening/repo/memory"
+	"github.com/blackhorseya/monorepo-go/app/domain/shortening/biz"
+	"github.com/blackhorseya/monorepo-go/app/domain/shortening/repo/memory"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"

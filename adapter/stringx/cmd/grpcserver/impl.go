@@ -7,9 +7,9 @@ import (
 	"syscall"
 
 	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpcserver/s2s"
+	"github.com/blackhorseya/monorepo-go/app/domain/stringx/endpoints"
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/model"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/stringx/endpoints"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
