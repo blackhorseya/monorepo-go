@@ -5,5 +5,10 @@ go_library(
     srcs = ["impl.go"],
     importpath = "github.com/blackhorseya/monorepo-go/app/domain/shortening/repo/redis",
     visibility = ["//visibility:public"],
-    deps = ["//app/domain/shortening/repo"],
+    deps = [
+        "//app/domain/shortening/repo",
+        "//entity/domain/shortening/model",
+        "//pkg/contextx",
+        "//pkg/storage/redis",
+    ],
 )
