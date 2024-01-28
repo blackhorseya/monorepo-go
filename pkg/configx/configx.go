@@ -16,7 +16,13 @@ type Application struct {
 
 	Log     logging.Config `json:"log" yaml:"log"`
 	HTTP    HTTP           `json:"http" yaml:"http"`
-	Storage Storage        `json:"storage" yaml:"storage"`
+	Storage struct {
+		Redis struct {
+			Addr     string `json:"addr" yaml:"addr"`
+			Password string `json:"password" yaml:"password"`
+			DB       int    `json:"db" yaml:"db"`
+		}
+	} `json:"storage" yaml:"storage"`
 }
 
 func (a *Application) String() string {
