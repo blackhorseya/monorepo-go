@@ -12,38 +12,31 @@ import (
 	v1 "github.com/blackhorseya/monorepo-go/adapter/shortenurl/cmd/restful/v1"
 	shortB "github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
-	configx2 "github.com/blackhorseya/monorepo-go/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
 )
 
-func initAPP() *configx2.Application {
-	return &configx2.C.ShortenURL
-}
-
 type impl struct {
-	app    *configx2.Application
 	server *httpx.Server
 	svc    shortB.IShorteningBiz
 }
 
 // New will create a restful service.
-func newRestful(viper *viper.Viper, app *configx2.Application, svc shortB.IShorteningBiz) (adapterx.Servicer, error) {
+func newRestful(svc shortB.IShorteningBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
-	server, err := httpx.NewServerWithAPP(ctx, app)
+	server, err := httpx.NewServerWithAPP(ctx, configx.A)
 	if err != nil {
 		return nil, err
 	}
 
 	return &impl{
-		app:    app,
 		server: server,
 		svc:    svc,
 	}, nil
@@ -70,7 +63,7 @@ func (i *impl) Start() error {
 		"swagger docs",
 		zap.String("url", fmt.Sprintf(
 			"http://%s/api/docs/index.html",
-			strings.ReplaceAll(i.app.HTTP.GetAddr(), "0.0.0.0", "localhost"),
+			strings.ReplaceAll(configx.A.HTTP.GetAddr(), "0.0.0.0", "localhost"),
 		)),
 	)
 
