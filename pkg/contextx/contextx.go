@@ -7,6 +7,9 @@ import (
 	"go.uber.org/zap"
 )
 
+// KeyCtx is the key of contextx.
+const KeyCtx = "contextx"
+
 // Contextx extends google's context to support logging methods.
 type Contextx struct {
 	context.Context
