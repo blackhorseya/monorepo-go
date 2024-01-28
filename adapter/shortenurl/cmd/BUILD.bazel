@@ -11,8 +11,8 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//adapter/shortenurl/cmd/restful",
-        "//internal/pkg/cmdx",
-        "//internal/pkg/configx",
+        "//pkg/cmdx",
+        "//pkg/configx",
         "//pkg/logging",
         "@com_github_spf13_cobra//:cobra",
     ],

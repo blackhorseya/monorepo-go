@@ -1,7 +1,7 @@
 package wirex
 
 import (
-	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/pkg/configx"
 )
 
 // Injector is the injector interface.

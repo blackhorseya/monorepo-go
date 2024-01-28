@@ -6,7 +6,7 @@ go_library(
         "configx.go",
         "parse.go",
     ],
-    importpath = "github.com/blackhorseya/monorepo-go/internal/pkg/configx",
+    importpath = "github.com/blackhorseya/monorepo-go/pkg/configx",
     visibility = ["//:__subpackages__"],
     deps = [
         "//pkg/logging",

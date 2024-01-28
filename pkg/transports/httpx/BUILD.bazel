@@ -3,10 +3,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "httpx",
     srcs = ["server.go"],
-    importpath = "github.com/blackhorseya/monorepo-go/internal/pkg/transports/httpx",
+    importpath = "github.com/blackhorseya/monorepo-go/pkg/transports/httpx",
     visibility = ["//:__subpackages__"],
     deps = [
-        "//internal/pkg/configx",
+        "//pkg/configx",
         "//pkg/contextx",
         "//pkg/response",
         "@com_github_gin_contrib_zap//:zap",

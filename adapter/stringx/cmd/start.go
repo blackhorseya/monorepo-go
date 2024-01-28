@@ -4,7 +4,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/cronjob"
 	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/grpcserver"
 	"github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/restful"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/cmdx"
+	"github.com/blackhorseya/monorepo-go/pkg/cmdx"
 	"github.com/spf13/cobra"
 )
 

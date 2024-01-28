@@ -3,10 +3,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "mongodb",
     srcs = ["mongodb.go"],
-    importpath = "github.com/blackhorseya/monorepo-go/internal/pkg/storage/mongodb",
+    importpath = "github.com/blackhorseya/monorepo-go/pkg/storage/mongodb",
     visibility = ["//:__subpackages__"],
     deps = [
-        "//internal/pkg/configx",
+        "//pkg/configx",
         "//pkg/contextx",
         "@com_github_pkg_errors//:errors",
         "@org_mongodb_go_mongo_driver//mongo",

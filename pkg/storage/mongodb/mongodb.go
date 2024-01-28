@@ -1,7 +1,7 @@
 package mongodb
 
 import (
-	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/mongo"

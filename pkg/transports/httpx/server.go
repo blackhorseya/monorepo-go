@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
+	configx2 "github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/response"
 	ginzap "github.com/gin-contrib/zap"
@@ -22,11 +22,11 @@ type Server struct {
 
 // NewServer is used to create a new http server.
 func NewServer(ctx contextx.Contextx) (*Server, error) {
-	return NewServerWithAPP(ctx, &configx.C.ShortenURL)
+	return NewServerWithAPP(ctx, &configx2.C.ShortenURL)
 }
 
 // NewServerWithAPP is used to create a new http server with app.
-func NewServerWithAPP(ctx contextx.Contextx, app *configx.Application) (*Server, error) {
+func NewServerWithAPP(ctx contextx.Contextx, app *configx2.Application) (*Server, error) {
 	gin.SetMode(app.HTTP.Mode)
 
 	router := gin.New()

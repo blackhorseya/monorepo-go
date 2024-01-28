@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/blackhorseya/monorepo-go/adapter/shortenurl/cmd/restful"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/cmdx"
+	"github.com/blackhorseya/monorepo-go/pkg/cmdx"
 	"github.com/spf13/cobra"
 )
 

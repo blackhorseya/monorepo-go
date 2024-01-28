@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"

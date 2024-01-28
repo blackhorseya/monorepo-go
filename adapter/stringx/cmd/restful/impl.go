@@ -10,11 +10,11 @@ import (
 	_ "github.com/blackhorseya/monorepo-go/adapter/stringx/api/docs" // swagger docs
 	v1 "github.com/blackhorseya/monorepo-go/adapter/stringx/cmd/restful/v1"
 	"github.com/blackhorseya/monorepo-go/entity/domain/stringx/biz"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/transports/httpx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/response"
+	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"

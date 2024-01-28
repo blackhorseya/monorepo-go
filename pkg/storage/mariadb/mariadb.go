@@ -3,7 +3,7 @@ package mariadb
 import (
 	"time"
 
-	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	_ "github.com/go-sql-driver/mysql" // import mysql driver
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"

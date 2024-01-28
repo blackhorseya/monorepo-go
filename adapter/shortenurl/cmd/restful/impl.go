@@ -11,11 +11,11 @@ import (
 	_ "github.com/blackhorseya/monorepo-go/adapter/shortenurl/api/docs" // swagger docs
 	v1 "github.com/blackhorseya/monorepo-go/adapter/shortenurl/cmd/restful/v1"
 	shortB "github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/configx"
-	"github.com/blackhorseya/monorepo-go/internal/pkg/transports/httpx"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	configx2 "github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/response"
+	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	swaggerFiles "github.com/swaggo/files"
@@ -23,18 +23,18 @@ import (
 	"go.uber.org/zap"
 )
 
-func initAPP() *configx.Application {
-	return &configx.C.ShortenURL
+func initAPP() *configx2.Application {
+	return &configx2.C.ShortenURL
 }
 
 type impl struct {
-	app    *configx.Application
+	app    *configx2.Application
 	server *httpx.Server
 	svc    shortB.IShorteningBiz
 }
 
 // New will create a restful service.
-func newRestful(viper *viper.Viper, app *configx.Application, svc shortB.IShorteningBiz) (adapterx.Servicer, error) {
+func newRestful(viper *viper.Viper, app *configx2.Application, svc shortB.IShorteningBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServerWithAPP(ctx, app)
