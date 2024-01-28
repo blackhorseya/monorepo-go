@@ -12,7 +12,7 @@ var infoCmd = &cobra.Command{
 	Use:   "info",
 	Short: "print info",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Println(configx.C)
+		log.Println(configx.A)
 	},
 }
 

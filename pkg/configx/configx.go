@@ -19,6 +19,15 @@ type Application struct {
 	Storage Storage        `json:"storage" yaml:"storage"`
 }
 
+func (a *Application) String() string {
+	msg, err := json.MarshalIndent(a, "", "  ")
+	if err != nil {
+		return err.Error()
+	}
+
+	return string(msg)
+}
+
 // Config defines the config struct.
 type Config struct {
 	Log     logging.Config `json:"log" yaml:"log"`

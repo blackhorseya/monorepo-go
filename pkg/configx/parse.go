@@ -9,6 +9,8 @@ import (
 
 var (
 	C = new(Config)
+
+	A = new(Application)
 )
 
 // Load loads config from path.
@@ -43,4 +45,9 @@ func Load(path string, name string) error {
 	}
 
 	return nil
+}
+
+// ReplaceApplication replaces the application.
+func ReplaceApplication(app Application) {
+	A = &app
 }
