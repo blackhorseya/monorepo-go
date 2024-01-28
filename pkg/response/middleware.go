@@ -14,12 +14,9 @@ func AddErrorHandlingMiddleware() gin.HandlerFunc {
 				return
 			}
 
-			err := c.Errors.Last()
+			err := c.Errors.Last().Err
 
-			switch e := err.Err.(type) {
-			default:
-				c.AbortWithStatusJSON(http.StatusInternalServerError, Err.WrapError(e))
-			}
+			c.AbortWithStatusJSON(http.StatusInternalServerError, Err.WrapError(err))
 		}()
 
 		c.Next()

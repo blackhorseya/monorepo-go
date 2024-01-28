@@ -46,8 +46,9 @@ func NewServerWithAPP(ctx contextx.Contextx, app *configx2.Application) (*Server
 
 	// init http server
 	httpserver := &http.Server{
-		Addr:    app.HTTP.GetAddr(),
-		Handler: router,
+		Addr:              app.HTTP.GetAddr(),
+		Handler:           router,
+		ReadHeaderTimeout: time.Second,
 	}
 
 	return &Server{

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/spf13/cobra"
@@ -12,7 +12,7 @@ var infoCmd = &cobra.Command{
 	Use:   "info",
 	Short: "print info",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(configx.C.String())
+		log.Println(configx.C)
 	},
 }
 
