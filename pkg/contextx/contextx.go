@@ -2,8 +2,10 @@ package contextx
 
 import (
 	"context"
+	"errors"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
@@ -58,4 +60,19 @@ func WithCancel(parent Contextx) (Contextx, context.CancelFunc) {
 		Context: ctx,
 		Logger:  parent.Logger,
 	}, cancel
+}
+
+// FromGin returns a Contextx from gin.Context.
+func FromGin(c *gin.Context) (Contextx, error) {
+	value, exists := c.Get(KeyCtx)
+	if !exists {
+		return Contextx{}, errors.New("contextx not found in gin.Context")
+	}
+
+	ctx, ok := value.(Contextx)
+	if !ok {
+		return Contextx{}, errors.New("contextx type error")
+	}
+
+	return ctx, nil
 }

@@ -1,7 +1,6 @@
 package shorten
 
 import (
-	"errors"
 	"net/http"
 
 	shortB "github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
@@ -34,9 +33,9 @@ func Handle(g *gin.RouterGroup, svc shortB.IShorteningBiz) {
 // @Success 200 {object} response.Response
 // @Router /v1/shorten/{short_url} [get]
 func (i *impl) GetShortenURL(c *gin.Context) {
-	ctx, ok := c.MustGet(contextx.KeyCtx).(contextx.Contextx)
-	if !ok {
-		_ = c.Error(errors.New("invalid contextx"))
+	ctx, err := contextx.FromGin(c)
+	if err != nil {
+		_ = c.Error(err)
 		return
 	}
 
@@ -64,14 +63,14 @@ type PostShortenURLPayload struct {
 // @Success 200 {object} response.Response
 // @Router /v1/shorten [post]
 func (i *impl) PostShortenURL(c *gin.Context) {
-	ctx, ok := c.MustGet(contextx.KeyCtx).(contextx.Contextx)
-	if !ok {
-		_ = c.Error(errors.New("invalid contextx"))
+	ctx, err := contextx.FromGin(c)
+	if err != nil {
+		_ = c.Error(err)
 		return
 	}
 
 	var payload PostShortenURLPayload
-	err := c.ShouldBindJSON(&payload)
+	err = c.ShouldBindJSON(&payload)
 	if err != nil {
 		_ = c.Error(err)
 		return
