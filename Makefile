@@ -29,7 +29,7 @@ $(BIN_DIR)/stringx: adapter/stringx/main.go
 clean: ## clean build directory
 	@rm -rf $(BUILD_DIR)
 
-test: gazelle ## run test
+test: ## run test
 	@bazel test //...
 
 gen-pb: ## generate protobuf
@@ -61,7 +61,7 @@ gen-swagger: ## generate swagger
 gazelle-repos: ## run gazelle with bazel
 	@bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies -prune
 
-gazelle: gazelle-repos ## run gazelle with bazel
+gazelle: ## run gazelle with bazel
 	@bazel run //:gazelle
 
 ## docker
