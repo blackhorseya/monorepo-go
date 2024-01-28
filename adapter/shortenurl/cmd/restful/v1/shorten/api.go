@@ -1,15 +1,8 @@
 package shorten
 
 import (
-	"context"
-	"encoding/json"
-	"net/http"
-
 	shortB "github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
-	"github.com/blackhorseya/monorepo-go/internal/app/domain/shortening/endpoints"
-	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/gin-gonic/gin"
-	httptransport "github.com/go-kit/kit/transport/http"
 )
 
 type impl struct {
@@ -18,43 +11,15 @@ type impl struct {
 
 // Handle will handle the shortenurl api.
 func Handle(g *gin.RouterGroup, svc shortB.IShorteningBiz) {
-	g.GET("/:short_url", gin.WrapH(MakeGetURLHandler(svc)))
-	g.POST("", gin.WrapH(MakePostURLHandler(svc)))
-}
-
-func decodePostURLRequest(_ context.Context, r *http.Request) (interface{}, error) {
-	var req endpoints.CreateShortURLRequest
-	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil {
-		return nil, err
+	instance := &impl{
+		svc: svc,
 	}
 
-	return req, nil
+	g.GET("/:short_url", instance.GetShortenURL)
+	g.POST("", instance.PostShortenURL)
 }
 
-// MakePostURLHandler will handle the post url request.
-// @Summary Shorten a URL
-// @Description shorten a url
-// @Tags shorten
-// @Accept json
-// @Produce json
-// @Param request body endpoints.CreateShortURLRequest true "shorten url request"
-// @Success 200 {object} response.Response
-// @Router /v1/shorten [post]
-func MakePostURLHandler(svc shortB.IShorteningBiz) http.Handler {
-	return httptransport.NewServer(
-		endpoints.MakeCreateShortURLEndpoint(svc),
-		decodePostURLRequest,
-		response.EncodeJSON,
-	)
-}
-
-func decodeGetURLRequest(_ context.Context, r *http.Request) (interface{}, error) {
-	// todo: 2024/1/23|sean|decode the request
-	panic("implement me")
-}
-
-// MakeGetURLHandler will handle the get url request.
+// GetShortenURL will get the shorten url.
 // @Summary Get a URL
 // @Description get a url
 // @Tags shorten
@@ -63,10 +28,21 @@ func decodeGetURLRequest(_ context.Context, r *http.Request) (interface{}, error
 // @Param short_url path string true "short url"
 // @Success 200 {object} response.Response
 // @Router /v1/shorten/{short_url} [get]
-func MakeGetURLHandler(svc shortB.IShorteningBiz) http.Handler {
-	return httptransport.NewServer(
-		endpoints.MakeGetShortURLEndpoint(svc),
-		decodeGetURLRequest,
-		response.EncodeJSON,
-	)
+func (i *impl) GetShortenURL(c *gin.Context) {
+	// todo: 2024/1/28|sean|implement me
+	panic("implement me")
+}
+
+// PostShortenURL will shorten the url.
+// @Summary Shorten a URL
+// @Description shorten a url
+// @Tags shorten
+// @Accept json
+// @Produce json
+// @Param request body endpoints.CreateShortURLRequest true "shorten url request"
+// @Success 200 {object} response.Response
+// @Router /v1/shorten [post]
+func (i *impl) PostShortenURL(c *gin.Context) {
+	// todo: 2024/1/28|sean|implement me
+	panic("implement me")
 }
