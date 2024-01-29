@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  shortenurl-api:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-01-29T19:58:05.620708549Z"
+    description: A Helm chart for Kubernetes
+    digest: fca1318fff00537cf773384b4635892270e541082af3dbca5108eb7cc5c6e542
+    name: shortenurl-api
+    type: application
+    urls:
+    - https://github.com/blackhorseya/monorepo-go/releases/download/shortenurl-api-0.1.0/shortenurl-api-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-01-29T19:58:05.620714289Z"
