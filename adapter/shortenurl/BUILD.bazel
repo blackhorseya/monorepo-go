@@ -39,6 +39,6 @@ oci_tarball(
 oci_push(
     name = "push",
     image = ":image",
+    remote_tags = ["latest"],
     repository = "ghcr.io/blackhorseya/shortenurl",
-    remote_tags = "latest"
 )
