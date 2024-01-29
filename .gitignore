@@ -490,3 +490,5 @@ $RECYCLE.BIN/
 /.clwb/
 
 # End of https://www.toptal.com/developers/gitignore/api/bazel
+
+deployments/values/
