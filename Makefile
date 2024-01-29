@@ -71,3 +71,14 @@ docker-push: docker-push-shortenurl ## push docker image
 .PHONY: docker-push-shortenurl
 docker-push-shortenurl: ## push docker image
 	bazel run //adapter/shortenurl:push
+
+### deploy ###
+HELM_REPO_NAME ?= blackhorseya
+DEPLOY_TO ?= prod
+
+.PHONY: deploy-shortenurl
+deploy-shortenurl: ## deploy shortenurl
+	helm upgrade $(DEPLOY_TO)-shortenurl-api $(HELM_REPO_NAME)/shortenurl-api \
+	--install --namespace $(DEPLOY_TO)-shortenurl \
+	--history-max 3 \
+	--values ./deployments/values/shortenurl/$(DEPLOY_TO)/api.yaml
