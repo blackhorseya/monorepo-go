@@ -114,3 +114,19 @@ readinessProbe:
   periodSeconds: 1
   failureThreshold: 1
   successThreshold: 1
+
+config: |-
+  shortenURL:
+    log:
+      level: info
+      format: json
+  
+    http:
+      mode: release
+      port: 80
+    
+    storage:
+      redis:
+        addr: localhost:6379
+        password: ""
+        db: 0
