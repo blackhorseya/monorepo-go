@@ -40,4 +40,5 @@ oci_push(
     name = "push",
     image = ":image",
     repository = "ghcr.io/blackhorseya/shortenurl",
+    remote_tags = "latest"
 )
