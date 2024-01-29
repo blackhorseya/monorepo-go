@@ -26,7 +26,7 @@ load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
 oci_image(
     name = "image",
     base = "@alpine",
-    entrypoint = ["./shortenurl"],
+    entrypoint = ["/shortenurl"],
     tars = [":tar"],
 )
 

@@ -70,7 +70,7 @@ docker-push: docker-push-shortenurl ## push docker image
 
 .PHONY: docker-push-shortenurl
 docker-push-shortenurl: ## push docker image
-	bazel run //adapter/shortenurl:push
+	bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //adapter/shortenurl:push
 
 ### deploy ###
 HELM_REPO_NAME ?= blackhorseya
