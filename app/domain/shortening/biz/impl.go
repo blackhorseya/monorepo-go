@@ -1,12 +1,11 @@
 package biz
 
 import (
-	"math/rand"
-
 	"github.com/blackhorseya/monorepo-go/app/domain/shortening/repo"
 	"github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
 	"github.com/blackhorseya/monorepo-go/entity/domain/shortening/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"github.com/blackhorseya/monorepo-go/pkg/randx"
 	"github.com/blackhorseya/monorepo-go/pkg/stringx"
 	"go.uber.org/zap"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -35,10 +34,16 @@ func (i *impl) GetURLRecordByShortURL(ctx contextx.Contextx, shortURL string) (r
 
 func (i *impl) CreateShortenedURL(ctx contextx.Contextx, originalURL string) (record *model.ShortenedUrl, err error) {
 	now := timestamppb.Now()
+	short, err := randx.Uint64()
+	if err != nil {
+		ctx.Error("generate random error", zap.Error(err))
+		return nil, err
+	}
+
 	ret := &model.ShortenedUrl{
 		Id:          0,
 		OriginalUrl: originalURL,
-		ShortUrl:    stringx.Base62Encode(rand.Uint64()),
+		ShortUrl:    stringx.Base62Encode(short),
 		CreatedAt:   now,
 		ExpiredAt:   nil,
 	}

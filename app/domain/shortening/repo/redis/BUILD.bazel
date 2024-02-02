@@ -2,7 +2,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "redis",
-    srcs = ["impl.go"],
+    srcs = ["redis.go"],
     importpath = "github.com/blackhorseya/monorepo-go/app/domain/shortening/repo/redis",
     visibility = ["//visibility:public"],
     deps = [
