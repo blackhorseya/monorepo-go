@@ -57,6 +57,6 @@ func initConfig() {
 
 	configx.ReplaceApplication(configx.C.ShortenURL)
 
-	err = logging.InitWithConfig(configx.C.Log)
+	err = logging.InitWithConfig(configx.A.Log)
 	cobra.CheckErr(err)
 }

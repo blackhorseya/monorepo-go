@@ -8,9 +8,8 @@ package restful
 
 import (
 	"github.com/blackhorseya/monorepo-go/app/domain/shortening/biz"
-	redis2 "github.com/blackhorseya/monorepo-go/app/domain/shortening/repo/redis"
+	"github.com/blackhorseya/monorepo-go/app/domain/shortening/repo/memory"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
-	"github.com/blackhorseya/monorepo-go/pkg/storage/redis"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
 )
@@ -22,14 +21,7 @@ import (
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	client, err := redis.NewClient()
-	if err != nil {
-		return nil, err
-	}
-	storager, err := redis2.NewStorager(client)
-	if err != nil {
-		return nil, err
-	}
+	storager := memory.NewStorager()
 	iShorteningBiz := biz.NewShortening(storager)
 	servicer, err := newRestful(iShorteningBiz)
 	if err != nil {
@@ -40,4 +32,4 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(redis.NewClient, biz.ShortenRedis, newRestful)
+var providerSet = wire.NewSet(biz.ProviderSet, newRestful)
