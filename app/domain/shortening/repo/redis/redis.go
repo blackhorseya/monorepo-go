@@ -2,6 +2,7 @@ package redis
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/blackhorseya/monorepo-go/app/domain/shortening/repo"
 	"github.com/blackhorseya/monorepo-go/entity/domain/shortening/model"
@@ -41,7 +42,7 @@ func (i *impl) CreateURLRecord(ctx contextx.Contextx, record *model.ShortenedUrl
 		return err
 	}
 
-	err = i.rw.Set(ctx, record.ShortUrl, string(marshal), 0).Err()
+	err = i.rw.Set(ctx, record.ShortUrl, string(marshal), time.Hour).Err()
 	if err != nil {
 		return err
 	}
