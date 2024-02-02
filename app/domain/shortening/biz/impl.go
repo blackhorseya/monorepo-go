@@ -1,10 +1,13 @@
 package biz
 
 import (
+	"math/rand"
+
 	"github.com/blackhorseya/monorepo-go/app/domain/shortening/repo"
 	"github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
 	"github.com/blackhorseya/monorepo-go/entity/domain/shortening/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"github.com/blackhorseya/monorepo-go/pkg/stringx"
 	"go.uber.org/zap"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -35,7 +38,7 @@ func (i *impl) CreateShortenedURL(ctx contextx.Contextx, originalURL string) (re
 	ret := &model.ShortenedUrl{
 		Id:          0,
 		OriginalUrl: originalURL,
-		ShortUrl:    originalURL,
+		ShortUrl:    stringx.Base62Encode(rand.Uint64()),
 		CreatedAt:   now,
 		ExpiredAt:   nil,
 	}
