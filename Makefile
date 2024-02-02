@@ -53,10 +53,10 @@ gen-mocks: ## generate mocks
 
 gen-swagger: ## generate swagger
 	## stringx
-	@swag init -q -d ./adapter/stringx,./pkg,./entity,./internal -o ./adapter/stringx/api/docs
+	@swag init -q -d ./adapter/stringx,./app,./pkg,./entity -o ./adapter/stringx/api/docs
 
 	## shortenurl
-	@swag init -q -d ./adapter/shortenurl,./pkg,./entity,./internal -o ./adapter/shortenurl/api/docs
+	@swag init -q -d ./adapter/shortenurl,./app,./pkg,./entity -o ./adapter/shortenurl/api/docs
 
 gazelle-repos: ## run gazelle with bazel
 	@bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies -prune

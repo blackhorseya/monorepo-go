@@ -2,6 +2,7 @@ package shorten
 
 import (
 	"net/http"
+	"net/url"
 
 	shortB "github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -30,7 +31,6 @@ func Handle(g *gin.RouterGroup, svc shortB.IShorteningBiz) {
 // @Accept json
 // @Produce json
 // @Param short_url path string true "short url"
-// @Success 200 {object} response.Response
 // @Router /v1/shorten/{short_url} [get]
 func (i *impl) GetShortenURL(c *gin.Context) {
 	ctx, err := contextx.FromGin(c)
@@ -45,7 +45,7 @@ func (i *impl) GetShortenURL(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, response.OK.WithData(record))
+	c.Redirect(http.StatusTemporaryRedirect, record.OriginalUrl)
 }
 
 // PostShortenURLPayload is the request for post shorten url.
@@ -76,7 +76,13 @@ func (i *impl) PostShortenURL(c *gin.Context) {
 		return
 	}
 
-	record, err := i.svc.CreateShortenedURL(ctx, payload.URL)
+	uri, err := url.ParseRequestURI(payload.URL)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	record, err := i.svc.CreateShortenedURL(ctx, uri.String())
 	if err != nil {
 		_ = c.Error(err)
 		return
