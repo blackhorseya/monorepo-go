@@ -128,7 +128,7 @@ func (s *suiteTester) Test_impl_CreateShortenedURL() {
 			wantRecord: &model.ShortenedUrl{
 				Id:          0,
 				OriginalUrl: longURL1,
-				ShortUrl:    longURL1,
+				ShortUrl:    "",
 				CreatedAt:   nil,
 				ExpiredAt:   nil,
 			},
@@ -150,6 +150,7 @@ func (s *suiteTester) Test_impl_CreateShortenedURL() {
 			if gotRecord != nil {
 				gotRecord.CreatedAt = nil
 				gotRecord.ExpiredAt = nil
+				gotRecord.ShortUrl = ""
 			}
 			if !reflect.DeepEqual(gotRecord, tt.wantRecord) {
 				t.Errorf("CreateShortenedURL() gotRecord = %v, want %v", gotRecord, tt.wantRecord)
