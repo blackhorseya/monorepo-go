@@ -5,6 +5,10 @@
 package biz
 
 import (
+	reflect "reflect"
+
+	model "github.com/blackhorseya/monorepo-go/entity/domain/market/model"
+	contextx "github.com/blackhorseya/monorepo-go/pkg/contextx"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -29,4 +33,19 @@ func NewMockIMarketBiz(ctrl *gomock.Controller) *MockIMarketBiz {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockIMarketBiz) EXPECT() *MockIMarketBizMockRecorder {
 	return m.recorder
+}
+
+// GetStockBySymbol mocks base method.
+func (m *MockIMarketBiz) GetStockBySymbol(ctx contextx.Contextx, symbol string) (*model.Stock, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetStockBySymbol", ctx, symbol)
+	ret0, _ := ret[0].(*model.Stock)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetStockBySymbol indicates an expected call of GetStockBySymbol.
+func (mr *MockIMarketBizMockRecorder) GetStockBySymbol(ctx, symbol interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetStockBySymbol", reflect.TypeOf((*MockIMarketBiz)(nil).GetStockBySymbol), ctx, symbol)
 }
