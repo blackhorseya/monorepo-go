@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"log"
-
+	"github.com/blackhorseya/monorepo-go/adapter/ekko/cmd/restful"
+	"github.com/blackhorseya/monorepo-go/pkg/cmdx"
 	"github.com/spf13/cobra"
 )
 
@@ -10,12 +10,11 @@ import (
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "start a service",
-	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("start a service")
-	},
 }
 
 func init() {
+	startCmd.AddCommand(cmdx.NewServiceCmd("api", "start the api service", restful.New))
+
 	rootCmd.AddCommand(startCmd)
 
 	// Here you will define your flags and configuration settings.
