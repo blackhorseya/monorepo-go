@@ -134,6 +134,7 @@ func (i *impl) callback(c *gin.Context) {
 	c.Status(http.StatusOK)
 }
 
+//nolint:gocognit // it's ok
 func (i *impl) handleEvents(ctx contextx.Contextx, events []*linebot.Event) error {
 	for _, event := range events {
 		if event.Type == linebot.EventTypeMessage { //nolint:nestif // for better readability
