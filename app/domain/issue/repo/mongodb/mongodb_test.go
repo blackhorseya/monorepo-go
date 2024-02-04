@@ -89,3 +89,41 @@ func (s *suiteTester) Test_impl_List() {
 		})
 	}
 }
+
+func (s *suiteTester) Test_impl_Create() {
+	type args struct {
+		ctx   contextx.Contextx
+		title string
+		mock  func()
+	}
+	tests := []struct {
+		name     string
+		args     args
+		wantTodo *model.Ticket
+		wantErr  bool
+	}{
+		{
+			name:     "",
+			args:     args{},
+			wantTodo: nil,
+			wantErr:  false,
+		},
+	}
+	for _, tt := range tests {
+		s.T().Run(tt.name, func(t *testing.T) {
+			tt.args.ctx = contextx.Background()
+			if tt.args.mock != nil {
+				tt.args.mock()
+			}
+
+			gotTodo, err := s.storage.Create(tt.args.ctx, tt.args.title)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotTodo, tt.wantTodo) {
+				t.Errorf("Create() gotTodo = %v, want %v", gotTodo, tt.wantTodo)
+			}
+		})
+	}
+}
