@@ -22,7 +22,7 @@ type Server struct {
 
 // NewServer is used to create a new http server.
 func NewServer(ctx contextx.Contextx) (*Server, error) {
-	return NewServerWithAPP(ctx, &configx.C.ShortenURL)
+	return NewServerWithAPP(ctx, configx.A)
 }
 
 // NewServerWithAPP is used to create a new http server with app.
