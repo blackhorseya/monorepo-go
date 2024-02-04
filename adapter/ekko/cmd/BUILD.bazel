@@ -5,6 +5,7 @@ go_library(
     srcs = [
         "info.go",
         "root.go",
+        "start.go",
     ],
     importpath = "github.com/blackhorseya/monorepo-go/adapter/ekko/cmd",
     visibility = ["//visibility:public"],
