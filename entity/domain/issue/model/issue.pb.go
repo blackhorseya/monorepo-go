@@ -26,7 +26,8 @@ type Ticket struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// @gotags: bson:"_id"
+	Id        string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" bson:"_id"`
 	Title     string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	Completed bool   `protobuf:"varint,3,opt,name=completed,proto3" json:"completed,omitempty"`
 	// @gotags: swaggertype:"string"

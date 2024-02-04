@@ -7,6 +7,7 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/issue/model";
 
 message Ticket {
+    // @gotags: bson:"_id"
     string id = 1;
     string title = 2;
     bool completed = 3;
