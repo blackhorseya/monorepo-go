@@ -61,6 +61,9 @@ gen-swagger: ## generate swagger
 	## ekko
 	@swag init -q -d ./adapter/ekko,./app,./pkg,./entity -o ./adapter/ekko/api/docs
 
+	## orianna
+	@swag init -q -d ./adapter/orianna,./app,./pkg,./entity -o ./adapter/orianna/api/docs
+
 gazelle-repos: ## run gazelle with bazel
 	@bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies -prune
 
