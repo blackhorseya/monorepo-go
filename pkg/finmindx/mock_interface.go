@@ -35,11 +35,25 @@ func (m *MockDialer) EXPECT() *MockDialerMockRecorder {
 	return m.recorder
 }
 
+// Do mocks base method.
+func (m *MockDialer) Do(ctx contextx.Contextx, dataset string, params map[string]string, v any) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Do", ctx, dataset, params, v)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Do indicates an expected call of Do.
+func (mr *MockDialerMockRecorder) Do(ctx, dataset, params, v interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Do", reflect.TypeOf((*MockDialer)(nil).Do), ctx, dataset, params, v)
+}
+
 // TaiwanStockPrice mocks base method.
-func (m *MockDialer) TaiwanStockPrice(ctx contextx.Contextx, symbol string, start, end time.Time) ([]*TaiwanStockPriceResponse, error) {
+func (m *MockDialer) TaiwanStockPrice(ctx contextx.Contextx, symbol string, start, end time.Time) (*TaiwanStockPriceResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TaiwanStockPrice", ctx, symbol, start, end)
-	ret0, _ := ret[0].([]*TaiwanStockPriceResponse)
+	ret0, _ := ret[0].(*TaiwanStockPriceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
