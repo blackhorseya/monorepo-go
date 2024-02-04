@@ -10,6 +10,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//app/domain/issue/repo",
+        "//app/domain/issue/repo/mongodb",
         "//entity/domain/issue/biz",
         "//entity/domain/issue/model",
         "//pkg/contextx",
