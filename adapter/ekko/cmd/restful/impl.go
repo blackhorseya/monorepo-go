@@ -8,6 +8,7 @@ import (
 	"strings"
 	"syscall"
 
+	_ "github.com/blackhorseya/monorepo-go/adapter/ekko/api/docs" // swagger docs
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"

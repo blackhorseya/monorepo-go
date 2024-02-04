@@ -9,6 +9,7 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/ekko/cmd/restful",
     visibility = ["//visibility:public"],
     deps = [
+        "//adapter/ekko/api/docs",
         "//pkg/adapterx",
         "//pkg/configx",
         "//pkg/contextx",
