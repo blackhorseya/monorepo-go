@@ -30,6 +30,9 @@ func NewClient() (Dialer, error) {
 }
 
 func (i *impl) Do(ctx contextx.Contextx, dataset string, params map[string]string, v any) error {
+	timeout, cancelFunc := contextx.WithTimeout(ctx, 5*time.Second)
+	defer cancelFunc()
+
 	baseURL, err := url.ParseRequestURI(i.endpoint)
 	if err != nil {
 		return err
@@ -44,7 +47,7 @@ func (i *impl) Do(ctx contextx.Contextx, dataset string, params map[string]strin
 
 	baseURL.RawQuery = values.Encode()
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, baseURL.String(), nil)
+	req, err := http.NewRequestWithContext(timeout, http.MethodGet, baseURL.String(), nil)
 	if err != nil {
 		return err
 	}
