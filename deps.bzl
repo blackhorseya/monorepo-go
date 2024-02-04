@@ -1015,6 +1015,13 @@ def go_dependencies():
         version = "v1.2.0",
     )
     go_repository(
+        name = "com_github_line_line_bot_sdk_go_v8",
+        importpath = "github.com/line/line-bot-sdk-go/v8",
+        sum = "h1:7f4Uxey2+aSmFmMuSgsjbqxe+CtPN999xgvFF2PyNWY=",
+        version = "v8.2.1",
+    )
+
+    go_repository(
         name = "com_github_linuxkit_virtsock",
         importpath = "github.com/linuxkit/virtsock",
         sum = "h1:jUp75lepDg0phMUJBCmvaeFDldD2N3S1lBuPwUTszio=",
