@@ -102,12 +102,7 @@ func (s *suiteTester) Test_impl_Create() {
 		wantTodo *model.Ticket
 		wantErr  bool
 	}{
-		{
-			name:     "",
-			args:     args{},
-			wantTodo: nil,
-			wantErr:  false,
-		},
+		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		s.T().Run(tt.name, func(t *testing.T) {

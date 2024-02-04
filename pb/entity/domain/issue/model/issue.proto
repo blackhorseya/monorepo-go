@@ -2,13 +2,12 @@ syntax = "proto3";
 
 package issue;
 
-option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/issue/model";
-
 import "google/protobuf/timestamp.proto";
 
+option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/issue/model";
+
 message Ticket {
-    // @gotags: bson:"_id"
-    int64 id = 1;
+    string id = 1;
     string title = 2;
     bool completed = 3;
     // @gotags: swaggertype:"string"
