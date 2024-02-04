@@ -1,12 +1,13 @@
-package biz
+package biz_test
 
 import (
 	"errors"
 	"reflect"
 	"testing"
 
+	"github.com/blackhorseya/monorepo-go/app/domain/issue/biz"
 	"github.com/blackhorseya/monorepo-go/app/domain/issue/repo"
-	"github.com/blackhorseya/monorepo-go/entity/domain/issue/biz"
+	issueB "github.com/blackhorseya/monorepo-go/entity/domain/issue/biz"
 	"github.com/blackhorseya/monorepo-go/entity/domain/issue/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/stretchr/testify/suite"
@@ -19,14 +20,14 @@ type suiteTester struct {
 
 	ctrl     *gomock.Controller
 	storager *repo.MockStorager
-	biz      biz.IIssueBiz
+	biz      issueB.IIssueBiz
 }
 
 func (s *suiteTester) SetupTest() {
 	zap.ReplaceGlobals(zap.NewExample())
 	s.ctrl = gomock.NewController(s.T())
 	s.storager = repo.NewMockStorager(s.ctrl)
-	issueBiz, err := NewIssueBiz(s.storager)
+	issueBiz, err := biz.NewIssueBiz(s.storager)
 	s.Require().NoError(err)
 	s.biz = issueBiz
 }

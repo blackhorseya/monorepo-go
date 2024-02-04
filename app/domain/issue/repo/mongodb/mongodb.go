@@ -7,6 +7,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/entity/domain/issue/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/google/uuid"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -30,8 +31,31 @@ func NewStorager(rw *mongo.Client) (repo.Storager, error) {
 }
 
 func (i *impl) List(ctx contextx.Contextx, opts repo.ListOptions) (todos []*model.Ticket, total int, err error) {
-	// todo: 2024/2/4|sean|implement me
-	panic("implement me")
+	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
+	defer cancelFunc()
+
+	coll := i.rw.Database(dbName).Collection(collName)
+	filter := bson.D{}
+	cur, err := coll.Find(timeout, filter)
+	if err != nil {
+		ctx.Error("find todos failed", zap.Error(err))
+		return nil, 0, err
+	}
+	defer cur.Close(timeout)
+
+	var ret []*model.Ticket
+	for cur.Next(timeout) {
+		var todo model.Ticket
+		err = cur.Decode(&todo)
+		if err != nil {
+			ctx.Error("decode todo failed", zap.Error(err))
+			return nil, 0, err
+		}
+
+		ret = append(ret, &todo)
+	}
+
+	return ret, len(ret), nil
 }
 
 func (i *impl) Create(ctx contextx.Contextx, title string) (todo *model.Ticket, err error) {

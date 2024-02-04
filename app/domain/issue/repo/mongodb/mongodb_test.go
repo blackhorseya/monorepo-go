@@ -1,21 +1,28 @@
-package mongodb
+package mongodb_test
 
 import (
 	"reflect"
 	"testing"
 
 	"github.com/blackhorseya/monorepo-go/app/domain/issue/repo"
+	"github.com/blackhorseya/monorepo-go/app/domain/issue/repo/mongodb"
 	"github.com/blackhorseya/monorepo-go/entity/domain/issue/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
-	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
+	mongodbx "github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/stretchr/testify/suite"
 	"go.mongodb.org/mongo-driver/mongo"
+)
+
+const (
+	dbName = "ekko"
+
+	collName = "todos"
 )
 
 type suiteTester struct {
 	suite.Suite
 
-	container *mongodb.Container
+	container *mongodbx.Container
 	rw        *mongo.Client
 	storage   repo.Storager
 }
@@ -23,18 +30,18 @@ type suiteTester struct {
 func (s *suiteTester) SetupTest() {
 	ctx := contextx.Background()
 
-	container, err := mongodb.NewContainer(ctx)
+	container, err := mongodbx.NewContainer(ctx)
 	s.Require().NoError(err)
 	s.container = container
 
 	dsn, err := s.container.ConnectionString(ctx)
 	s.Require().NoError(err)
 
-	rw, err := mongodb.NewClientWithDSN(dsn)
+	rw, err := mongodbx.NewClientWithDSN(dsn)
 	s.Require().NoError(err)
 	s.rw = rw
 
-	storager, err := NewStorager(s.rw)
+	storager, err := mongodb.NewStorager(s.rw)
 	s.Require().NoError(err)
 	s.storage = storager
 }
@@ -54,6 +61,11 @@ func TestAll(t *testing.T) {
 }
 
 func (s *suiteTester) Test_impl_List() {
+	todo1 := &model.Ticket{
+		Id:    "todo1",
+		Title: "todo1",
+	}
+
 	type args struct {
 		ctx  contextx.Contextx
 		opts repo.ListOptions
@@ -66,7 +78,15 @@ func (s *suiteTester) Test_impl_List() {
 		wantTotal int
 		wantErr   bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "list then ok",
+			args: args{mock: func() {
+				_, _ = s.rw.Database(dbName).Collection(collName).InsertOne(contextx.Background(), todo1)
+			}},
+			wantTodos: []*model.Ticket{todo1},
+			wantTotal: 1,
+			wantErr:   false,
+		},
 	}
 	for _, tt := range tests {
 		s.T().Run(tt.name, func(t *testing.T) {
