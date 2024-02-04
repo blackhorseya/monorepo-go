@@ -1,6 +1,7 @@
 package restful
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -15,6 +16,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/gin-gonic/gin"
+	"github.com/line/line-bot-sdk-go/v8/linebot"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
@@ -22,9 +24,10 @@ import (
 
 type impl struct {
 	server *httpx.Server
+	bot    *linebot.Client
 }
 
-func newRestful() (adapterx.Servicer, error) {
+func newRestful(bot *linebot.Client) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServer(ctx)
@@ -34,6 +37,7 @@ func newRestful() (adapterx.Servicer, error) {
 
 	return &impl{
 		server: server,
+		bot:    bot,
 	}, nil
 }
 
@@ -98,6 +102,49 @@ func (i *impl) healthz(c *gin.Context) {
 }
 
 func (i *impl) callback(c *gin.Context) {
-	// todo: 2024/2/4|sean|implement me
+	ctx, err := contextx.FromGin(c)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	events, err := i.bot.ParseRequest(c.Request)
+	if err != nil {
+		if errors.Is(err, linebot.ErrInvalidSignature) {
+			ctx.Error("invalid line bot signature", zap.Error(err))
+			_ = c.Error(err)
+		} else {
+			ctx.Error("parse line bot request error", zap.Error(err))
+			_ = c.Error(err)
+		}
+
+		return
+	}
+
+	err = i.handleEvents(ctx, events)
+	if err != nil {
+		ctx.Error("handle line bot events error", zap.Error(err))
+		_ = c.Error(err)
+		return
+	}
+
 	c.Status(http.StatusOK)
+}
+
+func (i *impl) handleEvents(ctx contextx.Contextx, events []*linebot.Event) error {
+	for _, event := range events {
+		switch event.Type {
+		case linebot.EventTypeMessage:
+			message := event.Message.(*linebot.TextMessage)
+			split := strings.Split(message.Text, ".")
+
+			if len(split) == 2 && split[0] == "q" {
+				// query stock by symbol
+				symbol := split[1]
+				ctx.Info("query stock by symbol", zap.String("symbol", symbol))
+			}
+		}
+	}
+
+	return nil
 }
