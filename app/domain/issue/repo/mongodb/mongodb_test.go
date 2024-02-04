@@ -91,6 +91,14 @@ func (s *suiteTester) Test_impl_List() {
 }
 
 func (s *suiteTester) Test_impl_Create() {
+	todo1 := &model.Ticket{
+		Id:        "",
+		Title:     "todo1",
+		Completed: false,
+		CreatedAt: nil,
+		UpdatedAt: nil,
+	}
+
 	type args struct {
 		ctx   contextx.Contextx
 		title string
@@ -102,7 +110,12 @@ func (s *suiteTester) Test_impl_Create() {
 		wantTodo *model.Ticket
 		wantErr  bool
 	}{
-		// TODO: Add test cases.
+		{
+			name:     "create a new ticket then ok",
+			args:     args{title: todo1.Title},
+			wantTodo: todo1,
+			wantErr:  false,
+		},
 	}
 	for _, tt := range tests {
 		s.T().Run(tt.name, func(t *testing.T) {
@@ -116,7 +129,7 @@ func (s *suiteTester) Test_impl_Create() {
 				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(gotTodo, tt.wantTodo) {
+			if gotTodo.Title != tt.wantTodo.Title {
 				t.Errorf("Create() gotTodo = %v, want %v", gotTodo, tt.wantTodo)
 			}
 		})
