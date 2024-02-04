@@ -2,10 +2,14 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "model",
-    srcs = ["market.pb.go"],
+    srcs = [
+        "market.pb.go",
+        "stock.go",
+    ],
     importpath = "github.com/blackhorseya/monorepo-go/entity/domain/market/model",
     visibility = ["//visibility:public"],
     deps = [
+        "@com_github_line_line_bot_sdk_go_v8//linebot",
         "@org_golang_google_protobuf//reflect/protoreflect",
         "@org_golang_google_protobuf//runtime/protoimpl",
     ],
