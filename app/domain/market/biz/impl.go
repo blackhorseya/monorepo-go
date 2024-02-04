@@ -1,6 +1,8 @@
 package biz
 
 import (
+	"time"
+
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/biz"
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -19,6 +21,26 @@ func NewMarketBiz(finmind finmindx.Dialer) (biz.IMarketBiz, error) {
 }
 
 func (i *impl) GetStockBySymbol(ctx contextx.Contextx, symbol string) (stock *model.Stock, err error) {
-	// todo: 2024/2/4|sean|implement me
-	panic("implement me")
+	ret := &model.Stock{
+		Symbol: symbol,
+		Name:   "",
+		Price:  0,
+	}
+
+	var got *finmindx.TaiwanStockPriceResponse
+	now := time.Now()
+	for ret.Price == 0 {
+		got, err = i.finmind.TaiwanStockPrice(ctx, symbol, now, now)
+		if err != nil {
+			return nil, err
+		}
+
+		if len(got.Data) > 0 {
+			ret.Price = got.Data[0].Close
+		}
+
+		now = now.Add(-24 * time.Hour)
+	}
+
+	return ret, nil
 }

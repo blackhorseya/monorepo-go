@@ -23,6 +23,8 @@ go_test(
     deps = [
         ":biz",
         "//entity/domain/market/biz",
+        "//entity/domain/market/model",
+        "//pkg/contextx",
         "//pkg/finmindx",
         "@com_github_stretchr_testify//suite",
         "@org_uber_go_mock//gomock",
