@@ -10,9 +10,12 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//adapter/orianna/api/docs",
+        "//app/domain/market/biz",
+        "//entity/domain/market/biz",
         "//pkg/adapterx",
         "//pkg/configx",
         "//pkg/contextx",
+        "//pkg/finmindx",
         "//pkg/linebot",
         "//pkg/response",
         "//pkg/transports/httpx",

@@ -10,6 +10,7 @@ import (
 	"syscall"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/orianna/api/docs" // swagger docs
+	"github.com/blackhorseya/monorepo-go/entity/domain/market/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -25,9 +26,10 @@ import (
 type impl struct {
 	server *httpx.Server
 	bot    *linebot.Client
+	biz    biz.IMarketBiz
 }
 
-func newRestful(bot *linebot.Client) (adapterx.Servicer, error) {
+func newRestful(bot *linebot.Client, biz biz.IMarketBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServer(ctx)
@@ -38,6 +40,7 @@ func newRestful(bot *linebot.Client) (adapterx.Servicer, error) {
 	return &impl{
 		server: server,
 		bot:    bot,
+		biz:    biz,
 	}, nil
 }
 
@@ -133,11 +136,13 @@ func (i *impl) callback(c *gin.Context) {
 
 func (i *impl) handleEvents(ctx contextx.Contextx, events []*linebot.Event) error {
 	for _, event := range events {
-		switch event.Type {
-		case linebot.EventTypeMessage:
-			message := event.Message.(*linebot.TextMessage)
-			split := strings.Split(message.Text, ".")
+		if event.Type == linebot.EventTypeMessage {
+			message, ok := event.Message.(*linebot.TextMessage)
+			if !ok {
+				return errors.New("not text message")
+			}
 
+			split := strings.Split(message.Text, ".")
 			if len(split) == 2 && split[0] == "q" {
 				// query stock by symbol
 				symbol := split[1]

@@ -7,7 +7,9 @@
 package restful
 
 import (
+	"github.com/blackhorseya/monorepo-go/app/domain/market/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
 	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/spf13/viper"
 )
@@ -23,7 +25,15 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	servicer, err := newRestful(client)
+	dialer, err := finmindx.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	iMarketBiz, err := biz.NewMarketBiz(dialer)
+	if err != nil {
+		return nil, err
+	}
+	servicer, err := newRestful(client, iMarketBiz)
 	if err != nil {
 		return nil, err
 	}
