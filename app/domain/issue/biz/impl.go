@@ -30,8 +30,13 @@ func (i *impl) CreateTodo(ctx contextx.Contextx, title string) (todo *model.Tick
 }
 
 func (i *impl) ListTodos(ctx contextx.Contextx) (todos []*model.Ticket, total int, err error) {
-	// todo: 2024/2/4|sean|implement me
-	panic("implement me")
+	ret, t, err := i.storager.List(ctx, repo.ListOptions{})
+	if err != nil {
+		ctx.Error("list todos from storage failed", zap.Error(err))
+		return nil, 0, err
+	}
+
+	return ret, t, nil
 }
 
 func (i *impl) CompletedTodoByID(ctx contextx.Contextx, id uint64) error {

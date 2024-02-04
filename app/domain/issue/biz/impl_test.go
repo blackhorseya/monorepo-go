@@ -82,3 +82,51 @@ func (s *suiteTester) Test_impl_CreateTodo() {
 		})
 	}
 }
+
+func (s *suiteTester) Test_impl_ListTodos() {
+	type args struct {
+		ctx  contextx.Contextx
+		mock func()
+	}
+	tests := []struct {
+		name      string
+		args      args
+		wantTodos []*model.Ticket
+		wantTotal int
+		wantErr   bool
+	}{
+		{
+			name: "list todos then error",
+			args: args{mock: func() {
+				s.storager.EXPECT().List(gomock.Any(), gomock.Any()).Return(
+					nil,
+					0,
+					errors.New("mock error"),
+				).Times(1)
+			}},
+			wantTodos: nil,
+			wantTotal: 0,
+			wantErr:   true,
+		},
+	}
+	for _, tt := range tests {
+		s.T().Run(tt.name, func(t *testing.T) {
+			tt.args.ctx = contextx.Background()
+			if tt.args.mock != nil {
+				tt.args.mock()
+			}
+
+			gotTodos, gotTotal, err := s.biz.ListTodos(tt.args.ctx)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ListTodos() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotTodos, tt.wantTodos) {
+				t.Errorf("ListTodos() gotTodos = %v, want %v", gotTodos, tt.wantTodos)
+			}
+			if gotTotal != tt.wantTotal {
+				t.Errorf("ListTodos() gotTotal = %v, want %v", gotTotal, tt.wantTotal)
+			}
+		})
+	}
+}
