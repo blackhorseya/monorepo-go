@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "biz",
@@ -13,5 +13,17 @@ go_library(
         "//entity/domain/issue/model",
         "//pkg/contextx",
         "@com_github_google_wire//:wire",
+    ],
+)
+
+go_test(
+    name = "biz_test",
+    srcs = ["impl_test.go"],
+    embed = [":biz"],
+    deps = [
+        "//app/domain/issue/repo",
+        "//entity/domain/issue/biz",
+        "@com_github_stretchr_testify//suite",
+        "@org_uber_go_mock//gomock",
     ],
 )
