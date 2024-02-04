@@ -28,8 +28,9 @@ func (i *impl) GetStockBySymbol(ctx contextx.Contextx, symbol string) (stock *mo
 	}
 
 	var got *finmindx.TaiwanStockPriceResponse
+	var retryCount int
 	now := time.Now()
-	for ret.Price == 0 {
+	for ret.Price == 0 && retryCount < 5 {
 		got, err = i.finmind.TaiwanStockPrice(ctx, symbol, now, now)
 		if err != nil {
 			return nil, err
@@ -40,6 +41,7 @@ func (i *impl) GetStockBySymbol(ctx contextx.Contextx, symbol string) (stock *mo
 		}
 
 		now = now.Add(-24 * time.Hour)
+		retryCount++
 	}
 
 	return ret, nil

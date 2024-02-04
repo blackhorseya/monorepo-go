@@ -136,7 +136,7 @@ func (i *impl) callback(c *gin.Context) {
 
 func (i *impl) handleEvents(ctx contextx.Contextx, events []*linebot.Event) error {
 	for _, event := range events {
-		if event.Type == linebot.EventTypeMessage {
+		if event.Type == linebot.EventTypeMessage { //nolint:nestif // for better readability
 			message, ok := event.Message.(*linebot.TextMessage)
 			if !ok {
 				return errors.New("not text message")
@@ -146,7 +146,15 @@ func (i *impl) handleEvents(ctx contextx.Contextx, events []*linebot.Event) erro
 			if len(split) == 2 && split[0] == "q" {
 				// query stock by symbol
 				symbol := split[1]
-				ctx.Info("query stock by symbol", zap.String("symbol", symbol))
+				stock, err := i.biz.GetStockBySymbol(ctx, symbol)
+				if err != nil {
+					return err
+				}
+
+				_, err = i.bot.ReplyMessage(event.ReplyToken, stock.FlexMessage()).Do()
+				if err != nil {
+					return err
+				}
 			}
 		}
 	}
