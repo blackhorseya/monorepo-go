@@ -83,6 +83,15 @@ func (i *impl) TaiwanStockPrice(
 	symbol string,
 	start, end time.Time,
 ) (res *TaiwanStockPriceResponse, err error) {
-	// todo: 2024/2/4|sean|implement me
-	panic("implement me")
+	var got *TaiwanStockPriceResponse
+	err = i.Do(ctx, "TaiwanStockPrice", map[string]string{
+		"data_id":    symbol,
+		"start_date": start.Format(timeLayout),
+		"end_date":   end.Format(timeLayout),
+	}, &got)
+	if err != nil {
+		return nil, err
+	}
+
+	return got, nil
 }

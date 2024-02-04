@@ -29,7 +29,7 @@ func TestImpl_Do(t *testing.T) {
 	}
 
 	ctx := contextx.Background()
-	var got finmindx.TaiwanStockPriceResponse
+	var got *finmindx.TaiwanStockPriceResponse
 	err = client.Do(ctx, "TaiwanStockPrice", map[string]string{
 		"data_id":    "2330",
 		"start_date": "2024-02-01",
