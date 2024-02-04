@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/stringx/api/docs" // swagger docs
@@ -29,7 +30,7 @@ type impl struct {
 func newImpl(svc biz.IStringBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
-	server, err := httpx.NewServer(ctx)
+	server, err := httpx.NewServerWithAPP(ctx, configx.A)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +59,10 @@ func (i *impl) Start() error {
 
 	ctx.Info(
 		"swagger docs",
-		zap.String("url", fmt.Sprintf("http://localhost:%d/api/docs/index.html", configx.C.HTTP.Port)),
+		zap.String("url", fmt.Sprintf(
+			"http://%s/api/docs/index.html",
+			strings.ReplaceAll(configx.A.HTTP.GetAddr(), "0.0.0.0", "localhost"),
+		)),
 	)
 
 	return nil

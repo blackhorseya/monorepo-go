@@ -44,6 +44,7 @@ type Config struct {
 
 	ShortenURL Application `json:"shorten_url" yaml:"shortenURL"`
 	Ekko       Application `json:"ekko" yaml:"ekko"`
+	Stringx    Application `json:"stringx" yaml:"stringx"`
 }
 
 func (c *Config) String() string {

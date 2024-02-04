@@ -47,6 +47,8 @@ func initConfig() {
 	err := configx.Load(cfgFile, "sean")
 	cobra.CheckErr(err)
 
+	configx.ReplaceApplication(configx.C.Stringx)
+
 	err = logging.InitWithConfig(configx.A.Log)
 	cobra.CheckErr(err)
 }

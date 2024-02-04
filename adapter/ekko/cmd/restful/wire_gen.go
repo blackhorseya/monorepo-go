@@ -11,6 +11,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+import (
+	_ "github.com/blackhorseya/monorepo-go/adapter/ekko/api/docs"
+)
+
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
