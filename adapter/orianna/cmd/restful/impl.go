@@ -142,6 +142,13 @@ func (i *impl) handleEvents(ctx contextx.Contextx, events []*linebot.Event) erro
 				return errors.New("not text message")
 			}
 
+			if message.Text == "ping" {
+				_, err := i.bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("pong")).Do()
+				if err != nil {
+					return err
+				}
+			}
+
 			split := strings.Split(message.Text, ".")
 			if len(split) == 2 && split[0] == "q" {
 				// query stock by symbol
