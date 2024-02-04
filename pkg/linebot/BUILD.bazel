@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "linebot",
+    srcs = ["linebot.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/pkg/linebot",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/configx",
+        "@com_github_line_line_bot_sdk_go_v8//linebot",
+    ],
+)
