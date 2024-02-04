@@ -58,6 +58,9 @@ gen-swagger: ## generate swagger
 	## shortenurl
 	@swag init -q -d ./adapter/shortenurl,./app,./pkg,./entity -o ./adapter/shortenurl/api/docs
 
+	## ekko
+	@swag init -q -d ./adapter/ekko,./app,./pkg,./entity -o ./adapter/ekko/api/docs
+
 gazelle-repos: ## run gazelle with bazel
 	@bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies -prune
 
