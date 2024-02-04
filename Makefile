@@ -72,7 +72,7 @@ gazelle: ## run gazelle with bazel
 
 ## docker
 .PHONY: docker-push
-docker-push: docker-push-shortenurl docker-push-ekko ## push docker image
+docker-push: docker-push-shortenurl docker-push-ekko docker-push-orianna ## push docker image
 
 .PHONY: docker-push-shortenurl
 docker-push-shortenurl: ## push docker image
