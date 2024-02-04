@@ -27,7 +27,7 @@ type impl struct {
 func newRestful() (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
-	server, err := httpx.NewServerWithAPP(ctx, configx.A)
+	server, err := httpx.NewServer(ctx)
 	if err != nil {
 		return nil, err
 	}
