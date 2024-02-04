@@ -13,9 +13,11 @@ type Application struct {
 	Name         string `json:"name" yaml:"name"`
 	ClientID     string `json:"client_id" yaml:"clientID"`
 	ClientSecret string `json:"client_secret" yaml:"clientSecret"`
+	Token        string `json:"token" yaml:"token"`
 
 	Log     logging.Config `json:"log" yaml:"log"`
 	HTTP    HTTP           `json:"http" yaml:"http"`
+	LineBot LineBot        `json:"line_bot" yaml:"lineBot"`
 	Storage struct {
 		Mongodb struct {
 			DSN string `json:"dsn" yaml:"dsn"`
@@ -49,6 +51,8 @@ type Config struct {
 	Ekko       Application `json:"ekko" yaml:"ekko"`
 	Stringx    Application `json:"stringx" yaml:"stringx"`
 	Orianna    Application `json:"orianna" yaml:"orianna"`
+
+	Finmind Application `json:"finmind" yaml:"finmind"`
 }
 
 func (c *Config) String() string {
@@ -109,4 +113,10 @@ type Cronjob struct {
 type Storage struct {
 	DSN   string `json:"dsn" yaml:"dsn"`
 	Conns int    `json:"conns" yaml:"conns"`
+}
+
+// LineBot defines the line bot config struct.
+type LineBot struct {
+	Secret string `json:"secret" yaml:"secret"`
+	Token  string `json:"token" yaml:"token"`
 }
