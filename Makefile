@@ -79,6 +79,10 @@ docker-push-shortenurl: ## push docker image
 docker-push-ekko: ## push docker image
 	bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //adapter/ekko:push
 
+.PHONY: docker-push-orianna
+docker-push-orianna: ## push docker image
+	bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //adapter/orianna:push
+
 ### deploy ###
 HELM_REPO_NAME ?= blackhorseya
 DEPLOY_TO ?= prod

@@ -1,0 +1,44 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "orianna_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna",
+    visibility = ["//visibility:private"],
+    deps = ["//adapter/orianna/cmd"],
+)
+
+go_binary(
+    name = "orianna",
+    embed = [":orianna_lib"],
+    visibility = ["//visibility:public"],
+)
+
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+pkg_tar(
+    name = "tar",
+    srcs = [":orianna"],
+)
+
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
+
+oci_image(
+    name = "image",
+    base = "@alpine",
+    entrypoint = ["/orianna"],
+    tars = [":tar"],
+)
+
+oci_tarball(
+    name = "tarball",
+    image = ":image",
+    repo_tags = ["ghcr.io/blackhorseya/orianna:latest"],
+)
+
+oci_push(
+    name = "push",
+    image = ":image",
+    remote_tags = ["latest"],
+    repository = "ghcr.io/blackhorseya/orianna",
+)
