@@ -101,12 +101,6 @@ def go_dependencies():
         sum = "h1:yeMWxP2pV2fG3FgAODIY8EiRE3dy0aeFYt4l7wh6yKA=",
         version = "v1.27.10",
     )
-    go_repository(
-        name = "com_github_burntsushi_toml",
-        importpath = "github.com/BurntSushi/toml",
-        sum = "h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=",
-        version = "v0.3.1",
-    )
 
     go_repository(
         name = "com_github_bytedance_sonic",
@@ -350,8 +344,8 @@ def go_dependencies():
     go_repository(
         name = "com_github_cyphar_filepath_securejoin",
         importpath = "github.com/cyphar/filepath-securejoin",
-        sum = "h1:YX6ebbZCZP7VkM3scTTokDgBL2TY741X51MTk3ycuNI=",
-        version = "v0.2.3",
+        sum = "h1:Ugdm7cg7i6ZK6x3xDF1oEu1nfkyfH53EtKeQYTC3kyg=",
+        version = "v0.2.4",
     )
 
     go_repository(
@@ -1210,8 +1204,8 @@ def go_dependencies():
     go_repository(
         name = "com_github_mrunalp_fileutils",
         importpath = "github.com/mrunalp/fileutils",
-        sum = "h1:NKzVxiH7eSk+OQ4M+ZYW1K6h27RUV3MI6NUTsHhU6Z4=",
-        version = "v0.5.0",
+        sum = "h1:F+S7ZlNKnrwHfSwdlgNSkKo67ReVf8o9fel6C3dkm/Q=",
+        version = "v0.5.1",
     )
 
     go_repository(
@@ -1284,8 +1278,8 @@ def go_dependencies():
     go_repository(
         name = "com_github_opencontainers_runc",
         importpath = "github.com/opencontainers/runc",
-        sum = "h1:L44KXEpKmfWDcS02aeGm8QNTFXTo2D+8MYGDIJ/GDEs=",
-        version = "v1.1.5",
+        sum = "h1:BOIssBaW1La0/qbNZHXOOa71dZfZEQOzW7dqQf3phss=",
+        version = "v1.1.12",
     )
     go_repository(
         name = "com_github_opencontainers_runtime_spec",
@@ -1601,6 +1595,13 @@ def go_dependencies():
         sum = "h1:IeIrJN4twonTDuMuBNQdKZ+K97yd7VrmNGu+lDpYcDk=",
         version = "v0.27.0",
     )
+    go_repository(
+        name = "com_github_testcontainers_testcontainers_go_modules_mongodb",
+        importpath = "github.com/testcontainers/testcontainers-go/modules/mongodb",
+        sum = "h1:vVTdWZtnT8RmzILmEoKryIzTpity+sZw6A8YtWJ4Wvc=",
+        version = "v0.27.0",
+    )
+
     go_repository(
         name = "com_github_testcontainers_testcontainers_go_modules_redis",
         importpath = "github.com/testcontainers/testcontainers-go/modules/redis",
@@ -2153,8 +2154,8 @@ def go_dependencies():
     go_repository(
         name = "org_mongodb_go_mongo_driver",
         importpath = "go.mongodb.org/mongo-driver",
-        sum = "h1:nLkghSU8fQNaK7oUmDhQFsnrtcoNy7Z6LVFKsEecqgE=",
-        version = "v1.12.1",
+        sum = "h1:67DgFFjYOCMWdtTEmKFpV3ffWlFnh+CYZ8ZS/tXWUfY=",
+        version = "v1.13.0",
     )
     go_repository(
         name = "org_mozilla_go_pkcs7",

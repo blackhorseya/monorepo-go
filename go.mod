@@ -19,8 +19,9 @@ require (
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.2
 	github.com/testcontainers/testcontainers-go v0.27.0
+	github.com/testcontainers/testcontainers-go/modules/mongodb v0.27.0
 	github.com/testcontainers/testcontainers-go/modules/redis v0.27.0
-	go.mongodb.org/mongo-driver v1.12.1
+	go.mongodb.org/mongo-driver v1.13.0
 	go.uber.org/mock v0.3.0
 	go.uber.org/zap v1.26.0
 	google.golang.org/grpc v1.59.0
