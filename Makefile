@@ -66,11 +66,15 @@ gazelle: ## run gazelle with bazel
 
 ## docker
 .PHONY: docker-push
-docker-push: docker-push-shortenurl ## push docker image
+docker-push: docker-push-shortenurl docker-push-ekko ## push docker image
 
 .PHONY: docker-push-shortenurl
 docker-push-shortenurl: ## push docker image
 	bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //adapter/shortenurl:push
+
+.PHONY: docker-push-ekko
+docker-push-ekko: ## push docker image
+	bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //adapter/ekko:push
 
 ### deploy ###
 HELM_REPO_NAME ?= blackhorseya
