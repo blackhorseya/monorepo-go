@@ -12,6 +12,7 @@ go_library(
         "//entity/domain/market/biz",
         "//entity/domain/market/model",
         "//pkg/contextx",
+        "//pkg/finmindx",
         "@com_github_google_wire//:wire",
     ],
 )
@@ -19,5 +20,12 @@ go_library(
 go_test(
     name = "biz_test",
     srcs = ["impl_test.go"],
-    deps = ["@com_github_stretchr_testify//suite"],
+    deps = [
+        ":biz",
+        "//entity/domain/market/biz",
+        "//pkg/finmindx",
+        "@com_github_stretchr_testify//suite",
+        "@org_uber_go_mock//gomock",
+        "@org_uber_go_zap//:zap",
+    ],
 )
