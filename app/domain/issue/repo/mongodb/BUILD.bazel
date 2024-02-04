@@ -21,6 +21,8 @@ go_test(
         "//app/domain/issue/repo",
         "//entity/domain/issue/model",
         "//pkg/contextx",
+        "//pkg/storage/mongodb",
         "@com_github_stretchr_testify//suite",
+        "@org_mongodb_go_mongo_driver//mongo",
     ],
 )

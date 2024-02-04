@@ -10,16 +10,21 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// NewClient returns a new mongo client.
-func NewClient() (*mongo.Client, error) {
-	opts := options.Client().ApplyURI(configx.A.Storage.Mongodb.DSN)
+// NewClientWithDSN returns a new mongo client with dsn.
+func NewClientWithDSN(dsn string) (*mongo.Client, error) {
+	opts := options.Client().ApplyURI(dsn)
 
 	client, err := mongo.Connect(contextx.Background(), opts)
 	if err != nil {
-		return nil, errors.Wrap(err, "connect mongodb")
+		return nil, err
 	}
 
 	return client, nil
+}
+
+// NewClient returns a new mongo client.
+func NewClient() (*mongo.Client, error) {
+	return NewClientWithDSN(configx.A.Storage.Mongodb.DSN)
 }
 
 // Container is used to represent a mongodb container.

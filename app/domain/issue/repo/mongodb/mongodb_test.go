@@ -7,13 +7,46 @@ import (
 	"github.com/blackhorseya/monorepo-go/app/domain/issue/repo"
 	"github.com/blackhorseya/monorepo-go/entity/domain/issue/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/stretchr/testify/suite"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type suiteTester struct {
 	suite.Suite
 
-	storage repo.Storager
+	container *mongodb.Container
+	rw        *mongo.Client
+	storage   repo.Storager
+}
+
+func (s *suiteTester) SetupTest() {
+	ctx := contextx.Background()
+
+	container, err := mongodb.NewContainer(ctx)
+	s.Require().NoError(err)
+	s.container = container
+
+	dsn, err := s.container.ConnectionString(ctx)
+	s.Require().NoError(err)
+
+	rw, err := mongodb.NewClientWithDSN(dsn)
+	s.Require().NoError(err)
+	s.rw = rw
+
+	storager, err := NewStorager(s.rw)
+	s.Require().NoError(err)
+	s.storage = storager
+}
+
+func (s *suiteTester) TearDownTest() {
+	ctx := contextx.Background()
+
+	err := s.rw.Disconnect(ctx)
+	s.Require().NoError(err)
+
+	err = s.container.Terminate(ctx)
+	s.Require().NoError(err)
 }
 
 func TestAll(t *testing.T) {
