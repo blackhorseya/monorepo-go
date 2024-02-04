@@ -17,6 +17,9 @@ type Application struct {
 	Log     logging.Config `json:"log" yaml:"log"`
 	HTTP    HTTP           `json:"http" yaml:"http"`
 	Storage struct {
+		Mongodb struct {
+			DSN string `json:"dsn" yaml:"dsn"`
+		} `json:"mongodb" yaml:"mongodb"`
 		Redis struct {
 			Addr     string `json:"addr" yaml:"addr"`
 			Password string `json:"password" yaml:"password"`

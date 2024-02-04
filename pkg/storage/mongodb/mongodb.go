@@ -9,8 +9,8 @@ import (
 )
 
 // NewClient returns a new mongo client.
-func NewClient(config *configx.Config) (*mongo.Client, error) {
-	opts := options.Client().ApplyURI(config.Storage.DSN)
+func NewClient() (*mongo.Client, error) {
+	opts := options.Client().ApplyURI(configx.A.Storage.Mongodb.DSN)
 
 	client, err := mongo.Connect(contextx.Background(), opts)
 	if err != nil {
