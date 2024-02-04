@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package issue;
+
+option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/issue/model";
+
+import "google/protobuf/timestamp.proto";
+
+message Ticket {
+    // @gotags: bson:"_id"
+    int64 id = 1;
+    string title = 2;
+    bool completed = 3;
+    // @gotags: swaggertype:"string"
+    google.protobuf.Timestamp created_at = 4;
+    // @gotags: swaggertype:"string"
+    google.protobuf.Timestamp updated_at = 5;
+}
