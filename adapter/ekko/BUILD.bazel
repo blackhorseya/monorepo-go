@@ -42,4 +42,3 @@ oci_push(
     remote_tags = ["latest"],
     repository = "ghcr.io/blackhorseya/ekko",
 )
-
