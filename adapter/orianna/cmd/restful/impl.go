@@ -47,6 +47,8 @@ func (i *impl) Start() error {
 		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
+	i.server.Router.POST("/callback", i.callback)
+
 	err := i.server.Start(ctx)
 	if err != nil {
 		return err
@@ -93,4 +95,9 @@ func (i *impl) AwaitSignal() error {
 // @Router /healthz [get]
 func (i *impl) healthz(c *gin.Context) {
 	c.JSON(http.StatusOK, response.OK)
+}
+
+func (i *impl) callback(c *gin.Context) {
+	// todo: 2024/2/4|sean|implement me
+	c.Status(http.StatusOK)
 }
