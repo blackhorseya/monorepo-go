@@ -24,9 +24,14 @@ func NewMarketBiz(finmind finmindx.Dialer, storage repo.Storager) (biz.IMarketBi
 }
 
 func (i *impl) GetStockBySymbol(ctx contextx.Contextx, symbol string) (stock *model.Stock, err error) {
+	info, err := i.storage.GetBySymbol(ctx, symbol)
+	if err != nil {
+		return nil, err
+	}
+
 	ret := &model.Stock{
 		Symbol: symbol,
-		Name:   "",
+		Name:   info.Name,
 		Price:  0,
 	}
 

@@ -44,9 +44,14 @@ func TestAll(t *testing.T) {
 }
 
 func (s *suiteTester) Test_impl_GetStockBySymbol() {
-	stock1 := &model.Stock{
+	info1 := &model.StockInfo{
 		Symbol: "2330",
-		Name:   "",
+		Name:   "2330",
+	}
+
+	stock1 := &model.Stock{
+		Symbol: info1.Symbol,
+		Name:   info1.Name,
 		Price:  100,
 	}
 
@@ -64,6 +69,20 @@ func (s *suiteTester) Test_impl_GetStockBySymbol() {
 		{
 			name: "get by symbol then error",
 			args: args{symbol: stock1.Symbol, mock: func() {
+				s.storage.EXPECT().GetBySymbol(gomock.Any(), stock1.Symbol).
+					Return(nil, errors.New("mock error")).
+					Times(1)
+			}},
+			wantStock: nil,
+			wantErr:   true,
+		},
+		{
+			name: "get by symbol then error",
+			args: args{symbol: stock1.Symbol, mock: func() {
+				s.storage.EXPECT().GetBySymbol(gomock.Any(), stock1.Symbol).
+					Return(info1, nil).
+					Times(1)
+
 				s.finmind.EXPECT().TaiwanStockPrice(
 					gomock.Any(),
 					stock1.Symbol,
@@ -77,6 +96,10 @@ func (s *suiteTester) Test_impl_GetStockBySymbol() {
 		{
 			name: "get by symbol then ok",
 			args: args{symbol: stock1.Symbol, mock: func() {
+				s.storage.EXPECT().GetBySymbol(gomock.Any(), stock1.Symbol).
+					Return(info1, nil).
+					Times(1)
+
 				s.finmind.EXPECT().TaiwanStockPrice(
 					gomock.Any(),
 					stock1.Symbol,
