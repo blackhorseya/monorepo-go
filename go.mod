@@ -3,6 +3,7 @@ module github.com/blackhorseya/monorepo-go
 go 1.20
 
 require (
+	github.com/aws/aws-lambda-go v1.46.0
 	github.com/gin-contrib/zap v0.2.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-kit/kit v0.13.0
@@ -10,6 +11,7 @@ require (
 	github.com/google/uuid v1.4.0
 	github.com/google/wire v0.5.0
 	github.com/jmoiron/sqlx v1.3.5
+	github.com/line/line-bot-sdk-go/v8 v8.2.1
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.4.0
 	github.com/spf13/cobra v1.8.0
@@ -72,7 +74,6 @@ require (
 	github.com/klauspost/compress v1.17.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
-	github.com/line/line-bot-sdk-go/v8 v8.2.1 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
