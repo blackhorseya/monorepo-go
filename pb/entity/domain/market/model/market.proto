@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/market/model";
 
 message StockInfo {
-    // @gotags bson:"_id"
+    // @gotags: bson:"_id"
     string symbol = 1;
     string name = 2;
     string industry_category = 3;
