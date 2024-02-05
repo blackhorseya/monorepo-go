@@ -2,7 +2,19 @@ syntax = "proto3";
 
 package market;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/market/model";
+
+message StockInfo {
+    // @gotags bson:"_id"
+    string symbol = 1;
+    string name = 2;
+    string industry_category = 3;
+    string type = 4;
+    // @gotags: swaggertype:"string"
+    google.protobuf.Timestamp date = 5;
+}
 
 message Stock {
     // @gotags bson:"_id"
