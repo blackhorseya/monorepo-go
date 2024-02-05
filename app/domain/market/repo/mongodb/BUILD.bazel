@@ -9,6 +9,7 @@ go_library(
         "//app/domain/market/repo",
         "//entity/domain/market/model",
         "//pkg/contextx",
+        "@org_mongodb_go_mongo_driver//bson",
         "@org_mongodb_go_mongo_driver//mongo",
     ],
 )

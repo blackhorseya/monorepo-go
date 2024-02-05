@@ -1,10 +1,20 @@
 package mongodb
 
 import (
+	"time"
+
 	"github.com/blackhorseya/monorepo-go/app/domain/market/repo"
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+)
+
+const (
+	timeoutDuration = 5 * time.Second
+
+	dbName   = "orianna"
+	collName = "stocks"
 )
 
 type impl struct {
@@ -17,6 +27,16 @@ func NewStorager(rw *mongo.Client) (repo.Storager, error) {
 }
 
 func (i *impl) GetBySymbol(ctx contextx.Contextx, symbol string) (info *model.StockInfo, err error) {
-	// todo: 2024/2/5|sean|implement me
-	panic("implement me")
+	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
+	defer cancelFunc()
+
+	coll := i.rw.Database(dbName).Collection(collName)
+	filter := bson.M{"_id": symbol}
+	var ret *model.StockInfo
+	err = coll.FindOne(timeout, filter).Decode(&ret)
+	if err != nil {
+		return nil, err
+	}
+
+	return ret, nil
 }
