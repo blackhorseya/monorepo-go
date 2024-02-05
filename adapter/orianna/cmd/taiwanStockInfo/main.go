@@ -3,15 +3,19 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
+	"net/http"
 	"net/url"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
 	"go.uber.org/zap"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
@@ -56,9 +60,28 @@ func Handler(c context.Context) (Response, error) {
 	if err != nil {
 		return Response{}, err
 	}
-	ctx.Debug("taiwan stock info", zap.Any("res", res))
 
-	return Response{StatusCode: 200}, nil
+	var ret []*model.StockInfo
+	for _, v := range res {
+		var date *timestamppb.Timestamp
+		if !v.Date.IsZero() {
+			date = timestamppb.New(v.Date)
+		}
+
+		ret = append(ret, &model.StockInfo{
+			Symbol:           v.StockID,
+			Name:             v.StockName,
+			IndustryCategory: v.IndustryCategory,
+			Type:             v.Type,
+			Date:             date,
+		})
+	}
+
+	return Response{
+		StatusCode: http.StatusOK,
+		Headers:    map[string]string{"Content-Type": "application/json"},
+		Body:       fmt.Sprintf("got %d stock info", len(ret)),
+	}, nil
 }
 
 func main() {

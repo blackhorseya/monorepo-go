@@ -21,6 +21,11 @@ type Response struct {
 	Data    interface{} `json:"data,omitempty"`
 }
 
+func (resp *Response) String() string {
+	b, _ := json.Marshal(resp)
+	return string(b)
+}
+
 // WithMessage set response message.
 func (resp *Response) WithMessage(message string) *Response {
 	return &Response{

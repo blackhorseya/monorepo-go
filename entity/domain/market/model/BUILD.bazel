@@ -12,5 +12,6 @@ go_library(
         "@com_github_line_line_bot_sdk_go_v8//linebot",
         "@org_golang_google_protobuf//reflect/protoreflect",
         "@org_golang_google_protobuf//runtime/protoimpl",
+        "@org_golang_google_protobuf//types/known/timestamppb",
     ],
 )

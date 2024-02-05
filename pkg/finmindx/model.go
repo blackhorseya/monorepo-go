@@ -1,5 +1,14 @@
 package finmindx
 
+import (
+	"encoding/json"
+	"time"
+)
+
+const (
+	dateFormat = "2006-01-02"
+)
+
 // Response is used to represent the response.
 type Response struct {
 	Message string      `json:"msg"`
@@ -29,9 +38,36 @@ type TaiwanStockPriceResponse struct {
 
 // TaiwanStockInfo is used to represent the Taiwan stock info.
 type TaiwanStockInfo struct {
-	IndustryCategory string `json:"industry_category"`
-	StockID          string `json:"stock_id"`
-	StockName        string `json:"stock_name"`
-	Type             string `json:"type"`
-	Date             string `json:"date"`
+	IndustryCategory string    `json:"industry_category"`
+	StockID          string    `json:"stock_id"`
+	StockName        string    `json:"stock_name"`
+	Type             string    `json:"type"`
+	Date             time.Time `json:"date"`
+}
+
+func (x *TaiwanStockInfo) UnmarshalJSON(bytes []byte) error {
+	type Alias TaiwanStockInfo
+	aux := &struct {
+		*Alias
+		Date string `json:"date,omitempty"`
+	}{
+		Alias: (*Alias)(x),
+	}
+
+	err := json.Unmarshal(bytes, &aux)
+	if err != nil {
+		return err
+	}
+
+	var date time.Time
+	if len(aux.Date) != 0 && aux.Date != "None" {
+		date, err = time.Parse(dateFormat, aux.Date)
+		if err != nil {
+			return err
+		}
+
+		x.Date = date
+	}
+
+	return nil
 }
