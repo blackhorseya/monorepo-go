@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"net/http"
 	"net/url"
@@ -72,6 +71,7 @@ func Handler(c context.Context) (Response, error) {
 	if err != nil {
 		return Response{}, err
 	}
+	ctx.Info("successfully fetch [TaiwanStockInfo] dataset", zap.Int("count", len(got)))
 
 	var models []mongo.WriteModel
 	for _, v := range got {
@@ -100,16 +100,12 @@ func Handler(c context.Context) (Response, error) {
 	if err != nil {
 		return Response{}, err
 	}
-
-	marshal, err := json.Marshal(result)
-	if err != nil {
-		return Response{}, err
-	}
+	ctx.Info("successfully upsert [StockInfo] dataset", zap.Any("result", &result))
 
 	return Response{
 		StatusCode: http.StatusOK,
 		Headers:    map[string]string{"Content-Type": "application/json"},
-		Body:       string(marshal),
+		Body:       "ok",
 	}, nil
 }
 
