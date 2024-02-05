@@ -85,24 +85,3 @@ docker-push-ekko: ## push docker image
 .PHONY: docker-push-orianna
 docker-push-orianna: ## push docker image
 	bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //adapter/orianna:push
-
-### deploy ###
-HELM_REPO_NAME ?= blackhorseya
-DEPLOY_TO ?= prod
-
-.PHONY: deploy-shortenurl
-deploy-shortenurl: deploy-shortenurl-api ## deploy shortenurl
-
-.PHONY: deploy-shortenurl-api
-deploy-shortenurl-api: ## deploy shortenurl api
-	@helm upgrade $(DEPLOY_TO)-shortenurl-api $(HELM_REPO_NAME)/shortenurl-api \
-	--install --namespace $(DEPLOY_TO)-shortenurl \
-	--history-max 3 \
-	--values ./deployments/values/shortenurl/$(DEPLOY_TO)/api.yaml
-
-.PHONY: deploy-shortenurl-redis
-deploy-shortenurl-redis: ## deploy shortenurl redis
-	@helm upgrade $(DEPLOY_TO)-shortenurl-redis bitnami/redis \
-	--install --namespace $(DEPLOY_TO)-shortenurl \
-	--history-max 3 \
-	--values ./deployments/values/shortenurl/$(DEPLOY_TO)/redis.yaml
