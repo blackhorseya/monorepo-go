@@ -29,9 +29,6 @@ functions:
     handler: ./cmd/taiwanStockInfo/
     name: ${sls:stage}-taiwanStockInfo
     events:
-      - httpApi:
-          path: /
-          method: post
       - schedule:
           method: scheduler
           rate: cron(30 13 * * ? *)
