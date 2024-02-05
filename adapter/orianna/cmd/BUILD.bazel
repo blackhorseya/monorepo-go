@@ -10,7 +10,7 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd",
     visibility = ["//visibility:public"],
     deps = [
-        "//adapter/orianna/cmd/restful",
+        "//adapter/orianna/cmd/bot",
         "//pkg/cmdx",
         "//pkg/configx",
         "//pkg/contextx",

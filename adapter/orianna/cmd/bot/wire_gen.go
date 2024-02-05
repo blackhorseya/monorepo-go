@@ -4,7 +4,7 @@
 //go:build !wireinject
 // +build !wireinject
 
-package restful
+package bot
 
 import (
 	"github.com/blackhorseya/monorepo-go/app/domain/market/biz"
