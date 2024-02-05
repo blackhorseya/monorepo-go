@@ -13,6 +13,8 @@ type Dialer interface {
 	// Do is used to do the request.
 	Do(ctx contextx.Contextx, dataset string, params map[string]string, v any) error
 
+	TaiwanStockInfo(ctx contextx.Contextx) (res []*TaiwanStockInfo, err error)
+
 	TaiwanStockPrice(
 		ctx contextx.Contextx,
 		symbol string,

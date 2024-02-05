@@ -42,3 +42,29 @@ func TestImpl_Do(t *testing.T) {
 
 	t.Skip("skipping test in external package")
 }
+
+func TestImpl_TaiwanStockInfo(t *testing.T) {
+	err := configx.Load("", "sean")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = logging.InitWithConfig(configx.C.Log)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	client, err := finmindx.NewClient()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ctx := contextx.Background()
+	res, err := client.TaiwanStockInfo(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ctx.Debug("res", zap.Any("res", res))
+
+	t.Skip("skipping test in external package")
+}

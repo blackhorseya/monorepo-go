@@ -26,3 +26,12 @@ type TaiwanStockPriceResponse struct {
 	*Response `json:",inline"`
 	Data      []*TaiwanStockPrice `json:"data,omitempty"`
 }
+
+// TaiwanStockInfo is used to represent the Taiwan stock info.
+type TaiwanStockInfo struct {
+	IndustryCategory string `json:"industry_category"`
+	StockID          string `json:"stock_id"`
+	StockName        string `json:"stock_name"`
+	Type             string `json:"type"`
+	Date             string `json:"date"`
+}

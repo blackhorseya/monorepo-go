@@ -98,3 +98,18 @@ func (i *impl) TaiwanStockPrice(
 
 	return got, nil
 }
+
+func (i *impl) TaiwanStockInfo(ctx contextx.Contextx) (res []*TaiwanStockInfo, err error) {
+	type response struct {
+		*Response `json:",inline"`
+		Data      []*TaiwanStockInfo `json:"data,omitempty"`
+	}
+
+	var got *response
+	err = i.Do(ctx, "TaiwanStockInfo", nil, &got)
+	if err != nil {
+		return nil, err
+	}
+
+	return got.Data, nil
+}
