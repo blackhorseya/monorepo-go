@@ -1,12 +1,23 @@
 package main
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
+	"errors"
+	"net/url"
+	"os"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/blackhorseya/monorepo-go/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
+	"go.uber.org/zap"
+)
+
+const (
+	keyFinmindAPI   = "FINMIND_API"
+	keyFinmindToken = "FINMIND_TOKEN"
+	keyDatabaseURL  = "DATABASE_URL"
 )
 
 // Response is of type APIGatewayProxyResponse since we're leveraging the
@@ -16,30 +27,41 @@ import (
 type Response events.APIGatewayProxyResponse
 
 // Handler is our lambda handler invoked by the `lambda.Start` function call
-func Handler(ctx context.Context) (Response, error) {
-	var buf bytes.Buffer
-
-	body, err := json.Marshal(map[string]interface{}{
-		"message": "Okay so your other function also executed successfully!",
-	})
+func Handler(c context.Context) (Response, error) {
+	uri, err := url.ParseRequestURI(os.Getenv(keyFinmindAPI))
 	if err != nil {
-		return Response{StatusCode: 404}, err
+		return Response{}, err
 	}
-	json.HTMLEscape(&buf, body)
+	configx.C.Finmind.HTTP.URL = uri.String()
 
-	resp := Response{
-		StatusCode:      200,
-		IsBase64Encoded: false,
-		Body:            buf.String(),
-		Headers: map[string]string{
-			"Content-Type":           "application/json",
-			"X-MyCompany-Func-Reply": "world-handler",
-		},
+	token := os.Getenv(keyFinmindToken)
+	if len(token) == 0 {
+		return Response{}, errors.New("finmind token is not set")
+	}
+	configx.C.Finmind.Token = token
+
+	databaseURL := os.Getenv(keyDatabaseURL)
+	if len(databaseURL) == 0 {
+		return Response{}, errors.New("database url is not set")
+	}
+	configx.A.Storage.Mongodb.DSN = databaseURL
+
+	client, err := finmindx.NewClient()
+	if err != nil {
+		return Response{}, err
 	}
 
-	return resp, nil
+	ctx := contextx.Background()
+	res, err := client.TaiwanStockInfo(ctx)
+	if err != nil {
+		return Response{}, err
+	}
+	ctx.Debug("taiwan stock info", zap.Any("res", res))
+
+	return Response{StatusCode: 200}, nil
 }
 
 func main() {
+	zap.ReplaceGlobals(zap.NewExample())
 	lambda.Start(Handler)
 }

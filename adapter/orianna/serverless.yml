@@ -33,3 +33,4 @@ functions:
           method: scheduler
           rate: cron(30 13 * * ? *)
           timezone: Asia/Taipei
+    environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
