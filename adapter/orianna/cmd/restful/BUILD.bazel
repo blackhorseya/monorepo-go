@@ -10,6 +10,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//adapter/orianna/api/docs",
+        "//adapter/orianna/cmd/restful/v1:restful",
         "//pkg/adapterx",
         "//pkg/configx",
         "//pkg/contextx",

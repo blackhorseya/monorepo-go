@@ -9,6 +9,7 @@ import (
 	"syscall"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/orianna/api/docs" // swagger docs
+	v1 "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/restful/v1"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -45,6 +46,8 @@ func (i *impl) Start() error {
 	{
 		api.GET("/healthz", i.healthz)
 		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+		v1.Handle(api.Group("/v1"))
 	}
 
 	err := i.server.Start(ctx)
