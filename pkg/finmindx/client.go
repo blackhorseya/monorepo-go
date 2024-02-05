@@ -13,7 +13,8 @@ import (
 )
 
 const (
-	timeLayout = "2006-01-02"
+	timeLayout      = "2006-01-02"
+	timeoutDuration = 10 * time.Second
 )
 
 type impl struct {
@@ -30,7 +31,7 @@ func NewClient() (Dialer, error) {
 }
 
 func (i *impl) Do(ctx contextx.Contextx, dataset string, params map[string]string, v any) error {
-	timeout, cancelFunc := contextx.WithTimeout(ctx, 5*time.Second)
+	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
 	defer cancelFunc()
 
 	baseURL, err := url.ParseRequestURI(i.endpoint)

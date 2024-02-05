@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 	"os"
@@ -14,6 +14,10 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
+	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.uber.org/zap"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -22,6 +26,9 @@ const (
 	keyFinmindAPI   = "FINMIND_API"
 	keyFinmindToken = "FINMIND_TOKEN"
 	keyDatabaseURL  = "DATABASE_URL"
+
+	dbName   = "orianna"
+	collName = "stocks"
 )
 
 // Response is of type APIGatewayProxyResponse since we're leveraging the
@@ -44,43 +51,65 @@ func Handler(c context.Context) (Response, error) {
 	}
 	configx.C.Finmind.Token = token
 
+	client, err := finmindx.NewClient()
+	if err != nil {
+		return Response{}, err
+	}
+
 	databaseURL := os.Getenv(keyDatabaseURL)
 	if len(databaseURL) == 0 {
 		return Response{}, errors.New("database url is not set")
 	}
 	configx.A.Storage.Mongodb.DSN = databaseURL
 
-	client, err := finmindx.NewClient()
+	rw, err := mongodb.NewClientWithDSN(databaseURL)
 	if err != nil {
 		return Response{}, err
 	}
 
 	ctx := contextx.Background()
-	res, err := client.TaiwanStockInfo(ctx)
+	got, err := client.TaiwanStockInfo(ctx)
 	if err != nil {
 		return Response{}, err
 	}
 
-	var ret []*model.StockInfo
-	for _, v := range res {
+	var models []mongo.WriteModel
+	for _, v := range got {
 		var date *timestamppb.Timestamp
 		if !v.Date.IsZero() {
 			date = timestamppb.New(v.Date)
 		}
 
-		ret = append(ret, &model.StockInfo{
+		filter := bson.M{"_id": v.StockID}
+		doc := &model.StockInfo{
 			Symbol:           v.StockID,
 			Name:             v.StockName,
 			IndustryCategory: v.IndustryCategory,
 			Type:             v.Type,
 			Date:             date,
-		})
+		}
+		models = append(models, mongo.NewReplaceOneModel().
+			SetFilter(filter).
+			SetReplacement(doc).
+			SetUpsert(true),
+		)
+	}
+	opts := options.BulkWrite().SetOrdered(false)
+
+	result, err := rw.Database(dbName).Collection(collName).BulkWrite(ctx, models, opts)
+	if err != nil {
+		return Response{}, err
+	}
+
+	marshal, err := json.Marshal(result)
+	if err != nil {
+		return Response{}, err
 	}
 
 	return Response{
 		StatusCode: http.StatusOK,
 		Headers:    map[string]string{"Content-Type": "application/json"},
-		Body:       fmt.Sprintf("got %d stock info", len(ret)),
+		Body:       string(marshal),
 	}, nil
 }
 
