@@ -8,6 +8,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.uber.org/zap"
 )
 
 const (
@@ -35,6 +36,7 @@ func (i *impl) GetBySymbol(ctx contextx.Contextx, symbol string) (info *model.St
 	var ret *model.StockInfo
 	err = coll.FindOne(timeout, filter).Decode(&ret)
 	if err != nil {
+		ctx.Error("find one error", zap.Error(err))
 		return nil, err
 	}
 
