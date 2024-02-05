@@ -3,6 +3,7 @@ package biz
 import (
 	"time"
 
+	"github.com/blackhorseya/monorepo-go/app/domain/market/repo"
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/biz"
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -11,12 +12,14 @@ import (
 
 type impl struct {
 	finmind finmindx.Dialer
+	storage repo.Storager
 }
 
 // NewMarketBiz is used to create a new market biz instance.
-func NewMarketBiz(finmind finmindx.Dialer) (biz.IMarketBiz, error) {
+func NewMarketBiz(finmind finmindx.Dialer, storage repo.Storager) (biz.IMarketBiz, error) {
 	return &impl{
 		finmind: finmind,
+		storage: storage,
 	}, nil
 }
 

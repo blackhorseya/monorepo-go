@@ -8,9 +8,11 @@ package restful
 
 import (
 	"github.com/blackhorseya/monorepo-go/app/domain/market/biz"
+	mongodb2 "github.com/blackhorseya/monorepo-go/app/domain/market/repo/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
 	"github.com/blackhorseya/monorepo-go/pkg/linebot"
+	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/spf13/viper"
 )
 
@@ -29,7 +31,15 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	iMarketBiz, err := biz.NewMarketBiz(dialer)
+	mongoClient, err := mongodb.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	storager, err := mongodb2.NewStorager(mongoClient)
+	if err != nil {
+		return nil, err
+	}
+	iMarketBiz, err := biz.NewMarketBiz(dialer, storager)
 	if err != nil {
 		return nil, err
 	}

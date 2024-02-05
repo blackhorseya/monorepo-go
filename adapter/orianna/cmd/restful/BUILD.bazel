@@ -11,6 +11,7 @@ go_library(
     deps = [
         "//adapter/orianna/api/docs",
         "//app/domain/market/biz",
+        "//app/domain/market/repo/mongodb",
         "//entity/domain/market/biz",
         "//pkg/adapterx",
         "//pkg/configx",
@@ -18,6 +19,7 @@ go_library(
         "//pkg/finmindx",
         "//pkg/linebot",
         "//pkg/response",
+        "//pkg/storage/mongodb",
         "//pkg/transports/httpx",
         "@com_github_gin_gonic_gin//:gin",
         "@com_github_line_line_bot_sdk_go_v8//linebot",

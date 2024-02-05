@@ -9,6 +9,8 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/app/domain/market/biz",
     visibility = ["//visibility:public"],
     deps = [
+        "//app/domain/market/repo",
+        "//app/domain/market/repo/mongodb",
         "//entity/domain/market/biz",
         "//entity/domain/market/model",
         "//pkg/contextx",
@@ -22,6 +24,7 @@ go_test(
     srcs = ["impl_test.go"],
     deps = [
         ":biz",
+        "//app/domain/market/repo",
         "//entity/domain/market/biz",
         "//entity/domain/market/model",
         "//pkg/contextx",

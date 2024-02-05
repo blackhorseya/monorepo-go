@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/blackhorseya/monorepo-go/app/domain/market/biz"
+	"github.com/blackhorseya/monorepo-go/app/domain/market/repo"
 	marketB "github.com/blackhorseya/monorepo-go/entity/domain/market/biz"
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -20,6 +21,7 @@ type suiteTester struct {
 
 	ctrl    *gomock.Controller
 	finmind *finmindx.MockDialer
+	storage *repo.MockStorager
 	biz     marketB.IMarketBiz
 }
 
@@ -27,7 +29,8 @@ func (s *suiteTester) SetupTest() {
 	zap.ReplaceGlobals(zap.NewExample())
 	s.ctrl = gomock.NewController(s.T())
 	s.finmind = finmindx.NewMockDialer(s.ctrl)
-	marketBiz, err := biz.NewMarketBiz(s.finmind)
+	s.storage = repo.NewMockStorager(s.ctrl)
+	marketBiz, err := biz.NewMarketBiz(s.finmind, s.storage)
 	s.NoError(err)
 	s.biz = marketBiz
 }
