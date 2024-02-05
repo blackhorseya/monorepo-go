@@ -25,6 +25,7 @@ type Stock struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// @gotags bson:"_id"
 	Symbol string  `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol,omitempty"`
 	Name   string  `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Price  float64 `protobuf:"fixed64,3,opt,name=price,proto3" json:"price,omitempty"`
