@@ -11,6 +11,10 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
 )
 
+var (
+	injector *Injector
+)
+
 // Response is of type APIGatewayProxyResponse since we're leveraging the
 // AWS Lambda Proxy Request functionality (default behavior)
 //
@@ -32,6 +36,11 @@ func main() {
 	configx.ReplaceApplication(configx.C.Orianna)
 
 	err = logging.InitWithConfig(configx.C.Log)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	injector, err = BuildInjector()
 	if err != nil {
 		log.Fatal(err)
 	}

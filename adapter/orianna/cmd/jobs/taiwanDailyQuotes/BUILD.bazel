@@ -2,12 +2,16 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_library(
     name = "taiwanDailyQuotes_lib",
-    srcs = ["main.go"],
+    srcs = [
+        "main.go",
+        "wire_gen.go",
+    ],
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/jobs/taiwanDailyQuotes",
     visibility = ["//visibility:private"],
     deps = [
         "//pkg/configx",
         "//pkg/logging",
+        "//pkg/notify",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
     ],
