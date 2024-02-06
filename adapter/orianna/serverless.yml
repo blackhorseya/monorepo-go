@@ -34,12 +34,3 @@ functions:
           rate: cron(45 13 * * ? *)
           timezone: Asia/Taipei
     environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
-  taiwanDailyQuotes:
-    handler: ./cmd/jobs/taiwanDailyQuotes/
-    name: ${sls:stage}-taiwanDailyQuotes
-    events:
-      - schedule:
-          method: scheduler
-          rate: cron(45 17 * * ? *)
-          timezone: Asia/Taipei
-    environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
