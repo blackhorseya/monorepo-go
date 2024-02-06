@@ -2,7 +2,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_library(
     name = "taiwanStockInfo_lib",
-    srcs = ["main.go"],
+    srcs = [
+        "main.go",
+        "wire_gen.go",
+    ],
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/jobs/taiwanStockInfo",
     visibility = ["//visibility:private"],
     deps = [

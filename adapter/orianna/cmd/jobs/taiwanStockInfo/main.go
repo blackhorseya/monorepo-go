@@ -11,10 +11,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
-	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
-	"github.com/blackhorseya/monorepo-go/pkg/notify"
-	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -28,7 +25,7 @@ const (
 )
 
 var (
-	notifier notify.Notifier
+	injector *Injector
 )
 
 // Response is of type APIGatewayProxyResponse since we're leveraging the
@@ -41,23 +38,7 @@ type Response events.APIGatewayProxyResponse
 func Handler(c context.Context) (Response, error) {
 	ctx := contextx.Background()
 
-	var err error
-	notifier, err = notify.NewLineNotifier()
-	if err != nil {
-		return handleError(err)
-	}
-
-	client, err := finmindx.NewClient()
-	if err != nil {
-		return handleError(err)
-	}
-
-	rw, err := mongodb.NewClient()
-	if err != nil {
-		return handleError(err)
-	}
-
-	got, err := client.TaiwanStockInfo(ctx)
+	got, err := injector.finmind.TaiwanStockInfo(ctx)
 	if err != nil {
 		return handleError(err)
 	}
@@ -86,13 +67,13 @@ func Handler(c context.Context) (Response, error) {
 	}
 	opts := options.BulkWrite().SetOrdered(false)
 
-	result, err := rw.Database(dbName).Collection(collName).BulkWrite(ctx, models, opts)
+	result, err := injector.rw.Database(dbName).Collection(collName).BulkWrite(ctx, models, opts)
 	if err != nil {
 		return handleError(err)
 	}
 	ctx.Info("successfully update stocks", zap.Any("result", &result))
 
-	err = notifier.SendText(ctx, "[TaiwanStockInfo] dataset has been updated")
+	err = injector.notifier.SendText(ctx, "[TaiwanStockInfo] dataset has been updated")
 	if err != nil {
 		ctx.Warn("failed to send notification", zap.Error(err))
 	}
@@ -117,14 +98,19 @@ func main() {
 		log.Fatal(err)
 	}
 
+	injector, err = BuildInjector()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	lambda.Start(Handler)
 }
 
 func handleError(err error) (Response, error) {
 	ctx := contextx.Background()
 
-	if notifier != nil {
-		_ = notifier.SendText(ctx, fmt.Sprintf("[TaiwanStockInfo] failed to execute the job: %v", err))
+	if injector.notifier != nil {
+		_ = injector.notifier.SendText(ctx, fmt.Sprintf("[TaiwanStockInfo] failed to execute the job: %v", err))
 	}
 
 	ctx.Error("failed to execute the job", zap.Error(err))
