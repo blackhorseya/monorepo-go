@@ -13,6 +13,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
+	"github.com/blackhorseya/monorepo-go/pkg/notify"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -22,9 +23,10 @@ import (
 )
 
 const (
-	keyFinmindAPI   = "FINMIND_API"
-	keyFinmindToken = "FINMIND_TOKEN"
-	keyDatabaseURL  = "DATABASE_URL"
+	keyFinmindAPI      = "FINMIND_API"
+	keyFinmindToken    = "FINMIND_TOKEN"
+	keyDatabaseURL     = "DATABASE_URL"
+	keyLineNotifyToken = "LINE_NOTIFY_TOKEN"
 
 	dbName   = "orianna"
 	collName = "stocks"
@@ -44,11 +46,13 @@ func Handler(c context.Context) (Response, error) {
 	}
 	configx.C.Finmind.HTTP.URL = uri.String()
 
-	token := os.Getenv(keyFinmindToken)
-	if len(token) == 0 {
-		return Response{}, errors.New("finmind token is not set")
+	{
+		token := os.Getenv(keyFinmindToken)
+		if len(token) == 0 {
+			return Response{}, errors.New("finmind token is not set")
+		}
+		configx.C.Finmind.Token = token
 	}
-	configx.C.Finmind.Token = token
 
 	client, err := finmindx.NewClient()
 	if err != nil {
@@ -60,6 +64,20 @@ func Handler(c context.Context) (Response, error) {
 		return Response{}, errors.New("database url is not set")
 	}
 	configx.A.Storage.Mongodb.DSN = databaseURL
+
+	{
+		token := os.Getenv(keyLineNotifyToken)
+		if len(token) == 0 {
+			return Response{}, errors.New("line notify token is not set")
+		}
+		configx.C.LineNotify.Endpoint = "https://notify-api.line.me/api/notify"
+		configx.C.LineNotify.AccessToken = token
+	}
+
+	notifier, err := notify.NewLineNotifier()
+	if err != nil {
+		return Response{}, err
+	}
 
 	rw, err := mongodb.NewClientWithDSN(databaseURL)
 	if err != nil {
@@ -100,7 +118,12 @@ func Handler(c context.Context) (Response, error) {
 	if err != nil {
 		return Response{}, err
 	}
-	ctx.Info("successfully upsert [StockInfo] dataset", zap.Any("result", &result))
+	ctx.Info("successfully update stocks", zap.Any("result", &result))
+
+	err = notifier.SendText(ctx, "[TaiwanStockInfo] dataset has been updated")
+	if err != nil {
+		ctx.Warn("failed to send notification", zap.Error(err))
+	}
 
 	return Response{
 		StatusCode: http.StatusOK,

@@ -15,8 +15,8 @@ type line struct {
 	accessToken string
 }
 
-// NewLintNotifier creates a new Notifier that sends notifications to a LINE group.
-func NewLintNotifier() (Notifier, error) {
+// NewLineNotifier creates a new Notifier that sends notifications to a LINE group.
+func NewLineNotifier() (Notifier, error) {
 	return &line{
 		endpoint:    configx.C.LineNotify.Endpoint,
 		accessToken: configx.C.LineNotify.AccessToken,
