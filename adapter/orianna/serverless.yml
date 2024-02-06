@@ -26,7 +26,7 @@ package:
 
 functions:
   taiwanStockInfo:
-    handler: ./cmd/taiwanStockInfo/
+    handler: ./cmd/jobs/taiwanStockInfo/
     name: ${sls:stage}-taiwanStockInfo
     events:
       - schedule:
