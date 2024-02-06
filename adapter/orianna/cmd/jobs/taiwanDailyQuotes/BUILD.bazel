@@ -6,9 +6,10 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/jobs/taiwanDailyQuotes",
     visibility = ["//visibility:private"],
     deps = [
+        "//pkg/configx",
+        "//pkg/logging",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
-        "@org_uber_go_zap//:zap",
     ],
 )
 

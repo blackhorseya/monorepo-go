@@ -2,11 +2,13 @@ package main
 
 import (
 	"context"
+	"log"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"go.uber.org/zap"
+	"github.com/blackhorseya/monorepo-go/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/pkg/logging"
 )
 
 // Response is of type APIGatewayProxyResponse since we're leveraging the
@@ -22,6 +24,17 @@ func Handler(c context.Context) (Response, error) {
 }
 
 func main() {
-	zap.ReplaceGlobals(zap.NewExample())
+	err := configx.Load("", "sean")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	configx.ReplaceApplication(configx.C.Orianna)
+
+	err = logging.InitWithConfig(configx.C.Log)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	lambda.Start(Handler)
 }
