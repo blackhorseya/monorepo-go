@@ -60,10 +60,10 @@ func handleError(err error) (Response, error) {
 	ctx := contextx.Background()
 
 	if injector.notifier != nil {
-		_ = injector.notifier.SendText(ctx, fmt.Sprintf("[TaiwanStockInfo] failed to execute the job: %v", err))
+		_ = injector.notifier.SendText(ctx, fmt.Sprintf("[TaiwanStockPrice] failed to execute the job: %v", err))
 	}
 
 	ctx.Error("failed to execute the job", zap.Error(err))
 
-	return Response{}, err
+	return Response{StatusCode: http.StatusInternalServerError}, err
 }

@@ -115,7 +115,11 @@ func (i *impl) TaiwanStockPrice(
 	return got, nil
 }
 
-func (i *impl) TaiwanStockPriceV2(ctx contextx.Contextx, symbol string, start, end time.Time) (res []*TaiwanStockPrice, err error) {
+func (i *impl) TaiwanStockPriceV2(
+	ctx contextx.Contextx,
+	symbol string,
+	start, end time.Time,
+) (res []*TaiwanStockPrice, err error) {
 	var got *TaiwanStockPriceResponse
 	err = i.Do(ctx, "TaiwanStockPrice", map[string]string{
 		"data_id":    symbol,
