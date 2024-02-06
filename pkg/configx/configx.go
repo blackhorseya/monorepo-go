@@ -22,6 +22,10 @@ type Application struct {
 		Mongodb struct {
 			DSN string `json:"dsn" yaml:"dsn"`
 		} `json:"mongodb" yaml:"mongodb"`
+		Influxdb struct {
+			URL   string `json:"url" yaml:"url"`
+			Token string `json:"token" yaml:"token"`
+		} `json:"influxdb" yaml:"influxdb"`
 		Redis struct {
 			Addr     string `json:"addr" yaml:"addr"`
 			Password string `json:"password" yaml:"password"`
