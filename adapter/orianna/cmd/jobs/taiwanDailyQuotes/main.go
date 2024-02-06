@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
 	"github.com/aws/aws-lambda-go/events"
@@ -57,6 +58,9 @@ func Handler(c context.Context) (Response, error) {
 		return handleError(err)
 	}
 
+	loc, _ := time.LoadLocation("Asia/Taipei")
+	now := time.Now()
+	timestamp := time.Date(now.Year(), now.Month(), now.Day(), 13, 30, 0, 0, loc)
 	opts := &influxdb3.WriteOptions{
 		Database: dbName,
 	}
@@ -65,7 +69,9 @@ func Handler(c context.Context) (Response, error) {
 		stock := v.ToEntity()
 		point := influxdb3.NewPointWithMeasurement("quotes").
 			SetTag("symbol", stock.Symbol).
-			SetField("price", stock.Price)
+			SetField("price", stock.Price).
+			SetTimestamp(timestamp)
+
 		points = append(points, point)
 	}
 
