@@ -23,6 +23,11 @@ func NewMarketBiz(finmind finmindx.Dialer, storage repo.Storager) (biz.IMarketBi
 	}, nil
 }
 
+func (i *impl) ListStocks(ctx contextx.Contextx, options biz.ListStocksOptions) (stocks []*model.StockInfo, total int, err error) {
+	// todo: 2024/2/7|sean|implement me
+	panic("implement me")
+}
+
 func (i *impl) GetStockBySymbol(ctx contextx.Contextx, symbol string) (stock *model.Stock, err error) {
 	info, err := i.storage.GetBySymbol(ctx, symbol)
 	if err != nil {
