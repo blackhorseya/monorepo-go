@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -26,6 +27,10 @@ const (
 	collName = "stocks"
 )
 
+var (
+	notifier notify.Notifier
+)
+
 // Response is of type APIGatewayProxyResponse since we're leveraging the
 // AWS Lambda Proxy Request functionality (default behavior)
 //
@@ -34,25 +39,27 @@ type Response events.APIGatewayProxyResponse
 
 // Handler is our lambda handler invoked by the `lambda.Start` function call
 func Handler(c context.Context) (Response, error) {
-	client, err := finmindx.NewClient()
+	ctx := contextx.Background()
+
+	var err error
+	notifier, err = notify.NewLineNotifier()
 	if err != nil {
-		return Response{}, err
+		return handleError(err)
 	}
 
-	notifier, err := notify.NewLineNotifier()
+	client, err := finmindx.NewClient()
 	if err != nil {
-		return Response{}, err
+		return handleError(err)
 	}
 
 	rw, err := mongodb.NewClient()
 	if err != nil {
-		return Response{}, err
+		return handleError(err)
 	}
 
-	ctx := contextx.Background()
 	got, err := client.TaiwanStockInfo(ctx)
 	if err != nil {
-		return Response{}, err
+		return handleError(err)
 	}
 	ctx.Info("successfully fetch [TaiwanStockInfo] dataset", zap.Int("count", len(got)))
 
@@ -81,7 +88,7 @@ func Handler(c context.Context) (Response, error) {
 
 	result, err := rw.Database(dbName).Collection(collName).BulkWrite(ctx, models, opts)
 	if err != nil {
-		return Response{}, err
+		return handleError(err)
 	}
 	ctx.Info("successfully update stocks", zap.Any("result", &result))
 
@@ -111,4 +118,16 @@ func main() {
 	}
 
 	lambda.Start(Handler)
+}
+
+func handleError(err error) (Response, error) {
+	ctx := contextx.Background()
+
+	if notifier != nil {
+		_ = notifier.SendText(ctx, fmt.Sprintf("[TaiwanStockInfo] failed to execute the job: %v", err))
+	}
+
+	ctx.Error("failed to execute the job", zap.Error(err))
+
+	return Response{}, err
 }
