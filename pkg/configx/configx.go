@@ -41,11 +41,12 @@ func (a *Application) String() string {
 
 // Config defines the config struct.
 type Config struct {
-	Log     logging.Config `json:"log" yaml:"log"`
-	HTTP    HTTP           `json:"http" yaml:"http"`
-	GRPC    GRPC           `json:"grpc" yaml:"grpc"`
-	Cronjob Cronjob        `json:"cronjob" yaml:"cronjob"`
-	Storage Storage        `json:"storage" yaml:"storage"`
+	Log        logging.Config `json:"log" yaml:"log"`
+	HTTP       HTTP           `json:"http" yaml:"http"`
+	GRPC       GRPC           `json:"grpc" yaml:"grpc"`
+	Cronjob    Cronjob        `json:"cronjob" yaml:"cronjob"`
+	Storage    Storage        `json:"storage" yaml:"storage"`
+	LineNotify LineNotify     `json:"line_notify" yaml:"lineNotify"`
 
 	ShortenURL Application `json:"shorten_url" yaml:"shortenURL"`
 	Ekko       Application `json:"ekko" yaml:"ekko"`
@@ -119,4 +120,10 @@ type Storage struct {
 type LineBot struct {
 	Secret string `json:"secret" yaml:"secret"`
 	Token  string `json:"token" yaml:"token"`
+}
+
+// LineNotify defines the line notify config struct.
+type LineNotify struct {
+	Endpoint    string `json:"endpoint" yaml:"endpoint"`
+	AccessToken string `json:"access_token" yaml:"accessToken"`
 }
