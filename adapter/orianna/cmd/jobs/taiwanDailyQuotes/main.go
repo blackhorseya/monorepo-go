@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
@@ -17,6 +18,8 @@ import (
 
 const (
 	endpoint = "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL"
+
+	dbName = "stock_quotes"
 )
 
 var (
@@ -54,7 +57,23 @@ func Handler(c context.Context) (Response, error) {
 		return handleError(err)
 	}
 
-	// todo: 2024/2/7|sean|implement me
+	opts := &influxdb3.WriteOptions{
+		Database: dbName,
+	}
+	var points []*influxdb3.Point
+	for _, v := range got {
+		stock := v.ToEntity()
+		point := influxdb3.NewPointWithMeasurement("quotes").
+			SetTag("symbol", stock.Symbol).
+			SetField("price", stock.Price)
+		points = append(points, point)
+	}
+
+	err = injector.client.WritePointsWithOptions(ctx, opts, points...)
+	if err != nil {
+		return handleError(err)
+	}
+
 	return Response{StatusCode: http.StatusOK}, nil
 }
 
