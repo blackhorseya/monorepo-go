@@ -38,8 +38,7 @@ functions:
     handler: ./cmd/jobs/taiwanStockPrice/
     name: ${sls:stage}-taiwanStockPrice
     events:
-      - schedule:
-          method: scheduler
-          rate: cron(45 17 ? * 1-5 *)
-          timezone: Asia/Taipei
+      - httpApi:
+          method: post
+          path: /taiwan-stock-price
     environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
