@@ -21,4 +21,18 @@ message Stock {
     string symbol = 1;
     string name = 2;
     double price = 3;
+    DailyQuote daily_quote = 4;
+}
+
+message DailyQuote {
+    double open = 1;
+    double high = 2;
+    double low = 3;
+    double close = 4;
+    double volume = 5;
+    double value = 6;
+    double change = 7;
+    int64 transaction = 8;
+    // @gotags: swaggertype:"string"
+    google.protobuf.Timestamp date = 9;
 }
