@@ -79,17 +79,27 @@ func bindEnv(v *viper.Viper) error {
 		return err
 	}
 
-	err = v.BindEnv("orianna.storage.mongodb.dsn", "ORIANNA_STORAGE_MONGODB_DSN")
-	if err != nil {
-		return err
-	}
-
 	err = v.BindEnv("lineNotify.endpoint", "LINE_NOTIFY_ENDPOINT")
 	if err != nil {
 		return err
 	}
 
 	err = v.BindEnv("lineNotify.accessToken", "LINE_NOTIFY_ACCESS_TOKEN")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("orianna.storage.mongodb.dsn", "ORIANNA_STORAGE_MONGODB_DSN")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("orianna.storage.influxdb.url", "ORIANNA_STORAGE_INFLUXDB_URL")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("orianna.storage.influxdb.token", "ORIANNA_STORAGE_INFLUXDB_TOKEN")
 	if err != nil {
 		return err
 	}
