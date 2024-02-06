@@ -17,6 +17,11 @@ type line struct {
 
 // NewLineNotifier creates a new Notifier that sends notifications to a LINE group.
 func NewLineNotifier() (Notifier, error) {
+	_, err := url.ParseRequestURI(configx.C.LineNotify.Endpoint)
+	if err != nil {
+		return nil, err
+	}
+
 	return &line{
 		endpoint:    configx.C.LineNotify.Endpoint,
 		accessToken: configx.C.LineNotify.AccessToken,
