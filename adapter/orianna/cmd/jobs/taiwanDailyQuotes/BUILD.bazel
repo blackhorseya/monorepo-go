@@ -4,16 +4,19 @@ go_library(
     name = "taiwanDailyQuotes_lib",
     srcs = [
         "main.go",
+        "model.go",
         "wire_gen.go",
     ],
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/jobs/taiwanDailyQuotes",
     visibility = ["//visibility:private"],
     deps = [
         "//pkg/configx",
+        "//pkg/contextx",
         "//pkg/logging",
         "//pkg/notify",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
+        "@org_uber_go_zap//:zap",
     ],
 )
 
