@@ -26,7 +26,7 @@ const (
 	keyFinmindAPI      = "FINMIND_API"
 	keyFinmindToken    = "FINMIND_TOKEN"
 	keyDatabaseURL     = "DATABASE_URL"
-	keyLineNotifyToken = "LINE_NOTIFY_TOKEN"
+	keyLineNotifyToken = "LINE_NOTIFY_TOKEN" //nolint:gosec // it's okay
 
 	dbName   = "orianna"
 	collName = "stocks"
