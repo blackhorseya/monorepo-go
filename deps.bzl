@@ -38,6 +38,12 @@ def go_dependencies():
         sum = "h1:Zxm8V5eI1hW4gGaYsJQUhxpjkENuG91ki8B4zCrvEsw=",
         version = "v0.10.2",
     )
+    go_repository(
+        name = "com_github_apache_arrow_go_v13",
+        importpath = "github.com/apache/arrow/go/v13",
+        sum = "h1:kELrvDQuKZo8csdWYqBQfyi431x6Zs/YJTEgUuSVcWk=",
+        version = "v13.0.0",
+    )
 
     go_repository(
         name = "com_github_armon_go_metrics",
@@ -692,6 +698,12 @@ def go_dependencies():
         sum = "h1:Qgr9rKW7uDUkrbSmQeiDsGa8SjGyCOGtuasMWwvp2P4=",
         version = "v0.0.1",
     )
+    go_repository(
+        name = "com_github_google_flatbuffers",
+        importpath = "github.com/google/flatbuffers",
+        sum = "h1:bUqzx/MXCDxuS0hRJL2EfjyZL3uQrPbMocUa8zGqsTA=",
+        version = "v23.1.21+incompatible",
+    )
 
     go_repository(
         name = "com_github_google_go_cmp",
@@ -862,11 +874,25 @@ def go_dependencies():
         version = "v1.1.0",
     )
     go_repository(
+        name = "com_github_influxcommunity_influxdb3_go",
+        importpath = "github.com/InfluxCommunity/influxdb3-go",
+        sum = "h1:s79+Sw1CFDG5xzaqZGK9gLkkfPffWUwN6cEerAGZfRU=",
+        version = "v0.5.0",
+    )
+
+    go_repository(
         name = "com_github_influxdata_influxdb1_client",
         importpath = "github.com/influxdata/influxdb1-client",
         sum = "h1:HqW4xhhynfjrtEiiSGcQUd6vrK23iMam1FO8rI7mwig=",
         version = "v0.0.0-20200827194710-b269163b24ab",
     )
+    go_repository(
+        name = "com_github_influxdata_line_protocol_v2",
+        importpath = "github.com/influxdata/line-protocol/v2",
+        sum = "h1:EAPkqJ9Km4uAxtMRgUubJyqAr6zgWM0dznKMLRauQRE=",
+        version = "v2.2.1",
+    )
+
     go_repository(
         name = "com_github_intel_goresctrl",
         importpath = "github.com/intel/goresctrl",
@@ -1346,6 +1372,13 @@ def go_dependencies():
         version = "v4.0.0",
     )
     go_repository(
+        name = "com_github_pierrec_lz4_v4",
+        importpath = "github.com/pierrec/lz4/v4",
+        sum = "h1:kV4Ip+/hUBC+8T6+2EgburRtkE9ef4nbY3f4dFhGjMc=",
+        version = "v4.1.17",
+    )
+
+    go_repository(
         name = "com_github_pkg_errors",
         importpath = "github.com/pkg/errors",
         sum = "h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=",
@@ -1765,6 +1798,12 @@ def go_dependencies():
         importpath = "github.com/yusufpapurcu/wmi",
         sum = "h1:E1ctvB7uKFMOJw3fdOW32DwGE9I7t++CRUEMKvFoFiw=",
         version = "v1.2.3",
+    )
+    go_repository(
+        name = "com_github_zeebo_xxh3",
+        importpath = "github.com/zeebo/xxh3",
+        sum = "h1:xZmwmqxHZA8AI603jOQ0tMqmBr9lPeFwGg6d+xy9DC0=",
+        version = "v1.0.2",
     )
 
     go_repository(
