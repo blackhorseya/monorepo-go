@@ -78,3 +78,18 @@ func (mr *MockDialerMockRecorder) TaiwanStockPrice(ctx, symbol, start, end inter
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TaiwanStockPrice", reflect.TypeOf((*MockDialer)(nil).TaiwanStockPrice), ctx, symbol, start, end)
 }
+
+// TaiwanStockPriceV2 mocks base method.
+func (m *MockDialer) TaiwanStockPriceV2(ctx contextx.Contextx, symbol string, start, end time.Time) ([]*TaiwanStockPrice, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "TaiwanStockPriceV2", ctx, symbol, start, end)
+	ret0, _ := ret[0].([]*TaiwanStockPrice)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// TaiwanStockPriceV2 indicates an expected call of TaiwanStockPriceV2.
+func (mr *MockDialerMockRecorder) TaiwanStockPriceV2(ctx, symbol, start, end interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TaiwanStockPriceV2", reflect.TypeOf((*MockDialer)(nil).TaiwanStockPriceV2), ctx, symbol, start, end)
+}

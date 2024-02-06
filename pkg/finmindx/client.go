@@ -82,6 +82,21 @@ func (i *impl) Do(ctx contextx.Contextx, dataset string, params map[string]strin
 	return nil
 }
 
+func (i *impl) TaiwanStockInfo(ctx contextx.Contextx) (res []*TaiwanStockInfo, err error) {
+	type response struct {
+		*Response `json:",inline"`
+		Data      []*TaiwanStockInfo `json:"data,omitempty"`
+	}
+
+	var got *response
+	err = i.Do(ctx, "TaiwanStockInfo", nil, &got)
+	if err != nil {
+		return nil, err
+	}
+
+	return got.Data, nil
+}
+
 func (i *impl) TaiwanStockPrice(
 	ctx contextx.Contextx,
 	symbol string,
@@ -100,14 +115,13 @@ func (i *impl) TaiwanStockPrice(
 	return got, nil
 }
 
-func (i *impl) TaiwanStockInfo(ctx contextx.Contextx) (res []*TaiwanStockInfo, err error) {
-	type response struct {
-		*Response `json:",inline"`
-		Data      []*TaiwanStockInfo `json:"data,omitempty"`
-	}
-
-	var got *response
-	err = i.Do(ctx, "TaiwanStockInfo", nil, &got)
+func (i *impl) TaiwanStockPriceV2(ctx contextx.Contextx, symbol string, start, end time.Time) (res []*TaiwanStockPrice, err error) {
+	var got *TaiwanStockPriceResponse
+	err = i.Do(ctx, "TaiwanStockPrice", map[string]string{
+		"data_id":    symbol,
+		"start_date": start.Format(timeLayout),
+		"end_date":   end.Format(timeLayout),
+	}, &got)
 	if err != nil {
 		return nil, err
 	}

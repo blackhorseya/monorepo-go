@@ -20,4 +20,10 @@ type Dialer interface {
 		symbol string,
 		start, end time.Time,
 	) (res *TaiwanStockPriceResponse, err error)
+
+	TaiwanStockPriceV2(
+		ctx contextx.Contextx,
+		symbol string,
+		start, end time.Time,
+	) (res []*TaiwanStockPrice, err error)
 }
