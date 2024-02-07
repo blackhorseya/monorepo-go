@@ -10,6 +10,7 @@ import (
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/orianna/api/docs" // swagger docs
 	v1 "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/restful/v1"
+	"github.com/blackhorseya/monorepo-go/entity/domain/market/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -23,9 +24,10 @@ import (
 
 type impl struct {
 	server *httpx.Server
+	svc    biz.IMarketBiz
 }
 
-func newRestful() (adapterx.Servicer, error) {
+func newRestful(svc biz.IMarketBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServer(ctx)
@@ -35,6 +37,7 @@ func newRestful() (adapterx.Servicer, error) {
 
 	return &impl{
 		server: server,
+		svc:    svc,
 	}, nil
 }
 

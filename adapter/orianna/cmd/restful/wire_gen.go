@@ -7,7 +7,11 @@
 package restful
 
 import (
+	"github.com/blackhorseya/monorepo-go/app/domain/market/biz"
+	mongodb2 "github.com/blackhorseya/monorepo-go/app/domain/market/repo/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
+	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/spf13/viper"
 )
 
@@ -18,7 +22,23 @@ import (
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	servicer, err := newRestful()
+	dialer, err := finmindx.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	client, err := mongodb.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	storager, err := mongodb2.NewStorager(client)
+	if err != nil {
+		return nil, err
+	}
+	iMarketBiz, err := biz.NewMarketBiz(dialer, storager)
+	if err != nil {
+		return nil, err
+	}
+	servicer, err := newRestful(iMarketBiz)
 	if err != nil {
 		return nil, err
 	}
