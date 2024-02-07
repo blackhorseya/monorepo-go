@@ -7,8 +7,10 @@
 package main
 
 import (
+	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
 	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
 	"github.com/blackhorseya/monorepo-go/pkg/notify"
+	"github.com/blackhorseya/monorepo-go/pkg/storage/influxdb"
 )
 
 // Injectors from wire.go:
@@ -22,9 +24,14 @@ func BuildInjector() (*Injector, error) {
 	if err != nil {
 		return nil, err
 	}
+	client, err := influxdb.NewClient()
+	if err != nil {
+		return nil, err
+	}
 	mainInjector := &Injector{
 		notifier: notifier,
 		finmind:  dialer,
+		rw:       client,
 	}
 	return mainInjector, nil
 }
@@ -35,4 +42,5 @@ func BuildInjector() (*Injector, error) {
 type Injector struct {
 	notifier notify.Notifier
 	finmind  finmindx.Dialer
+	rw       *influxdb3.Client
 }

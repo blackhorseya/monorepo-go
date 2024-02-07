@@ -6,18 +6,22 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
 	"go.uber.org/zap"
-	"google.golang.org/protobuf/types/known/timestamppb"
+)
+
+const (
+	dbName = "stock_quotes"
 )
 
 var (
 	injector *Injector
+	loc, _   = time.LoadLocation("Asia/Taipei")
 )
 
 // Response is of type APIGatewayProxyResponse since we're leveraging the
@@ -68,34 +72,29 @@ func Handler(request events.APIGatewayProxyRequest) (Response, error) {
 		return handleError(err)
 	}
 
-	var stocks []*model.Stock
+	var points []*influxdb3.Point
 	for _, v := range got {
-		var date *timestamppb.Timestamp
-		if !v.Date.IsZero() {
-			date = timestamppb.New(v.Date)
-		}
+		timestamp := time.Date(v.Date.Year(), v.Date.Month(), v.Date.Day(), 13, 30, 0, 0, loc)
+		point := influxdb3.NewPointWithMeasurement("quotes").
+			SetTag("symbol", symbol).
+			SetDoubleField("open", v.Open).
+			SetDoubleField("high", v.Max).
+			SetDoubleField("low", v.Min).
+			SetDoubleField("close", v.Close).
+			SetDoubleField("change", v.Spread).
+			SetIntegerField("volume", v.TradingVolume).
+			SetIntegerField("value", v.TradingMoney).
+			SetDoubleField("transaction", v.TradingTurnover).
+			SetTimestamp(timestamp)
 
-		stocks = append(stocks, &model.Stock{
-			Symbol: v.StockID,
-			Name:   "",
-			Price:  0,
-			DailyQuote: &model.DailyQuote{
-				Open:        v.Open,
-				High:        v.Max,
-				Low:         v.Min,
-				Close:       v.Close,
-				Volume:      v.TradingVolume,
-				Value:       v.TradingMoney,
-				Change:      v.Spread,
-				Transaction: int64(v.TradingTurnover),
-				Date:        date,
-			},
-		})
+		points = append(points, point)
 	}
 
-	ctx.Info("successfully executed the job", zap.Any("stocks", stocks))
-
-	// todo: 2024/2/7|sean|implement the logic
+	opts := &influxdb3.WriteOptions{Database: dbName}
+	err = injector.rw.WritePointsWithOptions(ctx, opts, points...)
+	if err != nil {
+		return handleError(err)
+	}
 
 	return Response{
 		StatusCode: http.StatusOK,
