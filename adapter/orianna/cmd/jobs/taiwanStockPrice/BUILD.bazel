@@ -9,6 +9,7 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/jobs/taiwanStockPrice",
     visibility = ["//visibility:private"],
     deps = [
+        "//entity/domain/market/model",
         "//pkg/configx",
         "//pkg/contextx",
         "//pkg/finmindx",
@@ -16,6 +17,7 @@ go_library(
         "//pkg/notify",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
+        "@org_golang_google_protobuf//types/known/timestamppb",
         "@org_uber_go_zap//:zap",
     ],
 )

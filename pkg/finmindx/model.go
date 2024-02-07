@@ -9,6 +9,10 @@ const (
 	dateFormat = "2006-01-02"
 )
 
+var (
+	loc, _ = time.LoadLocation("Asia/Taipei")
+)
+
 // Response is used to represent the response.
 type Response struct {
 	Message string      `json:"msg"`
@@ -18,16 +22,43 @@ type Response struct {
 
 // TaiwanStockPrice is used to represent the Taiwan stock price.
 type TaiwanStockPrice struct {
-	Date            string  `json:"date"`
-	StockID         string  `json:"stock_id"`
-	TradingVolume   int64   `json:"Trading_Volume"`
-	TradingMoney    int64   `json:"Trading_money"`
-	Open            float64 `json:"open"`
-	Max             float64 `json:"max"`
-	Min             float64 `json:"min"`
-	Close           float64 `json:"close"`
-	Spread          float64 `json:"spread"`
-	TradingTurnover float64 `json:"Trading_turnover"`
+	Date            time.Time `json:"date"`
+	StockID         string    `json:"stock_id"`
+	TradingVolume   int64     `json:"Trading_Volume"`
+	TradingMoney    int64     `json:"Trading_money"`
+	Open            float64   `json:"open"`
+	Max             float64   `json:"max"`
+	Min             float64   `json:"min"`
+	Close           float64   `json:"close"`
+	Spread          float64   `json:"spread"`
+	TradingTurnover float64   `json:"Trading_turnover"`
+}
+
+func (x *TaiwanStockPrice) UnmarshalJSON(bytes []byte) error {
+	type Alias TaiwanStockPrice
+	aux := &struct {
+		*Alias
+		Date string `json:"date,omitempty"`
+	}{
+		Alias: (*Alias)(x),
+	}
+
+	err := json.Unmarshal(bytes, &aux)
+	if err != nil {
+		return err
+	}
+
+	var date time.Time
+	if len(aux.Date) != 0 && aux.Date != "None" {
+		date, err = time.ParseInLocation(dateFormat, aux.Date, loc)
+		if err != nil {
+			return err
+		}
+
+		x.Date = date
+	}
+
+	return nil
 }
 
 // TaiwanStockPriceResponse is used to represent the Taiwan stock price response.
@@ -61,7 +92,7 @@ func (x *TaiwanStockInfo) UnmarshalJSON(bytes []byte) error {
 
 	var date time.Time
 	if len(aux.Date) != 0 && aux.Date != "None" {
-		date, err = time.Parse(dateFormat, aux.Date)
+		date, err = time.ParseInLocation(dateFormat, aux.Date, loc)
 		if err != nil {
 			return err
 		}
