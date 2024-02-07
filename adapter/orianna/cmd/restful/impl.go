@@ -50,7 +50,7 @@ func (i *impl) Start() error {
 		api.GET("/healthz", i.healthz)
 		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-		v1.Handle(api.Group("/v1"))
+		v1.Handle(api.Group("/v1"), i.svc)
 	}
 
 	err := i.server.Start(ctx)
