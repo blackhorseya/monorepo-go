@@ -52,7 +52,6 @@ func (s *suiteTester) Test_impl_GetStockBySymbol() {
 	stock1 := &model.Stock{
 		Symbol: info1.Symbol,
 		Name:   info1.Name,
-		Price:  100,
 	}
 
 	type args struct {
@@ -77,37 +76,11 @@ func (s *suiteTester) Test_impl_GetStockBySymbol() {
 			wantErr:   true,
 		},
 		{
-			name: "get by symbol then error",
-			args: args{symbol: stock1.Symbol, mock: func() {
-				s.storage.EXPECT().GetBySymbol(gomock.Any(), stock1.Symbol).
-					Return(info1, nil).
-					Times(1)
-
-				s.finmind.EXPECT().TaiwanStockPrice(
-					gomock.Any(),
-					stock1.Symbol,
-					gomock.Any(),
-					gomock.Any(),
-				).Return(nil, errors.New("mock error")).Times(1)
-			}},
-			wantStock: nil,
-			wantErr:   true,
-		},
-		{
 			name: "get by symbol then ok",
 			args: args{symbol: stock1.Symbol, mock: func() {
 				s.storage.EXPECT().GetBySymbol(gomock.Any(), stock1.Symbol).
 					Return(info1, nil).
 					Times(1)
-
-				s.finmind.EXPECT().TaiwanStockPrice(
-					gomock.Any(),
-					stock1.Symbol,
-					gomock.Any(),
-					gomock.Any(),
-				).Return(&finmindx.TaiwanStockPriceResponse{
-					Data: []*finmindx.TaiwanStockPrice{{StockID: stock1.Symbol, Close: stock1.Price}},
-				}, nil).Times(1)
 			}},
 			wantStock: stock1,
 			wantErr:   false,

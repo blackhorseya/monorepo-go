@@ -15,9 +15,9 @@ type ListStocksOptions struct {
 
 // IMarketBiz is the interface for market biz.
 type IMarketBiz interface {
-	// ListStocks is used to list stocks.
-	ListStocks(ctx contextx.Contextx, options ListStocksOptions) (stocks []*model.StockInfo, total int, err error)
-
 	// GetStockBySymbol is used to get stock by symbol.
 	GetStockBySymbol(ctx contextx.Contextx, symbol string) (stock *model.Stock, err error)
+
+	// ListStocks is used to list stocks.
+	ListStocks(ctx contextx.Contextx, options ListStocksOptions) (stocks []*model.StockInfo, total int, err error)
 }
