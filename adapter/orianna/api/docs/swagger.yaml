@@ -50,6 +50,21 @@ paths:
       summary: healthz
       tags:
       - healthz
+  /v1/stats/info:
+    get:
+      consumes:
+      - application/json
+      description: Get Stats
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get Stats
+      tags:
+      - stats
   /v1/stocks/:
     get:
       consumes:

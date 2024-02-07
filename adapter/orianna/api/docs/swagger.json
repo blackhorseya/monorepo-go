@@ -40,6 +40,29 @@
                 }
             }
         },
+        "/v1/stats/info": {
+            "get": {
+                "description": "Get Stats",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "stats"
+                ],
+                "summary": "Get Stats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/stocks/": {
             "get": {
                 "description": "Get a list of stocks",
