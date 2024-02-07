@@ -37,7 +37,7 @@ func (m *MockIMarketBiz) EXPECT() *MockIMarketBizMockRecorder {
 }
 
 // GetMarketInfoByType mocks base method.
-func (m *MockIMarketBiz) GetMarketInfoByType(ctx contextx.Contextx, typeStr string, t *time.Time) (*model.MarketInfo, error) {
+func (m *MockIMarketBiz) GetMarketInfoByType(ctx contextx.Contextx, typeStr string, t time.Time) (*model.MarketInfo, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetMarketInfoByType", ctx, typeStr, t)
 	ret0, _ := ret[0].(*model.MarketInfo)

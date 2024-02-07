@@ -8,6 +8,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type impl struct {
@@ -26,10 +27,22 @@ func NewMarketBiz(finmind finmindx.Dialer, storage repo.Storager) (biz.IMarketBi
 func (i *impl) GetMarketInfoByType(
 	ctx contextx.Contextx,
 	typeStr string,
-	t *time.Time,
+	t time.Time,
 ) (info *model.MarketInfo, err error) {
-	// todo: 2024/2/8|sean|implement me
-	panic("implement me")
+	ret := &model.MarketInfo{
+		Type:       typeStr,
+		Name:       "",
+		QueriedAt:  timestamppb.New(t),
+		IsTradeDay: true,
+		IsOpening:  false,
+	}
+
+	weekday := t.Weekday()
+	if weekday == time.Saturday || weekday == time.Sunday {
+		ret.IsTradeDay = false
+	}
+
+	return ret, nil
 }
 
 func (i *impl) GetStockBySymbol(ctx contextx.Contextx, symbol string) (stock *model.Stock, err error) {

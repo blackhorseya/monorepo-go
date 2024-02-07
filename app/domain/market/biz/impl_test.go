@@ -4,6 +4,7 @@ import (
 	"errors"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/blackhorseya/monorepo-go/app/domain/market/biz"
 	"github.com/blackhorseya/monorepo-go/app/domain/market/repo"
@@ -11,9 +12,11 @@ import (
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
+	"github.com/blackhorseya/monorepo-go/pkg/timex"
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
 	"go.uber.org/zap"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type suiteTester struct {
@@ -100,6 +103,54 @@ func (s *suiteTester) Test_impl_GetStockBySymbol() {
 			}
 			if !reflect.DeepEqual(gotStock, tt.wantStock) {
 				t.Errorf("GetStockBySymbol() gotStock = %v, want %v", gotStock, tt.wantStock)
+			}
+		})
+	}
+}
+
+func (s *suiteTester) Test_impl_GetMarketInfoByType() {
+	type1 := "twse"
+	time1 := time.Date(2024, 2, 5, 17, 30, 0, 0, timex.LocTaipei)
+
+	type args struct {
+		ctx     contextx.Contextx
+		typeStr string
+		t       time.Time
+		mock    func()
+	}
+	tests := []struct {
+		name     string
+		args     args
+		wantInfo *model.MarketInfo
+		wantErr  bool
+	}{
+		{
+			name: "twse with time then ok",
+			args: args{typeStr: type1, t: time1},
+			wantInfo: &model.MarketInfo{
+				Type:       type1,
+				Name:       "",
+				QueriedAt:  timestamppb.New(time1),
+				IsTradeDay: true,
+				IsOpening:  false,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		s.T().Run(tt.name, func(t *testing.T) {
+			tt.args.ctx = contextx.Background()
+			if tt.args.mock != nil {
+				tt.args.mock()
+			}
+
+			gotInfo, err := s.biz.GetMarketInfoByType(tt.args.ctx, tt.args.typeStr, tt.args.t)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetMarketInfoByType() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotInfo, tt.wantInfo) {
+				t.Errorf("GetMarketInfoByType() gotInfo = %v, want %v", gotInfo, tt.wantInfo)
 			}
 		})
 	}
