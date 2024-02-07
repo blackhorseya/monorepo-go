@@ -38,7 +38,7 @@ functions:
     handler: ./cmd/jobs/taiwanStockPrice/
     name: ${sls:stage}-taiwanStockPrice
     events:
-      - httpApi:
+      - http:
           method: post
           path: /taiwan-stock-price
     environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}

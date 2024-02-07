@@ -21,11 +21,7 @@ func Load(path string, name string) error {
 	if path != "" {
 		v.SetConfigFile(path)
 	} else {
-		home, err := os.UserHomeDir()
-		if err != nil {
-			return err
-		}
-
+		home, _ := os.UserHomeDir()
 		v.AddConfigPath(home)
 		v.SetConfigType("yaml")
 		v.SetConfigName("." + name)
