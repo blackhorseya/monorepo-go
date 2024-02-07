@@ -1,6 +1,8 @@
 package biz
 
 import (
+	"time"
+
 	"github.com/blackhorseya/monorepo-go/app/domain/market/repo"
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/biz"
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
@@ -19,6 +21,15 @@ func NewMarketBiz(finmind finmindx.Dialer, storage repo.Storager) (biz.IMarketBi
 		finmind: finmind,
 		storage: storage,
 	}, nil
+}
+
+func (i *impl) GetMarketInfoByType(
+	ctx contextx.Contextx,
+	typeStr string,
+	t *time.Time,
+) (info *model.MarketInfo, err error) {
+	// todo: 2024/2/8|sean|implement me
+	panic("implement me")
 }
 
 func (i *impl) GetStockBySymbol(ctx contextx.Contextx, symbol string) (stock *model.Stock, err error) {

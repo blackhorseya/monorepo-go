@@ -3,6 +3,8 @@
 package biz
 
 import (
+	"time"
+
 	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 )
@@ -15,6 +17,9 @@ type ListStocksOptions struct {
 
 // IMarketBiz is the interface for market biz.
 type IMarketBiz interface {
+	// GetMarketInfoByType is used to get market info.
+	GetMarketInfoByType(ctx contextx.Contextx, typeStr string, t *time.Time) (info *model.MarketInfo, err error)
+
 	// GetStockBySymbol is used to get stock by symbol.
 	GetStockBySymbol(ctx contextx.Contextx, symbol string) (stock *model.Stock, err error)
 
