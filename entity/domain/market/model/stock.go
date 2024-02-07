@@ -1,7 +1,9 @@
 package model
 
 import (
+	"encoding/json"
 	"strconv"
+	"time"
 
 	"github.com/line/line-bot-sdk-go/v8/linebot"
 )
@@ -55,5 +57,17 @@ func (s *Stock) FlexMessage() *linebot.FlexMessage {
 				},
 			},
 		},
+	})
+}
+
+func (x *DailyQuote) MarshalJSON() ([]byte, error) {
+	type Alias DailyQuote
+
+	return json.Marshal(&struct {
+		*Alias
+		Date string `json:"date,omitempty"`
+	}{
+		Alias: (*Alias)(x),
+		Date:  x.Date.AsTime().UTC().Format(time.RFC3339),
 	})
 }

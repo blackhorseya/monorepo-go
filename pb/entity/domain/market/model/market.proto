@@ -29,8 +29,8 @@ message DailyQuote {
     double high = 2;
     double low = 3;
     double close = 4;
-    double volume = 5;
-    double value = 6;
+    int64 volume = 5;
+    int64 value = 6;
     double change = 7;
     int64 transaction = 8;
     // @gotags: swaggertype:"string"
