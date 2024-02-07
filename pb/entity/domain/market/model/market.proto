@@ -6,6 +6,16 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/blackhorseya/monorepo-go/entity/domain/market/model";
 
+message MarketInfo {
+    // @gotags: bson:"_id"
+    string type = 1;
+    string name = 2;
+    // @gotags: swaggertype:"string"
+    google.protobuf.Timestamp queried_at = 3;
+    bool is_trade_day = 4;
+    bool is_opening = 5;
+}
+
 message StockInfo {
     // @gotags: bson:"_id"
     string symbol = 1;
