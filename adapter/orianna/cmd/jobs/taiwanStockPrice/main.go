@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -25,13 +24,18 @@ var (
 type Response events.APIGatewayProxyResponse
 
 // Handler is our lambda handler invoked by the `lambda.Start` function call
-func Handler(c context.Context) (Response, error) {
+func Handler(request events.APIGatewayProxyRequest) (Response, error) {
+	symbol, ok := request.QueryStringParameters["symbol"]
+	if !ok {
+		return handleError(fmt.Errorf("missing symbol"))
+	}
+
 	// todo: 2024/2/7|sean|implement the logic
 
 	return Response{
 		StatusCode: http.StatusOK,
 		Headers:    map[string]string{"Content-Type": "application/json"},
-		Body:       "ok",
+		Body:       symbol,
 	}, nil
 }
 
