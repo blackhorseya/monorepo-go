@@ -10,6 +10,8 @@
 6. **可擴展性和定制性**：由於不同團隊和項目的需求各異，系統需要具有足夠的可擴展性和定制性，以滿足不同場景下的需求。
 7. **使用者身份驗證和授權**：確保系統中的敏感資料和功能只能被授權的使用者訪問，以保護資料的安全性和隱私性。
 
+### Domain Diagram
+
 核心域（Core Domain）：
 
 1. 工作流管理：這是產品的核心競爭力，能夠提供靈活且有效的工作流程管理，以支援團隊的任務和問題處理。
@@ -22,5 +24,13 @@
 通用子領域（Generic Subdomain）：
 
 1. 使用者身份認證：雖然不是核心競爭力，但身份認證是系統的基本需求，市場上已有成熟的解決方案可供使用。
+
+```mermaid
+graph TD;
+    A[Core Domain - 工作流管理] -->|支持| B[Supporting Subdomain - 協作工具]
+    A -->|支持| C[Supporting Subdomain - 報告和分析]
+    B -->|支持| C[Supporting Subdomain - 報告和分析]
+    D[Generic Subdomain - 使用者身份認證] -->|支持| A[Core Domain - 工作流管理]
+```
 
 ## Solution Space
