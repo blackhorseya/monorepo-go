@@ -43,7 +43,9 @@ LIMIT 1
 		return nil, err
 	}
 
-	var ret *model.Candlestick
+	ret := &model.Candlestick{
+		Symbol: symbol,
+	}
 	for iterator.Next() {
 		row := iterator.AsPoints()
 		ret = &model.Candlestick{
