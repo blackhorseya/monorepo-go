@@ -41,11 +41,11 @@ gen-pb: ## generate protobuf
 		--go_out=paths=source_relative:./ \
 		--go-grpc_out=paths=source_relative,require_unimplemented_servers=false:./ \
 		--go-grpc-mock_out=paths=source_relative,require_unimplemented_servers=false:./ \
-		./pb/entity/*/domain/*/model/*.proto
+		./pb/entity/domain/*/model/*.proto
 	@echo Successfully generated proto
 
 	## Starting inject tags
-	@protoc-go-inject-tag -input="./entity/*/domain/*/model/*.pb.go"
+	@protoc-go-inject-tag -input="./entity/domain/*/model/*.pb.go"
 	@echo Successfully injected tags
 
 gen-mocks: ## generate mocks
