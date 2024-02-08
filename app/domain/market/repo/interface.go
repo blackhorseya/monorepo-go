@@ -14,4 +14,5 @@ type Storager interface {
 
 // IQuoteRepo is the interface that wraps the basic quote repository methods.
 type IQuoteRepo interface {
+	GetLatestBySymbol(ctx contextx.Contextx, symbol string) (quote *model.Candlestick, err error)
 }

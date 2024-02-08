@@ -72,3 +72,18 @@ func NewMockIQuoteRepo(ctrl *gomock.Controller) *MockIQuoteRepo {
 func (m *MockIQuoteRepo) EXPECT() *MockIQuoteRepoMockRecorder {
 	return m.recorder
 }
+
+// GetLatestBySymbol mocks base method.
+func (m *MockIQuoteRepo) GetLatestBySymbol(ctx contextx.Contextx, symbol string) (*model.Candlestick, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetLatestBySymbol", ctx, symbol)
+	ret0, _ := ret[0].(*model.Candlestick)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetLatestBySymbol indicates an expected call of GetLatestBySymbol.
+func (mr *MockIQuoteRepoMockRecorder) GetLatestBySymbol(ctx, symbol interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLatestBySymbol", reflect.TypeOf((*MockIQuoteRepo)(nil).GetLatestBySymbol), ctx, symbol)
+}
