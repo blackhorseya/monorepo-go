@@ -8,9 +8,11 @@ package restful
 
 import (
 	"github.com/blackhorseya/monorepo-go/app/domain/market/biz"
+	influxdb2 "github.com/blackhorseya/monorepo-go/app/domain/market/repo/influxdb"
 	mongodb2 "github.com/blackhorseya/monorepo-go/app/domain/market/repo/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
+	"github.com/blackhorseya/monorepo-go/pkg/storage/influxdb"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/spf13/viper"
 )
@@ -34,7 +36,15 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	iMarketBiz, err := biz.NewMarketBiz(dialer, storager)
+	influxdb3Client, err := influxdb.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	iQuoteRepo, err := influxdb2.NewQuoteRepo(influxdb3Client)
+	if err != nil {
+		return nil, err
+	}
+	iMarketBiz, err := biz.NewMarketBiz(dialer, storager, iQuoteRepo)
 	if err != nil {
 		return nil, err
 	}

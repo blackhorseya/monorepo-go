@@ -25,6 +25,7 @@ type suiteTester struct {
 	ctrl    *gomock.Controller
 	finmind *finmindx.MockDialer
 	storage *repo.MockStorager
+	quote   *repo.MockIQuoteRepo
 	biz     marketB.IMarketBiz
 }
 
@@ -33,7 +34,8 @@ func (s *suiteTester) SetupTest() {
 	s.ctrl = gomock.NewController(s.T())
 	s.finmind = finmindx.NewMockDialer(s.ctrl)
 	s.storage = repo.NewMockStorager(s.ctrl)
-	marketBiz, err := biz.NewMarketBiz(s.finmind, s.storage)
+	s.quote = repo.NewMockIQuoteRepo(s.ctrl)
+	marketBiz, err := biz.NewMarketBiz(s.finmind, s.storage, s.quote)
 	s.NoError(err)
 	s.biz = marketBiz
 }

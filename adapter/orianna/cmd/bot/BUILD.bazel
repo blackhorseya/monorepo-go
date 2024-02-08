@@ -11,6 +11,7 @@ go_library(
     deps = [
         "//adapter/orianna/api/docs",
         "//app/domain/market/biz",
+        "//app/domain/market/repo/influxdb",
         "//app/domain/market/repo/mongodb",
         "//entity/domain/market/biz",
         "//pkg/adapterx",
@@ -19,6 +20,7 @@ go_library(
         "//pkg/finmindx",
         "//pkg/linebot",
         "//pkg/response",
+        "//pkg/storage/influxdb",
         "//pkg/storage/mongodb",
         "//pkg/transports/httpx",
         "@com_github_gin_gonic_gin//:gin",

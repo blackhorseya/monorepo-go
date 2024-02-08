@@ -14,13 +14,15 @@ import (
 type impl struct {
 	finmind finmindx.Dialer
 	storage repo.Storager
+	quote   repo.IQuoteRepo
 }
 
 // NewMarketBiz is used to create a new market biz instance.
-func NewMarketBiz(finmind finmindx.Dialer, storage repo.Storager) (biz.IMarketBiz, error) {
+func NewMarketBiz(finmind finmindx.Dialer, storage repo.Storager, quote repo.IQuoteRepo) (biz.IMarketBiz, error) {
 	return &impl{
 		finmind: finmind,
 		storage: storage,
+		quote:   quote,
 	}, nil
 }
 

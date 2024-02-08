@@ -10,6 +10,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//app/domain/market/repo",
+        "//app/domain/market/repo/influxdb",
         "//app/domain/market/repo/mongodb",
         "//entity/domain/market/biz",
         "//entity/domain/market/model",
