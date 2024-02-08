@@ -1,0 +1,11 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "model",
+    srcs = [
+        "profile.go",
+        "user.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/entity/ekko/domain/identity/model",
+    visibility = ["//visibility:public"],
+)
