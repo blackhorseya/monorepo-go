@@ -60,6 +60,20 @@ func (s *Stock) FlexMessage() *linebot.FlexMessage {
 	})
 }
 
+func (x *StockInfo) MarshalJSON() ([]byte, error) {
+	type Alias StockInfo
+
+	return json.Marshal(&struct {
+		*Alias
+		Date      string `json:"date,omitempty"`
+		UpdatedAt string `json:"updated_at,omitempty"`
+	}{
+		Alias:     (*Alias)(x),
+		Date:      x.Date.AsTime().UTC().Format(time.RFC3339),
+		UpdatedAt: x.UpdatedAt.AsTime().UTC().Format(time.RFC3339),
+	})
+}
+
 func (x *DailyQuote) MarshalJSON() ([]byte, error) {
 	type Alias DailyQuote
 
