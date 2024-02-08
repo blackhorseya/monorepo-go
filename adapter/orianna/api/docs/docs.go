@@ -71,7 +71,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/stocks/": {
+        "/v1/stocks": {
             "get": {
                 "description": "Get a list of stocks",
                 "consumes": [
@@ -108,6 +108,38 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/stocks/{symbol}": {
+            "get": {
+                "description": "get stock by symbol",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "stocks"
+                ],
+                "summary": "Get stock by symbol",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Stock symbol",
+                        "name": "symbol",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }

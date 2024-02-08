@@ -10,5 +10,5 @@ import (
 // Handle is the handler for the RESTful API.
 func Handle(g *gin.RouterGroup, svc biz.IMarketBiz) {
 	stats.Handle(g.Group("/stats"), svc)
-	stocks.Handle(g.Group("/stocks"))
+	stocks.Handle(g.Group("/stocks"), svc)
 }

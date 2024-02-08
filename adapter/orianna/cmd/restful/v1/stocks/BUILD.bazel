@@ -5,8 +5,13 @@ go_library(
     srcs = [
         "api.go",
         "get_list.go",
+        "get_symbol.go",
     ],
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/restful/v1/stocks",
     visibility = ["//visibility:public"],
-    deps = ["@com_github_gin_gonic_gin//:gin"],
+    deps = [
+        "//entity/domain/market/biz",
+        "//pkg/response",
+        "@com_github_gin_gonic_gin//:gin",
+    ],
 )
