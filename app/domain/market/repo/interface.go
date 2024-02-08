@@ -11,3 +11,7 @@ import (
 type Storager interface {
 	GetBySymbol(ctx contextx.Contextx, symbol string) (info *model.StockInfo, err error)
 }
+
+// IQuoteRepo is the interface that wraps the basic quote repository methods.
+type IQuoteRepo interface {
+}

@@ -49,3 +49,26 @@ func (mr *MockStoragerMockRecorder) GetBySymbol(ctx, symbol interface{}) *gomock
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBySymbol", reflect.TypeOf((*MockStorager)(nil).GetBySymbol), ctx, symbol)
 }
+
+// MockIQuoteRepo is a mock of IQuoteRepo interface.
+type MockIQuoteRepo struct {
+	ctrl     *gomock.Controller
+	recorder *MockIQuoteRepoMockRecorder
+}
+
+// MockIQuoteRepoMockRecorder is the mock recorder for MockIQuoteRepo.
+type MockIQuoteRepoMockRecorder struct {
+	mock *MockIQuoteRepo
+}
+
+// NewMockIQuoteRepo creates a new mock instance.
+func NewMockIQuoteRepo(ctrl *gomock.Controller) *MockIQuoteRepo {
+	mock := &MockIQuoteRepo{ctrl: ctrl}
+	mock.recorder = &MockIQuoteRepoMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockIQuoteRepo) EXPECT() *MockIQuoteRepoMockRecorder {
+	return m.recorder
+}
