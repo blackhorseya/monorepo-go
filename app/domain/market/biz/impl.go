@@ -56,8 +56,13 @@ func (i *impl) GetStockBySymbol(ctx contextx.Contextx, symbol string) (stock *mo
 	ret := &model.Stock{
 		Symbol: symbol,
 		Name:   info.Name,
-		Price:  0,
 	}
+
+	quote, err := i.quote.GetLatestBySymbol(ctx, symbol)
+	if err != nil {
+		return nil, err
+	}
+	ret.Price = quote.Close
 
 	return ret, nil
 }
