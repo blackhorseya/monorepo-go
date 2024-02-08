@@ -6,3 +6,11 @@ type Ticket struct {
 	Title     string `json:"title,omitempty"`
 	Completed bool   `json:"completed,omitempty"`
 }
+
+// NewTicket creates a new ticket.
+func NewTicket(id, title string) *Ticket {
+	return &Ticket{
+		ID:    id,
+		Title: title,
+	}
+}
