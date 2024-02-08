@@ -10,7 +10,9 @@
 6. **可擴展性和定制性**：由於不同團隊和項目的需求各異，系統需要具有足夠的可擴展性和定制性，以滿足不同場景下的需求。
 7. **使用者身份驗證和授權**：確保系統中的敏感資料和功能只能被授權的使用者訪問，以保護資料的安全性和隱私性。
 
-### Domain Diagram
+## Domain and Bounded Context
+
+### Domain List
 
 核心域（Core Domain）：
 
@@ -26,11 +28,24 @@
 1. 使用者身份認證：雖然不是核心競爭力，但身份認證是系統的基本需求，市場上已有成熟的解決方案可供使用。
 
 ```mermaid
-graph TD;
+graph TD
+;
     A[Core Domain - 工作流管理] -->|支持| B[Supporting Subdomain - 協作工具]
     A -->|支持| C[Supporting Subdomain - 報告和分析]
     B -->|支持| C[Supporting Subdomain - 報告和分析]
     D[Generic Subdomain - 使用者身份認證] -->|支持| A[Core Domain - 工作流管理]
 ```
 
-## Solution Space
+### Bounded Context
+
+1. **Workflow**：
+    - 這個 Bounded Context 專注於實現工作流程的管理和執行。它負責定義和管理任務和問題的狀態轉換，以及支持工作流程的順利執行。
+
+2. **Collaboration**：
+    - 這個 Bounded Context 專注於提供協作工具，以支持團隊成員之間的溝通和協作。它包括討論區、評論功能等，以增強團隊之間的互動和合作。
+
+3. **Reporting**：
+    - 這個 Bounded Context 專注於提供報告和分析功能，以幫助團隊更好地理解工作進展和效率。它負責生成各種報告和分析，從而支援團隊的決策和優化工作流程。
+
+4. **Identity**：
+    - 這個 Bounded Context 專注於處理使用者身份認證和授權，確保系統的安全性和使用者身份的有效性。它可能會集成現有的身份認證解決方案，以確保安全性並提供用戶友好的身份管理功能。
