@@ -22,8 +22,11 @@ message StockInfo {
     string name = 2;
     string industry_category = 3;
     string type = 4;
+    double price = 7;
     // @gotags: swaggertype:"string"
     google.protobuf.Timestamp date = 5;
+    // @gotags: swaggertype:"string"
+    google.protobuf.Timestamp updated_at = 6;
 }
 
 message Stock {
