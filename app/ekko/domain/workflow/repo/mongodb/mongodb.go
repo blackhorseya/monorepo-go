@@ -55,8 +55,17 @@ func (i *impl) GetByID(ctx contextx.Contextx, id string) (item agg.Issue, err er
 }
 
 func (i *impl) Create(ctx contextx.Contextx, item agg.Issue) error {
-	// todo: 2024/2/10|sean|implement me
-	panic("implement me")
+	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
+	defer cancelFunc()
+
+	created := newFromIssue(item)
+	coll := i.rw.Database(dbName).Collection(collName)
+	_, err := coll.InsertOne(timeout, created)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (i *impl) Update(ctx contextx.Contextx, item agg.Issue) error {

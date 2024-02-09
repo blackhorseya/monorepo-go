@@ -10,8 +10,8 @@ type Issue struct {
 }
 
 // NewIssue creates a new issue.
-func NewIssue(id, title string) (Issue, error) {
-	ticket, err := model.NewTicket(id, title)
+func NewIssue(title string) (Issue, error) {
+	ticket, err := model.NewTicket(title)
 	if err != nil {
 		return Issue{}, err
 	}
@@ -24,6 +24,11 @@ func NewIssue(id, title string) (Issue, error) {
 // GetID returns the issue ID.
 func (x *Issue) GetID() string {
 	return x.ticket.ID
+}
+
+// SetID sets the issue ID.
+func (x *Issue) SetID(id string) {
+	x.ticket.ID = id
 }
 
 // GetTitle returns the issue title.

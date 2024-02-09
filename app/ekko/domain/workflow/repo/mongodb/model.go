@@ -29,11 +29,12 @@ func newFromIssue(item agg.Issue) issue {
 
 // ToAggregate converts the issue to aggregate.
 func (x *issue) ToAggregate() (agg.Issue, error) {
-	ret, err := agg.NewIssue(x.ID.Hex(), x.Title)
+	ret, err := agg.NewIssue(x.Title)
 	if err != nil {
 		return agg.Issue{}, err
 	}
 
+	ret.SetID(x.ID.Hex())
 	ret.SetCompleted(x.Completed)
 
 	return ret, nil

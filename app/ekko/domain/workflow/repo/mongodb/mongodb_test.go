@@ -58,7 +58,7 @@ func TestAll(t *testing.T) {
 }
 
 func (s *suiteTester) Test_impl_GetByID() {
-	issue1, _ := agg.NewIssue("1", "title1")
+	issue1, _ := agg.NewIssue("title1")
 	newIssue1 := newFromIssue(issue1)
 	got1, _ := newIssue1.ToAggregate()
 
@@ -97,6 +97,39 @@ func (s *suiteTester) Test_impl_GetByID() {
 			}
 			if !reflect.DeepEqual(gotIssue, tt.wantIssue) {
 				t.Errorf("GetByID() gotIssue = %v, want %v", gotIssue, tt.wantIssue)
+			}
+		})
+	}
+}
+
+func (s *suiteTester) Test_impl_Create() {
+	created1, _ := agg.NewIssue("title1")
+
+	type args struct {
+		ctx  contextx.Contextx
+		item agg.Issue
+		mock func()
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name:    "ok",
+			args:    args{item: created1},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		s.T().Run(tt.name, func(t *testing.T) {
+			tt.args.ctx = contextx.Background()
+			if tt.args.mock != nil {
+				tt.args.mock()
+			}
+
+			if err := s.repo.Create(tt.args.ctx, tt.args.item); (err != nil) != tt.wantErr {
+				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
