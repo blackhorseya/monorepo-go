@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "agg",
+    srcs = ["issue.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/entity/ekko/domain/workflow/agg",
+    visibility = ["//visibility:public"],
+    deps = ["//entity/ekko/domain/workflow/model"],
+)

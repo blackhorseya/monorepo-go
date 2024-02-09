@@ -8,9 +8,9 @@ type Ticket struct {
 }
 
 // NewTicket creates a new ticket.
-func NewTicket(id, title string) *Ticket {
+func NewTicket(id, title string) (*Ticket, error) {
 	return &Ticket{
 		ID:    id,
 		Title: title,
-	}
+	}, nil
 }
