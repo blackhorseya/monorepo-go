@@ -25,3 +25,18 @@ func NewIssue(id, title string) (Issue, error) {
 func (x *Issue) GetID() string {
 	return x.ticket.ID
 }
+
+// GetTitle returns the issue title.
+func (x *Issue) GetTitle() string {
+	return x.ticket.Title
+}
+
+// GetCompleted returns the issue completed status.
+func (x *Issue) GetCompleted() bool {
+	return x.ticket.Completed
+}
+
+// SetCompleted sets the issue completed status.
+func (x *Issue) SetCompleted(completed bool) {
+	x.ticket.Completed = completed
+}
