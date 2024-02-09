@@ -1,0 +1,28 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "mongodb",
+    srcs = ["mongodb.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/repo/mongodb",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//entity/ekko/domain/workflow/agg",
+        "//entity/ekko/domain/workflow/repo",
+        "//pkg/contextx",
+        "@org_mongodb_go_mongo_driver//mongo",
+    ],
+)
+
+go_test(
+    name = "mongodb_test",
+    srcs = ["mongodb_test.go"],
+    deps = [
+        ":mongodb",
+        "//entity/ekko/domain/workflow/repo",
+        "//pkg/contextx",
+        "//pkg/storage/mongodb",
+        "@com_github_stretchr_testify//suite",
+        "@org_mongodb_go_mongo_driver//mongo",
+        "@org_uber_go_zap//:zap",
+    ],
+)
