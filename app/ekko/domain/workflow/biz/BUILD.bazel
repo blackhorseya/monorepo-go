@@ -1,0 +1,11 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "biz",
+    srcs = [
+        "impl.go",
+        "wire.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/biz",
+    visibility = ["//visibility:public"],
+)
