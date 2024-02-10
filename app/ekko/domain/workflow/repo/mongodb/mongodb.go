@@ -54,7 +54,7 @@ func (i *impl) List(ctx contextx.Contextx) (items []agg.Issue, err error) {
 		ret = append(ret, item)
 	}
 
-	return items, nil
+	return ret, nil
 }
 
 func (i *impl) GetByID(ctx contextx.Contextx, id string) (item agg.Issue, err error) {

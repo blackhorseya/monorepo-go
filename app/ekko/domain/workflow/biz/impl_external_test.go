@@ -75,3 +75,41 @@ func (s *suiteExternal) Test_impl_CreateTodo() {
 		})
 	}
 }
+
+func (s *suiteExternal) Test_impl_ListTodos() {
+	type args struct {
+		ctx  contextx.Contextx
+		opts biz.ListTodosOptions
+		mock func()
+	}
+	tests := []struct {
+		name      string
+		args      args
+		wantTodos []*wfM.Ticket
+		wantTotal int
+		wantErr   bool
+	}{
+		{
+			name:      "ok",
+			args:      args{},
+			wantTodos: nil,
+			wantTotal: 0,
+			wantErr:   false,
+		},
+	}
+	for _, tt := range tests {
+		s.T().Run(tt.name, func(t *testing.T) {
+			tt.args.ctx = contextx.Background()
+			if tt.args.mock != nil {
+				tt.args.mock()
+			}
+
+			gotTodos, gotTotal, err := s.biz.ListTodos(tt.args.ctx, tt.args.opts)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ListTodos() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			tt.args.ctx.Debug("gotTodos", zap.Any("gotTodos", gotTodos), zap.Int("gotTotal", gotTotal))
+		})
+	}
+}

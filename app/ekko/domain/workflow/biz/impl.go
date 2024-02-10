@@ -30,9 +30,9 @@ func (i *impl) CreateTodo(ctx contextx.Contextx, who *idM.User, title string) (t
 	}
 
 	return &wfM.Ticket{
-		ID:        "",
-		Title:     title,
-		Completed: false,
+		ID:        issue.GetID(),
+		Title:     issue.GetTitle(),
+		Completed: issue.GetCompleted(),
 	}, nil
 }
 
