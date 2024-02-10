@@ -4,7 +4,7 @@ go_library(
     name = "biz",
     srcs = [
         "impl.go",
-        "wire.go",
+        "wire_gen.go",
     ],
     importpath = "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/biz",
     visibility = ["//visibility:public"],
@@ -16,6 +16,7 @@ go_library(
         "//entity/ekko/domain/workflow/model",
         "//entity/ekko/domain/workflow/repo",
         "//pkg/contextx",
+        "//pkg/storage/mongodb",
         "@com_github_google_wire//:wire",
     ],
 )
