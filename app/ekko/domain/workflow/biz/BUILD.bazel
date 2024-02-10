@@ -10,6 +10,11 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//app/ekko/domain/workflow/repo/mongodb",
+        "//entity/ekko/domain/identity/model",
+        "//entity/ekko/domain/workflow/biz",
+        "//entity/ekko/domain/workflow/model",
+        "//entity/ekko/domain/workflow/repo",
+        "//pkg/contextx",
         "@com_github_google_wire//:wire",
     ],
 )

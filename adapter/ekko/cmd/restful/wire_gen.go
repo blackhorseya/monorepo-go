@@ -7,7 +7,10 @@
 package restful
 
 import (
+	"github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/biz"
+	mongodb2 "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/repo/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/spf13/viper"
 )
 
@@ -18,7 +21,19 @@ import (
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	servicer, err := newRestful()
+	client, err := mongodb.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	iIssueRepo, err := mongodb2.NewIssueRepoWithMongoDB(client)
+	if err != nil {
+		return nil, err
+	}
+	iWorkflowBiz, err := biz.NewWorkflowBiz(iIssueRepo)
+	if err != nil {
+		return nil, err
+	}
+	servicer, err := newRestful(iWorkflowBiz)
 	if err != nil {
 		return nil, err
 	}

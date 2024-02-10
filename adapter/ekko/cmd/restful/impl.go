@@ -9,6 +9,7 @@ import (
 	"syscall"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/ekko/api/docs" // swagger docs
+	"github.com/blackhorseya/monorepo-go/entity/ekko/domain/workflow/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -24,7 +25,7 @@ type impl struct {
 	server *httpx.Server
 }
 
-func newRestful() (adapterx.Servicer, error) {
+func newRestful(svc biz.IWorkflowBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServer(ctx)
