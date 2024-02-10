@@ -27,6 +27,36 @@ func NewIssueRepoWithMongoDB(rw *mongo.Client) (repo.IIssueRepo, error) {
 	return &impl{rw: rw}, nil
 }
 
+func (i *impl) List(ctx contextx.Contextx) (items []agg.Issue, err error) {
+	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
+	defer cancelFunc()
+
+	coll := i.rw.Database(dbName).Collection(collName)
+	cursor, err := coll.Find(timeout, bson.M{})
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(timeout)
+
+	var ret []agg.Issue
+	for cursor.Next(timeout) {
+		var got issue
+		err = cursor.Decode(&got)
+		if err != nil {
+			return nil, err
+		}
+
+		item, err1 := got.ToAggregate()
+		if err1 != nil {
+			return nil, err1
+		}
+
+		ret = append(ret, item)
+	}
+
+	return items, nil
+}
+
 func (i *impl) GetByID(ctx contextx.Contextx, id string) (item agg.Issue, err error) {
 	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
 	defer cancelFunc()
