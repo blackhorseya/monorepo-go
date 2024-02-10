@@ -37,6 +37,19 @@ func (i *impl) CreateTodo(ctx contextx.Contextx, who *idM.User, title string) (t
 }
 
 func (i *impl) ListTodos(ctx contextx.Contextx, opts biz.ListTodosOptions) (todos []*wfM.Ticket, total int, err error) {
-	// todo: 2024/2/11|sean|implement me
-	panic("implement me")
+	got, err := i.issues.List(ctx)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	var ret []*wfM.Ticket
+	for _, v := range got {
+		ret = append(ret, &wfM.Ticket{
+			ID:        v.GetID(),
+			Title:     v.GetTitle(),
+			Completed: v.GetCompleted(),
+		})
+	}
+
+	return ret, len(ret), nil
 }
