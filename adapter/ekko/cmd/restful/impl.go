@@ -48,6 +48,9 @@ func (i *impl) Start() error {
 	{
 		api.GET("/healthz", i.healthz)
 		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+		api.GET("/v1/todos", i.ListTodos)
+		api.POST("/v1/todos", i.CreateTodo)
 	}
 
 	err := i.server.Start(ctx)
@@ -96,4 +99,30 @@ func (i *impl) AwaitSignal() error {
 // @Router /healthz [get]
 func (i *impl) healthz(c *gin.Context) {
 	c.JSON(http.StatusOK, response.OK)
+}
+
+// ListTodos is used to list all todos.
+// @Summary List todos
+// @Description List all todos
+// @Tags todos
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /v1/todos [get]
+func (i *impl) ListTodos(c *gin.Context) {
+	panic("implement me")
+}
+
+// CreateTodo is used to create a todo.
+// @Summary Create a todo
+// @Description Create a todo
+// @Tags todos
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /v1/todos [post]
+func (i *impl) CreateTodo(c *gin.Context) {
+	panic("implement me")
 }

@@ -162,11 +162,18 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
+                "price": {
+                    "type": "number"
+                },
                 "symbol": {
                     "description": "@gotags: bson:\"_id\"",
                     "type": "string"
                 },
                 "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "@gotags: swaggertype:\"string\"",
                     "type": "string"
                 }
             }
