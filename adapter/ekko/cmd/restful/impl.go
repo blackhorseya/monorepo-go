@@ -23,6 +23,7 @@ import (
 
 type impl struct {
 	server *httpx.Server
+	svc    biz.IWorkflowBiz
 }
 
 func newRestful(svc biz.IWorkflowBiz) (adapterx.Servicer, error) {
@@ -35,6 +36,7 @@ func newRestful(svc biz.IWorkflowBiz) (adapterx.Servicer, error) {
 
 	return &impl{
 		server: server,
+		svc:    svc,
 	}, nil
 }
 

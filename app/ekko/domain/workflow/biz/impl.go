@@ -9,15 +9,20 @@ import (
 )
 
 type impl struct {
-	issue issueR.IIssueRepo
+	issues issueR.IIssueRepo
 }
 
 // NewWorkflowBiz creates a new WorkflowBiz.
-func NewWorkflowBiz(issue issueR.IIssueRepo) (biz.IWorkflowBiz, error) {
-	return &impl{issue: issue}, nil
+func NewWorkflowBiz(issues issueR.IIssueRepo) (biz.IWorkflowBiz, error) {
+	return &impl{issues: issues}, nil
 }
 
 func (i *impl) CreateTodo(ctx contextx.Contextx, who *idM.User, title string) (todo *wfM.Ticket, err error) {
+	// todo: 2024/2/11|sean|implement me
+	panic("implement me")
+}
+
+func (i *impl) ListTodos(ctx contextx.Contextx, opts biz.ListTodosOptions) (todos []*wfM.Ticket, total int, err error) {
 	// todo: 2024/2/11|sean|implement me
 	panic("implement me")
 }

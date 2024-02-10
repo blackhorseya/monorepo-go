@@ -50,3 +50,19 @@ func (mr *MockIWorkflowBizMockRecorder) CreateTodo(ctx, who, title interface{}) 
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTodo", reflect.TypeOf((*MockIWorkflowBiz)(nil).CreateTodo), ctx, who, title)
 }
+
+// ListTodos mocks base method.
+func (m *MockIWorkflowBiz) ListTodos(ctx contextx.Contextx, options ListTodosOptions) ([]*model0.Ticket, int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListTodos", ctx, options)
+	ret0, _ := ret[0].([]*model0.Ticket)
+	ret1, _ := ret[1].(int)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// ListTodos indicates an expected call of ListTodos.
+func (mr *MockIWorkflowBizMockRecorder) ListTodos(ctx, options interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTodos", reflect.TypeOf((*MockIWorkflowBiz)(nil).ListTodos), ctx, options)
+}
