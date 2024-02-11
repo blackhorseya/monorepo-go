@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "mongodb",
+    srcs = ["mongodb.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/mongodb",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//entity/orianna/domain/market/agg",
+        "//entity/orianna/domain/market/repo",
+        "//pkg/contextx",
+        "@org_mongodb_go_mongo_driver//mongo",
+    ],
+)
