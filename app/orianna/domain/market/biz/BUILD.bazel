@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "biz",
+    srcs = [
+        "impl.go",
+        "wire_gen.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/biz",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//app/orianna/domain/market/repo/mongodb",
+        "//entity/orianna/domain/market/agg",
+        "//entity/orianna/domain/market/biz",
+        "//entity/orianna/domain/market/repo",
+        "//pkg/contextx",
+        "//pkg/storage/mongodb",
+        "@com_github_google_wire//:wire",
+    ],
+)
