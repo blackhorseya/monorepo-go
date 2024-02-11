@@ -2,7 +2,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "mongodb",
-    srcs = ["mongodb.go"],
+    srcs = [
+        "model.go",
+        "mongodb.go",
+    ],
     importpath = "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/mongodb",
     visibility = ["//visibility:public"],
     deps = [

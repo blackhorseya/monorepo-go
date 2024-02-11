@@ -14,10 +14,14 @@ func (x *Stock) GetSymbol() string {
 	return x.stock.Symbol
 }
 
-func (x *Stock) SetSymbol(symbol string) {
-	if x.stock == nil {
-		x.stock = &model.Stock{}
-	}
+func (x *Stock) GetName() string {
+	return x.stock.Name
+}
 
-	x.stock.Symbol = symbol
+func (x *Stock) GetIndustryCategory() string {
+	return x.stock.IndustryCategory
+}
+
+func (x *Stock) GetExchangeName() string {
+	return x.stock.ExchangeName
 }
