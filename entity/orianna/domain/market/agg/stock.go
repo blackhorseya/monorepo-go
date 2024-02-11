@@ -1,6 +1,8 @@
 package agg
 
 import (
+	"encoding/json"
+
 	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/model"
 )
 
@@ -15,6 +17,12 @@ func NewStock(stock *model.Stock) Stock {
 	return Stock{
 		stock: stock,
 	}
+}
+
+func (x *Stock) MarshalJSON() ([]byte, error) {
+	return json.Marshal(struct {
+	}{})
+
 }
 
 func (x *Stock) GetSymbol() string {

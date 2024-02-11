@@ -10,7 +10,7 @@ import (
 	"github.com/google/wire"
 )
 
-func newStockRepoForTest() (repo.IStockRepo, error) {
+func newForTest() (repo.IStockRepo, error) {
 	panic(wire.Build(
 		mongodbx.NewClient,
 		NewStockRepo,

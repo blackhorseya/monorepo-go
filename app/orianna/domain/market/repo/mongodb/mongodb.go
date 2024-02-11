@@ -27,8 +27,26 @@ func NewStockRepo(client *mongo.Client) (repo.IStockRepo, error) {
 }
 
 func (i *impl) List(ctx contextx.Contextx) ([]agg.Stock, error) {
-	// TODO implement me
-	panic("implement me")
+	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
+	defer cancelFunc()
+
+	coll := i.client.Database(dbName).Collection(collName)
+	cursor, err := coll.Find(timeout, bson.M{})
+	if err != nil {
+		return nil, err
+	}
+
+	var ret []agg.Stock
+	for cursor.Next(timeout) {
+		var got stock
+		if err = cursor.Decode(&got); err != nil {
+			return nil, err
+		}
+
+		ret = append(ret, got.ToAggregate())
+	}
+
+	return ret, nil
 }
 
 func (i *impl) BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stock) error {

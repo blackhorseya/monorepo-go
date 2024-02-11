@@ -13,7 +13,7 @@ import (
 
 // Injectors from wire.go:
 
-func newStockRepoForTest() (repo.IStockRepo, error) {
+func newForTest() (repo.IStockRepo, error) {
 	client, err := mongodb.NewClient()
 	if err != nil {
 		return nil, err

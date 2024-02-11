@@ -3,6 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "mongodb",
     srcs = [
+        "model.go",
         "mongodb.go",
         "wire_gen.go",
     ],
@@ -10,6 +11,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//entity/orianna/domain/market/agg",
+        "//entity/orianna/domain/market/model",
         "//entity/orianna/domain/market/repo",
         "//pkg/contextx",
         "//pkg/storage/mongodb",
