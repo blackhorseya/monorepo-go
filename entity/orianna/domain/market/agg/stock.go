@@ -19,6 +19,14 @@ func NewStock(stock *model.Stock) Stock {
 	}
 }
 
+// NewStockWithQuota is the constructor of Stock with recent quota.
+func NewStockWithQuota(stock *model.Stock, recentQuota model.StockQuota) Stock {
+	return Stock{
+		stock:       stock,
+		recentQuota: recentQuota,
+	}
+}
+
 func (x *Stock) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		*model.Stock
@@ -41,4 +49,8 @@ func (x *Stock) GetIndustryCategory() string {
 
 func (x *Stock) GetExchangeName() string {
 	return x.stock.ExchangeName
+}
+
+func (x *Stock) GetRecentQuota() model.StockQuota {
+	return x.recentQuota
 }

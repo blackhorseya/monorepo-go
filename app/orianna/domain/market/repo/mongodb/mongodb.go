@@ -80,3 +80,32 @@ func (i *impl) BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stock) error {
 
 	return nil
 }
+
+func (i *impl) BulkUpdateQuota(ctx contextx.Contextx, stocks []agg.Stock) error {
+	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
+	defer cancelFunc()
+
+	now := time.Now()
+	var models []mongo.WriteModel
+	for _, v := range stocks {
+		filter := bson.M{"_id": v.GetSymbol()}
+		model := mongo.NewUpdateOneModel().
+			SetFilter(filter).
+			SetUpdate(bson.D{
+				{Key: "$set", Value: bson.D{
+					{Key: "recent_quota", Value: fromStockQuota(v.GetRecentQuota())},
+					{Key: "updated_at", Value: now},
+				}}}).
+			SetUpsert(false)
+		models = append(models, model)
+	}
+	opts := options.BulkWrite().SetOrdered(false)
+
+	coll := i.client.Database(dbName).Collection(collName)
+	_, err := coll.BulkWrite(timeout, models, opts)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -5,6 +5,7 @@ package mongodb
 import (
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/agg"
 	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/model"
@@ -41,8 +42,7 @@ func TestExternal(t *testing.T) {
 func (s *suiteExternal) TestImpl_BulkUpsertInfo() {
 	ctx := contextx.Background()
 	err := s.repo.BulkUpsertInfo(ctx, []agg.Stock{
-		agg.NewStock(&model.Stock{Symbol: "1234"}),
-		agg.NewStock(&model.Stock{Symbol: "5678"}),
+		agg.NewStock(&model.Stock{Symbol: "1234", Name: "黑松", IndustryCategory: "食品工業", ExchangeName: "twse"}),
 	})
 	s.Require().NoError(err)
 }
@@ -56,4 +56,13 @@ func (s *suiteExternal) TestImpl_List() {
 	if len(stocks) == 0 {
 		s.Error(errors.New("empty stocks"))
 	}
+}
+
+func (s *suiteExternal) TestImpl_BulkUpdateQuota() {
+	ctx := contextx.Background()
+	err := s.repo.BulkUpdateQuota(ctx, []agg.Stock{
+		agg.NewStockWithQuota(&model.Stock{Symbol: "1234"}, model.NewStockQuota(0, 0, 0, 0, 0, time.Now())),
+		agg.NewStockWithQuota(&model.Stock{Symbol: "5678"}, model.NewStockQuota(0, 0, 0, 0, 0, time.Now())),
+	})
+	s.Require().NoError(err)
 }

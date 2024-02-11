@@ -35,21 +35,21 @@ func (m *MockIStockRepo) EXPECT() *MockIStockRepoMockRecorder {
 	return m.recorder
 }
 
-// Add mocks base method.
-func (m *MockIStockRepo) Add(ctx contextx.Contextx, stock agg.Stock) error {
+// BulkUpdateQuota mocks base method.
+func (m *MockIStockRepo) BulkUpdateQuota(ctx contextx.Contextx, stocks []agg.Stock) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Add", ctx, stock)
+	ret := m.ctrl.Call(m, "BulkUpdateQuota", ctx, stocks)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// Add indicates an expected call of Add.
-func (mr *MockIStockRepoMockRecorder) Add(ctx, stock interface{}) *gomock.Call {
+// BulkUpdateQuota indicates an expected call of BulkUpdateQuota.
+func (mr *MockIStockRepoMockRecorder) BulkUpdateQuota(ctx, stocks interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockIStockRepo)(nil).Add), ctx, stock)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BulkUpdateQuota", reflect.TypeOf((*MockIStockRepo)(nil).BulkUpdateQuota), ctx, stocks)
 }
 
-// BulkUpsert mocks base method.
+// BulkUpsertInfo mocks base method.
 func (m *MockIStockRepo) BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stock) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "BulkUpsertInfo", ctx, stocks)
@@ -57,8 +57,8 @@ func (m *MockIStockRepo) BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stoc
 	return ret0
 }
 
-// BulkUpsert indicates an expected call of BulkUpsert.
-func (mr *MockIStockRepoMockRecorder) BulkUpsert(ctx, stocks interface{}) *gomock.Call {
+// BulkUpsertInfo indicates an expected call of BulkUpsertInfo.
+func (mr *MockIStockRepoMockRecorder) BulkUpsertInfo(ctx, stocks interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BulkUpsertInfo", reflect.TypeOf((*MockIStockRepo)(nil).BulkUpsertInfo), ctx, stocks)
 }
