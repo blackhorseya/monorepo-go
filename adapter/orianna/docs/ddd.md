@@ -16,27 +16,27 @@
 
 ### 核心領域（Core Domain）：
 
-#### 金融交易策略系統（Financial Trading Strategy System）：
+#### 金融交易策略系統（Strategy）：
 
 這是整個專案的核心，旨在開發一個功能強大的金融交易策略系統，用於識別、開發和執行各種交易策略，並進行回測和實時監控。該系統將包括策略開發與回測功能。
 
 ### 支援領域（Supporting Domain）：
 
-#### 數據源管理（Data Source Management）：
+#### 數據管理（Feed）：
 
 負責管理和整合來自不同數據源的金融市場數據，包括股價、交易量等，以供策略開發和分析使用。
 
-#### 風險管理（Risk Management）：
+#### 風險管理（Risk）：
 
 負責評估、監控和管理交易策略可能面臨的各種風險，包括市場風險、信用風險等。
 
-#### 實時監控與報告（Real-time Monitoring and Reporting）：
+#### 實時監控與報告（Monitoring）：
 
 負責實時監控市場變化、交易策略執行情況，並生成相應的報告用於評估和分析。
 
 ### 通用領域（Generic Domain）：
 
-#### 交易執行（Trade Execution）：
+#### 交易執行（Trade）：
 
 負責生成和執行交易訂單，將交易策略轉換為實際交易行動。
 
@@ -47,7 +47,7 @@ flowchart TD
     end
 
     subgraph "支援領域"
-        D[數據源管理] --> A
+        D[數據管理] --> A
         E[風險管理] --> A
         F[實時監控與報告] --> A
     end
