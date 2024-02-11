@@ -88,9 +88,20 @@ const docTemplate = `{
                     "todos"
                 ],
                 "summary": "Create a todo",
+                "parameters": [
+                    {
+                        "description": "payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/restful.createTodoPayload"
+                        }
+                    }
+                ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -114,6 +125,14 @@ const docTemplate = `{
                 },
                 "data": {},
                 "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "restful.createTodoPayload": {
+            "type": "object",
+            "properties": {
+                "title": {
                     "type": "string"
                 }
             }

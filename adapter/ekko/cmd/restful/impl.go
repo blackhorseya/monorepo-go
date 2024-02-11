@@ -111,7 +111,24 @@ func (i *impl) healthz(c *gin.Context) {
 // @Failure 500 {object} response.Response
 // @Router /v1/todos [get]
 func (i *impl) ListTodos(c *gin.Context) {
-	panic("implement me")
+	ctx, err := contextx.FromGin(c)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	ret, total, err := i.svc.ListTodos(ctx, biz.ListTodosOptions{})
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.Header("X-Total-Count", fmt.Sprintf("%d", total))
+	c.JSON(http.StatusOK, response.OK.WithData(ret))
+}
+
+type createTodoPayload struct {
+	Title string `json:"title"`
 }
 
 // CreateTodo is used to create a todo.
@@ -120,9 +137,29 @@ func (i *impl) ListTodos(c *gin.Context) {
 // @Tags todos
 // @Accept json
 // @Produce json
-// @Success 200 {object} response.Response
+// @Param payload body createTodoPayload true "payload"
+// @Success 201 {object} response.Response
 // @Failure 500 {object} response.Response
 // @Router /v1/todos [post]
 func (i *impl) CreateTodo(c *gin.Context) {
-	panic("implement me")
+	ctx, err := contextx.FromGin(c)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	var payload createTodoPayload
+	err = c.ShouldBindJSON(&payload)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	_, err = i.svc.CreateTodo(ctx, nil, payload.Title)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusCreated, response.OK)
 }
