@@ -10,4 +10,5 @@ import (
 // IMarketBiz is the interface for market biz.
 type IMarketBiz interface {
 	ListStocks(ctx contextx.Contextx) ([]agg.Stock, error)
+	GetStockBySymbol(ctx contextx.Contextx, symbol string) (agg.Stock, error)
 }

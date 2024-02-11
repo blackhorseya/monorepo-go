@@ -26,3 +26,8 @@ func (i *impl) ListStocks(ctx contextx.Contextx) ([]agg.Stock, error) {
 
 	return ret, nil
 }
+
+func (i *impl) GetStockBySymbol(ctx contextx.Contextx, symbol string) (agg.Stock, error) {
+	// TODO implement me
+	panic("implement me")
+}

@@ -35,6 +35,21 @@ func (m *MockIMarketBiz) EXPECT() *MockIMarketBizMockRecorder {
 	return m.recorder
 }
 
+// GetStockBySymbol mocks base method.
+func (m *MockIMarketBiz) GetStockBySymbol(ctx contextx.Contextx, symbol string) (agg.Stock, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetStockBySymbol", ctx, symbol)
+	ret0, _ := ret[0].(agg.Stock)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetStockBySymbol indicates an expected call of GetStockBySymbol.
+func (mr *MockIMarketBizMockRecorder) GetStockBySymbol(ctx, symbol interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetStockBySymbol", reflect.TypeOf((*MockIMarketBiz)(nil).GetStockBySymbol), ctx, symbol)
+}
+
 // ListStocks mocks base method.
 func (m *MockIMarketBiz) ListStocks(ctx contextx.Contextx) ([]agg.Stock, error) {
 	m.ctrl.T.Helper()
