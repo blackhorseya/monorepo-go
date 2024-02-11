@@ -1,6 +1,10 @@
 package stocks
 
 import (
+	"net/http"
+
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +18,17 @@ import (
 // @Failure 500 {object} response.Response
 // @Router /v1/stocks [get]
 func (i *impl) GetList(c *gin.Context) {
-	// todo: 2024/2/11|sean|implement me
-	panic("implement me")
+	ctx, err := contextx.FromGin(c)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	ret, err := i.svc.ListStocks(ctx)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, response.OK.WithData(ret))
 }
