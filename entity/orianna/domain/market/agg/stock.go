@@ -21,8 +21,10 @@ func NewStock(stock *model.Stock) Stock {
 
 func (x *Stock) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-	}{})
-
+		*model.Stock
+	}{
+		Stock: x.stock,
+	})
 }
 
 func (x *Stock) GetSymbol() string {

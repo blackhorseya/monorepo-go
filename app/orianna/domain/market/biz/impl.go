@@ -19,6 +19,10 @@ func NewMarketBiz(stocks repo.IStockRepo) (marketB.IMarketBiz, error) {
 }
 
 func (i *impl) ListStocks(ctx contextx.Contextx) ([]agg.Stock, error) {
-	// TODO implement me
-	panic("implement me")
+	ret, err := i.stocks.List(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return ret, nil
 }
