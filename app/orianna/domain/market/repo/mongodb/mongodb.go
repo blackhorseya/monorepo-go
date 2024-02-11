@@ -31,11 +31,6 @@ func (i *impl) List(ctx contextx.Contextx) ([]agg.Stock, error) {
 	panic("implement me")
 }
 
-func (i *impl) Add(ctx contextx.Contextx, stock agg.Stock) error {
-	// TODO implement me
-	panic("implement me")
-}
-
 func (i *impl) BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stock) error {
 	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
 	defer cancelFunc()
