@@ -14,13 +14,13 @@ import (
 // ProviderSet is biz providers.
 var ProviderSet = wire.NewSet(
 	NewWorkflowBiz,
-	mongodb.NewIssueRepoWithMongoDB,
+	mongodb.NewIssueRepo,
 )
 
 func NewForExternal() (biz.IWorkflowBiz, error) {
 	panic(wire.Build(
 		mongodbx.NewClient,
-		mongodb.NewIssueRepoWithMongoDB,
+		mongodb.NewIssueRepo,
 		NewWorkflowBiz,
 	))
 }

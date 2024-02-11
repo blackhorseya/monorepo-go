@@ -25,7 +25,7 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	iIssueRepo, err := mongodb2.NewIssueRepoWithMongoDB(client)
+	iIssueRepo, err := mongodb2.NewIssueRepo(client)
 	if err != nil {
 		return nil, err
 	}

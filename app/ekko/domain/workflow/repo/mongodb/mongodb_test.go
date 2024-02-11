@@ -36,7 +36,7 @@ func (s *suiteTester) SetupTest() {
 	s.Require().NoError(err)
 	s.rw = rw
 
-	repo, err := NewIssueRepoWithMongoDB(s.rw)
+	repo, err := NewIssueRepo(s.rw)
 	s.Require().NoError(err)
 	s.repo = repo
 }

@@ -22,8 +22,8 @@ type impl struct {
 	rw *mongo.Client
 }
 
-// NewIssueRepoWithMongoDB is the constructor of IssueRepo with MongoDB.
-func NewIssueRepoWithMongoDB(rw *mongo.Client) (repo.IIssueRepo, error) {
+// NewIssueRepo is the constructor of IssueRepo with MongoDB.
+func NewIssueRepo(rw *mongo.Client) (repo.IIssueRepo, error) {
 	return &impl{rw: rw}, nil
 }
 

@@ -20,7 +20,7 @@ func NewForExternal() (biz.IWorkflowBiz, error) {
 	if err != nil {
 		return nil, err
 	}
-	iIssueRepo, err := mongodb2.NewIssueRepoWithMongoDB(client)
+	iIssueRepo, err := mongodb2.NewIssueRepo(client)
 	if err != nil {
 		return nil, err
 	}
@@ -35,5 +35,5 @@ func NewForExternal() (biz.IWorkflowBiz, error) {
 
 // ProviderSet is biz providers.
 var ProviderSet = wire.NewSet(
-	NewWorkflowBiz, mongodb2.NewIssueRepoWithMongoDB,
+	NewWorkflowBiz, mongodb2.NewIssueRepo,
 )

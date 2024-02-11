@@ -9,7 +9,9 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/jobs/taiwanStockInfo",
     visibility = ["//visibility:private"],
     deps = [
+        "//app/orianna/domain/market/repo/mongodb",
         "//entity/domain/market/model",
+        "//entity/orianna/domain/market/repo",
         "//pkg/configx",
         "//pkg/contextx",
         "//pkg/finmindx",

@@ -7,6 +7,8 @@
 package main
 
 import (
+	mongodb2 "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/mongodb"
+	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
 	"github.com/blackhorseya/monorepo-go/pkg/notify"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
@@ -24,16 +26,21 @@ func BuildInjector() (*Injector, error) {
 	if err != nil {
 		return nil, err
 	}
-	notifyNotifier, err := notify.NewLineNotifier()
+	notifier, err := notify.NewLineNotifier()
 	if err != nil {
 		return nil, err
 	}
-	injector := &Injector{
+	iStockRepo, err := mongodb2.NewStockRepo(client)
+	if err != nil {
+		return nil, err
+	}
+	mainInjector := &Injector{
 		finmind:  dialer,
 		rw:       client,
-		notifier: notifyNotifier,
+		notifier: notifier,
+		repo:     iStockRepo,
 	}
-	return injector, nil
+	return mainInjector, nil
 }
 
 // wire.go:
@@ -43,4 +50,5 @@ type Injector struct {
 	finmind  finmindx.Dialer
 	rw       *mongo.Client
 	notifier notify.Notifier
+	repo     repo.IStockRepo
 }
