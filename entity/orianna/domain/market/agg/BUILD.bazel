@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "agg",
+    srcs = ["stock.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/agg",
+    visibility = ["//visibility:public"],
+    deps = ["//entity/orianna/domain/market/model"],
+)
