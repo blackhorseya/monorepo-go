@@ -35,6 +35,7 @@ func (i *impl) BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stock) error {
 	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
 	defer cancelFunc()
 
+	now := time.Now()
 	var models []mongo.WriteModel
 	for _, v := range stocks {
 		filter := bson.M{"_id": v.GetSymbol()}
@@ -46,7 +47,7 @@ func (i *impl) BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stock) error {
 					{Key: "name", Value: v.GetName()},
 					{Key: "industry_category", Value: v.GetIndustryCategory()},
 					{Key: "exchange_name", Value: v.GetExchangeName()},
-					{Key: "updated_at", Value: time.Now()},
+					{Key: "updated_at", Value: now},
 				}}}).
 			SetUpsert(true)
 		models = append(models, model)

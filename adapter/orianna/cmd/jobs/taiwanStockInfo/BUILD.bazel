@@ -10,7 +10,8 @@ go_library(
     visibility = ["//visibility:private"],
     deps = [
         "//app/orianna/domain/market/repo/mongodb",
-        "//entity/domain/market/model",
+        "//entity/orianna/domain/market/agg",
+        "//entity/orianna/domain/market/model",
         "//entity/orianna/domain/market/repo",
         "//pkg/configx",
         "//pkg/contextx",
@@ -20,10 +21,7 @@ go_library(
         "//pkg/storage/mongodb",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
-        "@org_golang_google_protobuf//types/known/timestamppb",
-        "@org_mongodb_go_mongo_driver//bson",
         "@org_mongodb_go_mongo_driver//mongo",
-        "@org_mongodb_go_mongo_driver//mongo/options",
         "@org_uber_go_zap//:zap",
     ],
 )

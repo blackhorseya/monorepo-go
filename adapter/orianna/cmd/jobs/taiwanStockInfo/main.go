@@ -8,15 +8,12 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/blackhorseya/monorepo-go/entity/domain/market/model"
+	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/agg"
+	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.uber.org/zap"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 const (
@@ -44,34 +41,20 @@ func Handler(c context.Context) (Response, error) {
 	}
 	ctx.Info("successfully fetch [TaiwanStockInfo] dataset", zap.Int("count", len(got)))
 
-	var models []mongo.WriteModel
+	var stocks []agg.Stock
 	for _, v := range got {
-		var date *timestamppb.Timestamp
-		if !v.Date.IsZero() {
-			date = timestamppb.New(v.Date)
-		}
-
-		filter := bson.M{"_id": v.StockID}
-		doc := &model.StockInfo{
+		stocks = append(stocks, agg.NewStock(&model.Stock{
 			Symbol:           v.StockID,
 			Name:             v.StockName,
 			IndustryCategory: v.IndustryCategory,
-			Type:             v.Type,
-			Date:             date,
-		}
-		models = append(models, mongo.NewReplaceOneModel().
-			SetFilter(filter).
-			SetReplacement(doc).
-			SetUpsert(true),
-		)
+			ExchangeName:     v.Type,
+		}))
 	}
-	opts := options.BulkWrite().SetOrdered(false)
 
-	result, err := injector.rw.Database(dbName).Collection(collName).BulkWrite(ctx, models, opts)
+	err = injector.repo.BulkUpsertInfo(ctx, stocks)
 	if err != nil {
 		return handleError(err)
 	}
-	ctx.Info("successfully update stocks", zap.Any("result", &result))
 
 	err = injector.notifier.SendText(ctx, "[TaiwanStockInfo] dataset has been updated")
 	if err != nil {
