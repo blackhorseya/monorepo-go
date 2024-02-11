@@ -55,5 +55,5 @@ func TestImpl_GetStockBySymbol(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	ctx.Debug("stock", zap.Any("stock", stock))
+	ctx.Debug("stock", zap.Any("stock", &stock))
 }

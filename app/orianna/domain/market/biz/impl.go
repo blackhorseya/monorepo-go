@@ -28,6 +28,10 @@ func (i *impl) ListStocks(ctx contextx.Contextx) ([]agg.Stock, error) {
 }
 
 func (i *impl) GetStockBySymbol(ctx contextx.Contextx, symbol string) (agg.Stock, error) {
-	// TODO implement me
-	panic("implement me")
+	ret, err := i.stocks.Get(ctx, symbol)
+	if err != nil {
+		return agg.Stock{}, err
+	}
+
+	return ret, nil
 }
