@@ -1,6 +1,7 @@
 package model
 
 import (
+	"encoding/json"
 	"time"
 )
 
@@ -35,58 +36,76 @@ func NewStockQuota(
 	}
 }
 
-func (s *StockQuota) GetOpen() float64 {
-	return s.open
+func (x *StockQuota) MarshalJSON() ([]byte, error) {
+	return json.Marshal(struct {
+		Open   float64 `json:"open,omitempty"`
+		High   float64 `json:"high,omitempty"`
+		Close  float64 `json:"close,omitempty"`
+		Low    float64 `json:"low,omitempty"`
+		Volume int     `json:"volume,omitempty"`
+		Value  float64 `json:"value,omitempty"`
+	}{
+		Open:   x.open,
+		High:   x.high,
+		Close:  x.close,
+		Low:    x.low,
+		Volume: x.volume,
+		Value:  x.value,
+	})
 }
 
-func (s *StockQuota) SetOpen(open float64) {
-	s.open = open
+func (x *StockQuota) GetOpen() float64 {
+	return x.open
 }
 
-func (s *StockQuota) GetHigh() float64 {
-	return s.high
+func (x *StockQuota) SetOpen(open float64) {
+	x.open = open
 }
 
-func (s *StockQuota) SetHigh(high float64) {
-	s.high = high
+func (x *StockQuota) GetHigh() float64 {
+	return x.high
 }
 
-func (s *StockQuota) GetClose() float64 {
-	return s.close
+func (x *StockQuota) SetHigh(high float64) {
+	x.high = high
 }
 
-func (s *StockQuota) SetClose(closePrice float64) {
-	s.close = closePrice
+func (x *StockQuota) GetClose() float64 {
+	return x.close
 }
 
-func (s *StockQuota) GetLow() float64 {
-	return s.low
+func (x *StockQuota) SetClose(closePrice float64) {
+	x.close = closePrice
 }
 
-func (s *StockQuota) SetLow(low float64) {
-	s.low = low
+func (x *StockQuota) GetLow() float64 {
+	return x.low
 }
 
-func (s *StockQuota) GetVolume() int {
-	return s.volume
+func (x *StockQuota) SetLow(low float64) {
+	x.low = low
 }
 
-func (s *StockQuota) SetVolume(volume int) {
-	s.volume = volume
+func (x *StockQuota) GetVolume() int {
+	return x.volume
 }
 
-func (s *StockQuota) GetValue() float64 {
-	return s.value
+func (x *StockQuota) SetVolume(volume int) {
+	x.volume = volume
 }
 
-func (s *StockQuota) SetValue(value float64) {
-	s.value = value
+func (x *StockQuota) GetValue() float64 {
+	return x.value
 }
 
-func (s *StockQuota) GetUpdatedAt() time.Time {
-	return s.updatedAt
+func (x *StockQuota) SetValue(value float64) {
+	x.value = value
 }
 
-func (s *StockQuota) SetUpdatedAt(updatedAt time.Time) {
-	s.updatedAt = updatedAt
+func (x *StockQuota) GetUpdatedAt() time.Time {
+	return x.updatedAt
+}
+
+func (x *StockQuota) SetUpdatedAt(updatedAt time.Time) {
+	x.updatedAt = updatedAt
 }

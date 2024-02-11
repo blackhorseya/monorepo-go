@@ -13,16 +13,25 @@ type stock struct {
 	IndustryCategory string    `bson:"industry_category"`
 	ExchangeName     string    `bson:"exchange_name"`
 	UpdatedAt        time.Time `bson:"updated_at"`
+
+	RecentQuota stockQuota `bson:"recent_quota"`
 }
 
 // ToAggregate is to convert to aggregate stock.
 func (x *stock) ToAggregate() agg.Stock {
-	return agg.NewStock(&model.Stock{
+	return agg.NewStockWithQuota(&model.Stock{
 		Symbol:           x.Symbol,
 		Name:             x.Name,
 		IndustryCategory: x.IndustryCategory,
 		ExchangeName:     x.ExchangeName,
-	})
+	}, model.NewStockQuota(
+		x.RecentQuota.High,
+		x.RecentQuota.Low,
+		x.RecentQuota.Open,
+		x.RecentQuota.Close,
+		x.RecentQuota.Volume,
+		x.RecentQuota.Timestamp,
+	))
 }
 
 type stockQuota struct {

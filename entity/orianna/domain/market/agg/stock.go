@@ -30,8 +30,10 @@ func NewStockWithQuota(stock *model.Stock, recentQuota model.StockQuota) Stock {
 func (x *Stock) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		*model.Stock
+		RecentQuota *model.StockQuota `json:"recent_quota,omitempty"`
 	}{
-		Stock: x.stock,
+		Stock:       x.stock,
+		RecentQuota: &x.recentQuota,
 	})
 }
 
