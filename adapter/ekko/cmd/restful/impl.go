@@ -155,11 +155,11 @@ func (i *impl) CreateTodo(c *gin.Context) {
 		return
 	}
 
-	_, err = i.svc.CreateTodo(ctx, nil, payload.Title)
+	ret, err := i.svc.CreateTodo(ctx, nil, payload.Title)
 	if err != nil {
 		_ = c.Error(err)
 		return
 	}
 
-	c.JSON(http.StatusCreated, response.OK)
+	c.JSON(http.StatusCreated, response.OK.WithData(ret))
 }
