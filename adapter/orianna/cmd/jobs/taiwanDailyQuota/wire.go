@@ -5,22 +5,24 @@
 package main
 
 import (
-	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
+	"github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/mongodb"
+	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/notify"
-	"github.com/blackhorseya/monorepo-go/pkg/storage/influxdb"
+	mongodbx "github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/google/wire"
 )
 
 // Injector is the injector for main.
 type Injector struct {
 	notifier notify.Notifier
-	client   *influxdb3.Client
+	repo     repo.IStockRepo
 }
 
 func BuildInjector() (*Injector, error) {
 	panic(wire.Build(
 		wire.Struct(new(Injector), "*"),
 		notify.NewLineNotifier,
-		influxdb.NewClient,
+		mongodbx.NewClient,
+		mongodb.NewStockRepo,
 	))
 }

@@ -6,11 +6,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
-	"github.com/InfluxCommunity/influxdb3-go/influxdb3"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/agg"
+	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
@@ -58,26 +60,29 @@ func Handler(c context.Context) (Response, error) {
 		return handleError(err)
 	}
 
-	loc, _ := time.LoadLocation("Asia/Taipei")
 	now := time.Now()
-	timestamp := time.Date(now.Year(), now.Month(), now.Day(), 13, 30, 0, 0, loc)
-	opts := &influxdb3.WriteOptions{
-		Database: dbName,
-	}
-	var points []*influxdb3.Point
+	var stocks []agg.Stock
 	for _, v := range got {
-		stock := v.ToEntity()
-		point := influxdb3.NewPointWithMeasurement("quotes").
-			SetTag("symbol", stock.Symbol).
-			SetField("price", stock.Price).
-			SetTimestamp(timestamp)
+		open, _ := strconv.ParseFloat(v.OpeningPrice, 64)
+		high, _ := strconv.ParseFloat(v.HighestPrice, 64)
+		closePrice, _ := strconv.ParseFloat(v.ClosingPrice, 64)
+		low, _ := strconv.ParseFloat(v.LowestPrice, 64)
+		volume, _ := strconv.Atoi(v.TradeVolume)
 
-		points = append(points, point)
+		stocks = append(stocks, agg.NewStockWithQuota(
+			&model.Stock{Symbol: v.Code},
+			model.NewStockQuota(open, high, closePrice, low, volume, now),
+		))
 	}
 
-	err = injector.client.WritePointsWithOptions(ctx, opts, points...)
+	err = injector.repo.BulkUpdateQuota(ctx, stocks)
 	if err != nil {
 		return handleError(err)
+	}
+
+	err = injector.notifier.SendText(ctx, "[TaiwanDailyQuota] dataset has been updated")
+	if err != nil {
+		ctx.Warn("failed to send notification", zap.Error(err))
 	}
 
 	return Response{StatusCode: http.StatusOK}, nil
