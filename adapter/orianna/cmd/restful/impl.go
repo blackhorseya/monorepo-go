@@ -10,7 +10,7 @@ import (
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/orianna/api/docs" // swagger docs
 	v1 "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/restful/v1"
-	"github.com/blackhorseya/monorepo-go/entity/domain/market/biz"
+	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"

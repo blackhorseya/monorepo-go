@@ -6,7 +6,6 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/restful/v1/stats",
     visibility = ["//visibility:public"],
     deps = [
-        "//entity/domain/market/biz",
         "//pkg/response",
         "@com_github_gin_gonic_gin//:gin",
     ],

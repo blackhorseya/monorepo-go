@@ -8,7 +8,7 @@ go_library(
     deps = [
         "//adapter/orianna/cmd/restful/v1/stats",
         "//adapter/orianna/cmd/restful/v1/stocks",
-        "//entity/domain/market/biz",
+        "//entity/orianna/domain/market/biz",
         "@com_github_gin_gonic_gin//:gin",
     ],
 )

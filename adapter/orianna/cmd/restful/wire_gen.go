@@ -7,12 +7,9 @@
 package restful
 
 import (
-	"github.com/blackhorseya/monorepo-go/app/domain/market/biz"
-	influxdb2 "github.com/blackhorseya/monorepo-go/app/domain/market/repo/influxdb"
-	mongodb2 "github.com/blackhorseya/monorepo-go/app/domain/market/repo/mongodb"
+	"github.com/blackhorseya/monorepo-go/app/orianna/domain/market/biz"
+	mongodb2 "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
-	"github.com/blackhorseya/monorepo-go/pkg/finmindx"
-	"github.com/blackhorseya/monorepo-go/pkg/storage/influxdb"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/spf13/viper"
 )
@@ -24,27 +21,15 @@ import (
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	dialer, err := finmindx.NewClient()
-	if err != nil {
-		return nil, err
-	}
 	client, err := mongodb.NewClient()
 	if err != nil {
 		return nil, err
 	}
-	storager, err := mongodb2.NewStorager(client)
+	iStockRepo, err := mongodb2.NewStockRepo(client)
 	if err != nil {
 		return nil, err
 	}
-	influxdb3Client, err := influxdb.NewClient()
-	if err != nil {
-		return nil, err
-	}
-	iQuoteRepo, err := influxdb2.NewQuoteRepo(influxdb3Client)
-	if err != nil {
-		return nil, err
-	}
-	iMarketBiz, err := biz.NewMarketBiz(dialer, storager, iQuoteRepo)
+	iMarketBiz, err := biz.NewMarketBiz(iStockRepo)
 	if err != nil {
 		return nil, err
 	}

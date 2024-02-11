@@ -1,7 +1,7 @@
 package stocks
 
 import (
-	"github.com/blackhorseya/monorepo-go/entity/domain/market/biz"
+	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/biz"
 	"github.com/gin-gonic/gin"
 )
 
