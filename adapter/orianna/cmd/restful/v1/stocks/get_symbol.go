@@ -1,6 +1,10 @@
 package stocks
 
 import (
+	"net/http"
+
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +18,19 @@ import (
 // @Success 200 {object} response.Response
 // @Router /v1/stocks/{symbol} [get]
 func (i *impl) GetStockBySymbol(c *gin.Context) {
-	// todo: 2024/2/11|sean|implement me
-	panic("implement me")
+	ctx, err := contextx.FromGin(c)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	symbol := c.Param("symbol")
+
+	ret, err := i.svc.GetStockBySymbol(ctx, symbol)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, response.OK.WithData(&ret))
 }
