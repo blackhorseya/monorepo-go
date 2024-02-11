@@ -97,8 +97,3 @@ func (i *impl) Create(ctx contextx.Contextx, item agg.Issue) (id string, err err
 
 	return created.ID.Hex(), nil
 }
-
-func (i *impl) Update(ctx contextx.Contextx, item agg.Issue) error {
-	// todo: 2024/2/10|sean|implement me
-	panic("implement me")
-}

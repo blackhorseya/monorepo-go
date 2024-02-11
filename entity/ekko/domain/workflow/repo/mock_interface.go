@@ -79,17 +79,3 @@ func (mr *MockIIssueRepoMockRecorder) List(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockIIssueRepo)(nil).List), ctx)
 }
-
-// Update mocks base method.
-func (m *MockIIssueRepo) Update(ctx contextx.Contextx, item agg.Issue) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", ctx, item)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Update indicates an expected call of Update.
-func (mr *MockIIssueRepoMockRecorder) Update(ctx, item interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockIIssueRepo)(nil).Update), ctx, item)
-}
