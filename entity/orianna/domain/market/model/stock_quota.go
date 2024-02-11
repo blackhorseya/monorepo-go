@@ -19,7 +19,7 @@ type StockQuota struct {
 func NewStockQuota(
 	open float64,
 	high float64,
-	close float64,
+	closePrice float64,
 	low float64,
 	volume int,
 	updatedAt time.Time,
@@ -27,10 +27,10 @@ func NewStockQuota(
 	return StockQuota{
 		open:      open,
 		high:      high,
-		close:     close,
+		close:     closePrice,
 		low:       low,
 		volume:    volume,
-		value:     close * float64(volume),
+		value:     closePrice * float64(volume),
 		updatedAt: updatedAt,
 	}
 }
@@ -55,8 +55,8 @@ func (s *StockQuota) GetClose() float64 {
 	return s.close
 }
 
-func (s *StockQuota) SetClose(close float64) {
-	s.close = close
+func (s *StockQuota) SetClose(closePrice float64) {
+	s.close = closePrice
 }
 
 func (s *StockQuota) GetLow() float64 {
