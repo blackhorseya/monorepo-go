@@ -11,4 +11,5 @@ import (
 type IStockRepo interface {
 	List(ctx contextx.Contextx) ([]agg.Stock, error)
 	Add(ctx contextx.Contextx, stock agg.Stock) error
+	BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stock) error
 }

@@ -10,6 +10,13 @@ type Stock struct {
 	recentQuota model.StockQuota
 }
 
+// NewStock is the constructor of Stock.
+func NewStock(stock *model.Stock) Stock {
+	return Stock{
+		stock: stock,
+	}
+}
+
 func (x *Stock) GetSymbol() string {
 	return x.stock.Symbol
 }

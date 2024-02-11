@@ -49,6 +49,20 @@ func (mr *MockIStockRepoMockRecorder) Add(ctx, stock interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockIStockRepo)(nil).Add), ctx, stock)
 }
 
+// BulkUpsert mocks base method.
+func (m *MockIStockRepo) BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stock) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "BulkUpsertInfo", ctx, stocks)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// BulkUpsert indicates an expected call of BulkUpsert.
+func (mr *MockIStockRepoMockRecorder) BulkUpsert(ctx, stocks interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BulkUpsertInfo", reflect.TypeOf((*MockIStockRepo)(nil).BulkUpsertInfo), ctx, stocks)
+}
+
 // List mocks base method.
 func (m *MockIStockRepo) List(ctx contextx.Contextx) ([]agg.Stock, error) {
 	m.ctrl.T.Helper()
