@@ -24,13 +24,13 @@ func (i *impl) CreateTodo(ctx contextx.Contextx, who *idM.User, title string) (t
 		return nil, err
 	}
 
-	err = i.issues.Create(ctx, issue)
+	id, err := i.issues.Create(ctx, issue)
 	if err != nil {
 		return nil, err
 	}
 
 	return &wfM.Ticket{
-		ID:        issue.GetID(),
+		ID:        id,
 		Title:     issue.GetTitle(),
 		Completed: issue.GetCompleted(),
 	}, nil

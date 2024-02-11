@@ -128,8 +128,10 @@ func (s *suiteTester) Test_impl_Create() {
 				tt.args.mock()
 			}
 
-			if err := s.repo.Create(tt.args.ctx, tt.args.item); (err != nil) != tt.wantErr {
+			_, err := s.repo.Create(tt.args.ctx, tt.args.item)
+			if (err != nil) != tt.wantErr {
 				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
+				return
 			}
 		})
 	}

@@ -84,18 +84,18 @@ func (i *impl) GetByID(ctx contextx.Contextx, id string) (item agg.Issue, err er
 	return ret, nil
 }
 
-func (i *impl) Create(ctx contextx.Contextx, item agg.Issue) error {
+func (i *impl) Create(ctx contextx.Contextx, item agg.Issue) (id string, err error) {
 	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
 	defer cancelFunc()
 
 	created := newFromIssue(item)
 	coll := i.rw.Database(dbName).Collection(collName)
-	_, err := coll.InsertOne(timeout, created)
+	_, err = coll.InsertOne(timeout, created)
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	return nil
+	return created.ID.Hex(), nil
 }
 
 func (i *impl) Update(ctx contextx.Contextx, item agg.Issue) error {

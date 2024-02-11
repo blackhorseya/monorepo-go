@@ -63,7 +63,7 @@ func (s *suiteTester) Test_impl_CreateTodo() {
 			name: "create todo then error",
 			args: args{title: ticket1.Title, mock: func() {
 				s.issues.EXPECT().Create(gomock.Any(), issue1).
-					Return(errors.New("mock error")).
+					Return("", errors.New("mock error")).
 					Times(1)
 			}},
 			wantTodo: nil,

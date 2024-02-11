@@ -36,11 +36,12 @@ func (m *MockIIssueRepo) EXPECT() *MockIIssueRepoMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockIIssueRepo) Create(ctx contextx.Contextx, item agg.Issue) error {
+func (m *MockIIssueRepo) Create(ctx contextx.Contextx, item agg.Issue) (string, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, item)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
