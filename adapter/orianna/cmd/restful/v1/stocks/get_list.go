@@ -10,10 +10,10 @@ import (
 // @Tags stocks
 // @Accept json
 // @Produce json
-// @Success 200 {object} response.Response{data=[]model.StockInfo}
+// @Success 200 {object} response.Response
 // @Failure 500 {object} response.Response
 // @Router /v1/stocks [get]
 func (i *impl) GetList(c *gin.Context) {
-	// todo: 2024/2/5|sean|implement me
+	// todo: 2024/2/11|sean|implement me
 	panic("implement me")
 }

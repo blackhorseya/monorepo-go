@@ -11,8 +11,6 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//entity/domain/market/biz",
-        "//pkg/contextx",
-        "//pkg/response",
         "@com_github_gin_gonic_gin//:gin",
     ],
 )

@@ -88,22 +88,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/model.StockInfo"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/response.Response"
                         }
                     },
                     "500": {
@@ -149,35 +134,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.StockInfo": {
-            "type": "object",
-            "properties": {
-                "date": {
-                    "description": "@gotags: swaggertype:\"string\"",
-                    "type": "string"
-                },
-                "industry_category": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "symbol": {
-                    "description": "@gotags: bson:\"_id\"",
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "@gotags: swaggertype:\"string\"",
-                    "type": "string"
-                }
-            }
-        },
         "response.Response": {
             "type": "object",
             "properties": {
