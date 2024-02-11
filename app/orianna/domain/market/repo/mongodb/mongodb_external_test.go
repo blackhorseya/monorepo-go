@@ -66,3 +66,12 @@ func (s *suiteExternal) TestImpl_BulkUpdateQuota() {
 	})
 	s.Require().NoError(err)
 }
+
+func (s *suiteExternal) TestImpl_Get() {
+	ctx := contextx.Background()
+
+	got, err := s.repo.Get(ctx, "1234")
+	s.Require().NoError(err)
+
+	ctx.Debug("got", zap.Any("got", &got))
+}

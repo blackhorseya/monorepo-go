@@ -63,6 +63,21 @@ func (mr *MockIStockRepoMockRecorder) BulkUpsertInfo(ctx, stocks interface{}) *g
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BulkUpsertInfo", reflect.TypeOf((*MockIStockRepo)(nil).BulkUpsertInfo), ctx, stocks)
 }
 
+// Get mocks base method.
+func (m *MockIStockRepo) Get(ctx contextx.Contextx, symbol string) (agg.Stock, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Get", ctx, symbol)
+	ret0, _ := ret[0].(agg.Stock)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Get indicates an expected call of Get.
+func (mr *MockIStockRepoMockRecorder) Get(ctx, symbol interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockIStockRepo)(nil).Get), ctx, symbol)
+}
+
 // List mocks base method.
 func (m *MockIStockRepo) List(ctx contextx.Contextx) ([]agg.Stock, error) {
 	m.ctrl.T.Helper()

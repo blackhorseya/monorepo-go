@@ -26,6 +26,20 @@ func NewStockRepo(client *mongo.Client) (repo.IStockRepo, error) {
 	return &impl{client: client}, nil
 }
 
+func (i *impl) Get(ctx contextx.Contextx, symbol string) (agg.Stock, error) {
+	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
+	defer cancelFunc()
+
+	coll := i.client.Database(dbName).Collection(collName)
+	filter := bson.M{"_id": symbol}
+	var got stock
+	if err := coll.FindOne(timeout, filter).Decode(&got); err != nil {
+		return agg.Stock{}, err
+	}
+
+	return got.ToAggregate(), nil
+}
+
 func (i *impl) List(ctx contextx.Contextx) ([]agg.Stock, error) {
 	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
 	defer cancelFunc()

@@ -9,6 +9,7 @@ import (
 
 // IStockRepo is the interface for stock repository.
 type IStockRepo interface {
+	Get(ctx contextx.Contextx, symbol string) (agg.Stock, error)
 	List(ctx contextx.Contextx) ([]agg.Stock, error)
 	BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stock) error
 	BulkUpdateQuota(ctx contextx.Contextx, stocks []agg.Stock) error
