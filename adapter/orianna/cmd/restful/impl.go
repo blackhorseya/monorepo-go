@@ -44,6 +44,8 @@ func newRestful(svc biz.IMarketBiz) (adapterx.Servicer, error) {
 func (i *impl) Start() error {
 	ctx := contextx.Background()
 
+	i.server.Router.POST("/callback", i.callback)
+
 	// register router
 	api := i.server.Router.Group("/api")
 	{
@@ -99,4 +101,17 @@ func (i *impl) AwaitSignal() error {
 // @Router /healthz [get]
 func (i *impl) healthz(c *gin.Context) {
 	c.JSON(http.StatusOK, response.OK)
+}
+
+// callback is used to handle the callback from the third-party service.
+// @Summary callback
+// @Description Handle the callback from the third-party service.
+// @Tags callback
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /callback [post]
+func (i *impl) callback(c *gin.Context) {
+	panic("implement me")
 }
