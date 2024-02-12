@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "restful",
+    srcs = [
+        "client.go",
+        "dialer.go",
+        "mock_dialer.go",
+        "model.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/app/orianna/infra/restful",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//entity/orianna/domain/market/agg",
+        "//pkg/configx",
+        "//pkg/contextx",
+        "//pkg/response",
+        "@org_uber_go_mock//gomock",
+    ],
+)
