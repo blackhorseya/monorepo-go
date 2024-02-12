@@ -17,6 +17,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/gin-gonic/gin"
+	"github.com/line/line-bot-sdk-go/v8/linebot"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
@@ -25,9 +26,10 @@ import (
 type impl struct {
 	server *httpx.Server
 	svc    biz.IMarketBiz
+	bot    *linebot.Client
 }
 
-func newRestful(svc biz.IMarketBiz) (adapterx.Servicer, error) {
+func newRestful(svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServer(ctx)
@@ -38,6 +40,7 @@ func newRestful(svc biz.IMarketBiz) (adapterx.Servicer, error) {
 	return &impl{
 		server: server,
 		svc:    svc,
+		bot:    bot,
 	}, nil
 }
 

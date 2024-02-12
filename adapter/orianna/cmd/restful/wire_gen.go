@@ -10,6 +10,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/app/orianna/domain/market/biz"
 	mongodb2 "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/spf13/viper"
 )
@@ -33,7 +34,11 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	servicer, err := newRestful(iMarketBiz)
+	linebotClient, err := linebot.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	servicer, err := newRestful(iMarketBiz, linebotClient)
 	if err != nil {
 		return nil, err
 	}
