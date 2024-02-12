@@ -21,8 +21,6 @@ import (
 
 const (
 	endpoint = "https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL"
-
-	dbName = "stock_quotes"
 )
 
 var (
