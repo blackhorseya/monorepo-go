@@ -45,7 +45,8 @@ func (i *impl) List(ctx contextx.Contextx) ([]agg.Stock, error) {
 	defer cancelFunc()
 
 	coll := i.client.Database(dbName).Collection(collName)
-	cursor, err := coll.Find(timeout, bson.M{})
+	opts := options.Find().SetProjection(bson.M{"recent_quota": 0})
+	cursor, err := coll.Find(timeout, bson.M{}, opts)
 	if err != nil {
 		return nil, err
 	}
