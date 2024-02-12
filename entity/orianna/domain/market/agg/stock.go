@@ -37,6 +37,22 @@ func (x *Stock) MarshalJSON() ([]byte, error) {
 	})
 }
 
+func (x *Stock) UnmarshalJSON(bytes []byte) error {
+	aux := &struct {
+		*model.Stock `json:",inline"`
+		RecentQuota  *model.StockQuota `json:"recent_quota,omitempty"`
+	}{}
+
+	if err := json.Unmarshal(bytes, &aux); err != nil {
+		return err
+	}
+
+	x.stock = aux.Stock
+	x.recentQuota = *aux.RecentQuota
+
+	return nil
+}
+
 func (x *Stock) GetSymbol() string {
 	return x.stock.Symbol
 }
