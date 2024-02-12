@@ -1,6 +1,7 @@
 package restful
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -116,5 +117,73 @@ func (i *impl) healthz(c *gin.Context) {
 // @Failure 500 {object} response.Response
 // @Router /callback [post]
 func (i *impl) callback(c *gin.Context) {
-	panic("implement me")
+	ctx, err := contextx.FromGin(c)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	events, err := i.bot.ParseRequest(c.Request)
+	if err != nil {
+		if errors.Is(err, linebot.ErrInvalidSignature) {
+			ctx.Error("invalid line bot signature", zap.Error(err))
+			_ = c.Error(err)
+		} else {
+			ctx.Error("parse line bot request error", zap.Error(err))
+			_ = c.Error(err)
+		}
+
+		return
+	}
+
+	var messages []linebot.SendingMessage
+	for _, event := range events {
+		if event.Type == linebot.EventTypeMessage {
+			message, ok := event.Message.(*linebot.TextMessage)
+			if !ok {
+				continue
+			}
+
+			messages, err = i.handleMessage(ctx, message)
+			if err != nil {
+				ctx.Warn("handle message error", zap.Error(err))
+				continue
+			}
+
+			_, err = i.bot.ReplyMessage(event.ReplyToken, messages...).Do()
+			if err != nil {
+				_ = c.Error(err)
+				return
+			}
+		}
+	}
+
+	c.Status(http.StatusOK)
+}
+
+func (i *impl) handleMessage(ctx contextx.Contextx, message *linebot.TextMessage) ([]linebot.SendingMessage, error) {
+	text := message.Text
+	if text == "ping" {
+		return []linebot.SendingMessage{
+			linebot.NewTextMessage("pong"),
+		}, nil
+	}
+
+	split := strings.Split(message.Text, ".")
+	if len(split) == 2 && split[0] == "q" {
+		symbol := split[1]
+
+		stock, err := i.svc.GetStockBySymbol(ctx, symbol)
+		if err != nil {
+			return nil, err
+		}
+
+		return []linebot.SendingMessage{
+			stock.FlexMessage(),
+		}, nil
+	}
+
+	return []linebot.SendingMessage{
+		linebot.NewTextMessage("I don't understand what you said."),
+	}, nil
 }
