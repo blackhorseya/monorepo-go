@@ -8,7 +8,7 @@ go_library(
         "mock_dialer.go",
         "model.go",
     ],
-    importpath = "github.com/blackhorseya/monorepo-go/app/orianna/infra/restful",
+    importpath = "github.com/blackhorseya/monorepo-go/app/orianna1/infra/restful",
     visibility = ["//visibility:public"],
     deps = [
         "//entity/orianna/domain/market/agg",

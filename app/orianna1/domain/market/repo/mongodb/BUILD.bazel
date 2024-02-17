@@ -7,7 +7,7 @@ go_library(
         "mongodb.go",
         "wire_gen.go",
     ],
-    importpath = "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/mongodb",
+    importpath = "github.com/blackhorseya/monorepo-go/app/orianna1/domain/market/repo/mongodb",
     visibility = ["//visibility:public"],
     deps = [
         "//entity/orianna/domain/market/agg",

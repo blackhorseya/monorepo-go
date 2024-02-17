@@ -7,7 +7,7 @@
 package biz
 
 import (
-	mongodb2 "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/mongodb"
+	mongodb2 "github.com/blackhorseya/monorepo-go/app/orianna1/domain/market/repo/mongodb"
 	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/google/wire"

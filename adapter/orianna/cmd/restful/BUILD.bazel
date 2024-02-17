@@ -11,8 +11,8 @@ go_library(
     deps = [
         "//adapter/orianna/api/docs",
         "//adapter/orianna/cmd/restful/v1:restful",
-        "//app/orianna/domain/market/biz",
-        "//app/orianna/domain/market/repo/mongodb",
+        "//app/orianna1/domain/market/biz",
+        "//app/orianna1/domain/market/repo/mongodb",
         "//entity/orianna/domain/market/biz",
         "//pkg/adapterx",
         "//pkg/configx",
