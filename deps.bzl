@@ -1012,8 +1012,8 @@ def go_dependencies():
     go_repository(
         name = "com_github_klauspost_compress",
         importpath = "github.com/klauspost/compress",
-        sum = "h1:Rnbp4K9EjcDuVuHtd0dgA4qNuv9yKDYKK1ulpJwgrqM=",
-        version = "v1.17.0",
+        sum = "h1:60eq2E/jlfwQXtvZEeBUYADs+BwKBWURIY+Gj2eRGjI=",
+        version = "v1.17.6",
     )
     go_repository(
         name = "com_github_klauspost_cpuid_v2",
@@ -1451,8 +1451,8 @@ def go_dependencies():
     go_repository(
         name = "com_github_pierrec_lz4_v4",
         importpath = "github.com/pierrec/lz4/v4",
-        sum = "h1:kV4Ip+/hUBC+8T6+2EgburRtkE9ef4nbY3f4dFhGjMc=",
-        version = "v4.1.17",
+        sum = "h1:yOVMLb6qSIDP67pl/5F7RepeKYu/VmTyEXvuMI5d9mQ=",
+        version = "v4.1.21",
     )
 
     go_repository(
@@ -1585,6 +1585,13 @@ def go_dependencies():
         sum = "h1:RpforrEYXWkmGwJHIGnLZ3tTWStkjVVstwzNGqxX2Ds=",
         version = "v0.9.2-0.20220502022130-f33da4d89646",
     )
+    go_repository(
+        name = "com_github_segmentio_kafka_go",
+        importpath = "github.com/segmentio/kafka-go",
+        sum = "h1:IqziR4pA3vrZq7YdRxaT3w1/5fvIH5qpCwstUanQQB0=",
+        version = "v0.4.47",
+    )
+
     go_repository(
         name = "com_github_shirou_gopsutil_v3",
         importpath = "github.com/shirou/gopsutil/v3",
