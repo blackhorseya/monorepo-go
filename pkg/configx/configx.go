@@ -32,6 +32,15 @@ type Application struct {
 			DB       int    `json:"db" yaml:"db"`
 		} `json:"redis" yaml:"redis"`
 	} `json:"storage" yaml:"storage"`
+	MessageQueue struct {
+		Kafka struct {
+			Brokers  []string `json:"brokers" yaml:"brokers"`
+			GroupID  string   `json:"group_id" yaml:"groupID"`
+			Topic    string   `json:"topic" yaml:"topic"`
+			Username string   `json:"username" yaml:"username"`
+			Password string   `json:"password" yaml:"password"`
+		} `json:"kafka" yaml:"kafka"`
+	} `json:"mq" yaml:"mq"`
 }
 
 func (a *Application) String() string {
