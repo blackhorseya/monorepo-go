@@ -1,0 +1,3 @@
+[submodule "app/orianna"]
+	path = app/orianna
+	url = git@github.com:blackhorseya/orianna.git
