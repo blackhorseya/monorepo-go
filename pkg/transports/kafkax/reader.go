@@ -11,6 +11,11 @@ import (
 
 // NewReader returns a new Reader instance.
 func NewReader() (*kafka.Reader, error) {
+	return NewReaderWithTopic(configx.A.MessageQueue.Kafka.Topic)
+}
+
+// NewReaderWithTopic returns a new Reader instance with the specified topic.
+func NewReaderWithTopic(topic string) (*kafka.Reader, error) {
 	id := uuid.New().String()
 	if configx.A.MessageQueue.Kafka.GroupID != "" {
 		id = configx.A.MessageQueue.Kafka.GroupID
@@ -19,7 +24,7 @@ func NewReader() (*kafka.Reader, error) {
 	return kafka.NewReader(kafka.ReaderConfig{
 		Brokers: configx.A.MessageQueue.Kafka.Brokers,
 		GroupID: id,
-		Topic:   configx.A.MessageQueue.Kafka.Topic,
+		Topic:   topic,
 		Dialer: &kafka.Dialer{
 			DualStack: true,
 			TLS: &tls.Config{
