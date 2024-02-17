@@ -1,6 +1,7 @@
 package consumer
 
 import (
+	"encoding/json"
 	"os"
 	"os/signal"
 	"syscall"
@@ -27,12 +28,13 @@ type impl struct {
 }
 
 func newConsumer() (adapterx.Servicer, error) {
-	sess, err := session.NewSession()
+	config := &aws.Config{Region: aws.String("ap-northeast-3")}
+	sess, err := session.NewSession(config)
 	if err != nil {
 		return nil, err
 	}
 
-	client := lambda.New(sess)
+	client := lambda.New(sess, config)
 
 	return &impl{
 		client: client,
@@ -80,17 +82,32 @@ func (i *impl) execute(id int) {
 			continue
 		}
 
+		type Payload struct {
+			Body string `json:"body"`
+		}
+		var payload []byte
+		payload, err = json.Marshal(Payload{Body: string(message.Value)})
+		if err != nil {
+			ctx.Error("marshal payload error", zap.Error(err))
+			continue
+		}
+
 		var result *lambda.InvokeOutput
 		result, err = i.client.Invoke(&lambda.InvokeInput{
 			FunctionName: aws.String("prod-calcLongUp"),
-			LogType:      aws.String("Tail"),
-			Payload:      message.Value,
+			Payload:      payload,
 		})
 		if err != nil {
 			ctx.Error("invoke lambda error", zap.Error(err))
 			continue
 		}
 
-		ctx.Info("invoke lambda success", zap.Int("id", id), zap.Any("result", &result))
+		ctx.Info(
+			"invoke lambda success",
+			zap.Int("id", id),
+			zap.Int("partition", message.Partition),
+			zap.Int64("offset", message.Offset),
+			zap.Any("result", &result),
+		)
 	}
 }
