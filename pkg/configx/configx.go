@@ -40,7 +40,7 @@ type Application struct {
 			Username string   `json:"username" yaml:"username"`
 			Password string   `json:"password" yaml:"password"`
 		} `json:"kafka" yaml:"kafka"`
-	} `json:"mq" yaml:"mq"`
+	} `json:"mq" yaml:"mq" mapstructure:"mq"`
 }
 
 func (a *Application) String() string {
