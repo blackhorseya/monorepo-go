@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "consumer",
+    srcs = [
+        "impl.go",
+        "wire_gen.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/consumer",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/adapterx",
+        "@com_github_spf13_viper//:viper",
+    ],
+)

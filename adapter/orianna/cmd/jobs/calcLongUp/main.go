@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -73,7 +74,7 @@ func handleError(err error) (Response, error) {
 	ctx := contextx.Background()
 
 	if injector.notifier != nil {
-		// _ = injector.notifier.SendText(ctx, fmt.Sprintf("[CalcLongUp] failed to execute the job: %v", err))
+		_ = injector.notifier.SendText(ctx, fmt.Sprintf("[CalcLongUp] failed to execute the job: %v", err))
 	}
 
 	ctx.Error("failed to execute the job", zap.Error(err))
