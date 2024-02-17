@@ -9,6 +9,6 @@ import (
 // Strategy is an aggregate root.
 type Strategy struct {
 	*model.Strategy `json:",inline"`
-	Targets         []*model.Target `json:"targets"`
+	Targets         []*model.Target `json:"targets,omitempty"`
 	UpdatedAt       time.Time       `json:"updated_at"`
 }
