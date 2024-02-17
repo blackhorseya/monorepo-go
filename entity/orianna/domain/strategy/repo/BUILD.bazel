@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "repo",
+    srcs = [
+        "mock_strategy.go",
+        "strategy.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/entity/orianna/domain/strategy/repo",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//entity/orianna/domain/strategy/agg",
+        "//pkg/contextx",
+        "@org_uber_go_mock//gomock",
+    ],
+)
