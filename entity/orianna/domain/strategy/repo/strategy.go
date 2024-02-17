@@ -10,5 +10,5 @@ import (
 // IStrategyRepo is the interface for strategy repository.
 type IStrategyRepo interface {
 	Get(ctx contextx.Contextx, id string) (agg.Strategy, error)
-	Create(ctx contextx.Contextx, data agg.Strategy) error
+	Create(ctx contextx.Contextx, data agg.Strategy) (string, error)
 }
