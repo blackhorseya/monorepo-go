@@ -2,7 +2,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "kafkax",
-    srcs = ["reader.go"],
+    srcs = [
+        "reader.go",
+        "writer.go",
+    ],
     importpath = "github.com/blackhorseya/monorepo-go/pkg/transports/kafkax",
     visibility = ["//visibility:public"],
     deps = [
