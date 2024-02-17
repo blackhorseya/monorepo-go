@@ -16,16 +16,26 @@ type impl struct {
 }
 
 func newConsumer() (adapterx.Servicer, error) {
-	return &impl{}, nil
+	return &impl{
+		done: make(chan struct{}),
+	}, nil
 }
 
 func (i *impl) Start() error {
 	ctx := contextx.Background()
 
 	go func() {
+		ctx.Info("start consumer...")
+
 		for {
-			ctx.Info("consumer is running")
-			time.Sleep(5 * time.Second)
+			select {
+			case <-i.done:
+				ctx.Info("consumer is stopping")
+				return
+			default:
+				ctx.Info("consumer is running")
+				time.Sleep(5 * time.Second)
+			}
 		}
 	}()
 
@@ -40,8 +50,11 @@ func (i *impl) AwaitSignal() error {
 	if sig := <-c; true {
 		ctx := contextx.Background()
 		ctx.Info("receive signal", zap.String("signal", sig.String()))
+
+		i.done <- struct{}{}
+
+		ctx.Info("consumer is stopped")
 	}
 
 	return nil
-
 }
