@@ -952,6 +952,13 @@ def go_dependencies():
         version = "v0.4.0",
     )
     go_repository(
+        name = "com_github_jmespath_go_jmespath_internal_testify",
+        importpath = "github.com/jmespath/go-jmespath/internal/testify",
+        sum = "h1:shLQSRRSCCPj3f2gpwzGwWFoC7ycTf1rcQZHOlsJ6N8=",
+        version = "v1.5.1",
+    )
+
+    go_repository(
         name = "com_github_jmoiron_sqlx",
         importpath = "github.com/jmoiron/sqlx",
         sum = "h1:vFFPA71p1o5gAeqtEAwLU4dnX2napprKtHr7PYIcN3g=",
