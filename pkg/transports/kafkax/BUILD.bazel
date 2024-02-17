@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "kafkax",
+    srcs = ["reader.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/pkg/transports/kafkax",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//pkg/configx",
+        "@com_github_google_uuid//:uuid",
+        "@com_github_segmentio_kafka_go//:kafka-go",
+        "@com_github_segmentio_kafka_go//sasl/plain",
+    ],
+)

@@ -15,6 +15,7 @@ require (
 	github.com/line/line-bot-sdk-go/v8 v8.2.1
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.4.0
+	github.com/segmentio/kafka-go v0.4.47
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
 	github.com/stretchr/testify v1.8.4
@@ -99,7 +100,6 @@ require (
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
-	github.com/segmentio/kafka-go v0.4.47 // indirect
 	github.com/shirou/gopsutil/v3 v3.23.11 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
