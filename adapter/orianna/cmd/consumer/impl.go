@@ -27,14 +27,12 @@ type impl struct {
 }
 
 func newConsumer() (adapterx.Servicer, error) {
-	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("ap-northeast-3"),
-	})
+	sess, err := session.NewSession()
 	if err != nil {
 		return nil, err
 	}
 
-	client := lambda.New(sess, &aws.Config{Region: aws.String("ap-northeast-3")})
+	client := lambda.New(sess)
 
 	return &impl{
 		client: client,
