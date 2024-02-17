@@ -100,5 +100,20 @@ func bindEnv(v *viper.Viper) error {
 		return err
 	}
 
+	err = v.BindEnv("orianna.mq.kafka.brokers", "ORIANNA_MQ_KAFKA_BROKERS")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("orianna.mq.kafka.username", "ORIANNA_MQ_KAFKA_USERNAME")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("orianna.mq.kafka.password", "ORIANNA_MQ_KAFKA_PASSWORD")
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

@@ -16,6 +16,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
+	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
 )
 
@@ -60,6 +61,7 @@ func Handler(c context.Context) (Response, error) {
 
 	now := time.Now()
 	var stocks []agg.Stock
+	var messages []kafka.Message
 	for _, v := range got {
 		open, _ := strconv.ParseFloat(v.OpeningPrice, 64)
 		high, _ := strconv.ParseFloat(v.HighestPrice, 64)
@@ -67,13 +69,36 @@ func Handler(c context.Context) (Response, error) {
 		low, _ := strconv.ParseFloat(v.LowestPrice, 64)
 		volume, _ := strconv.Atoi(v.TradeVolume)
 
-		stocks = append(stocks, agg.NewStockWithQuota(
+		stock := agg.NewStockWithQuota(
 			&model.Stock{Symbol: v.Code},
 			model.NewStockQuota(open, high, closePrice, low, volume, now),
-		))
+		)
+
+		var value []byte
+		value, err = stock.MarshalJSON()
+		if err != nil {
+			ctx.Warn("failed to marshal stock", zap.Error(err))
+			continue
+		}
+
+		key := []byte(v.Code)
+		message := kafka.Message{
+			Topic: "daily_quote",
+			Key:   key,
+			Value: value,
+			Time:  now,
+		}
+
+		stocks = append(stocks, stock)
+		messages = append(messages, message)
 	}
 
 	err = injector.repo.BulkUpdateQuota(ctx, stocks)
+	if err != nil {
+		return handleError(err)
+	}
+
+	err = injector.writer.WriteMessages(ctx, messages...)
 	if err != nil {
 		return handleError(err)
 	}
