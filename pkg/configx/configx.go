@@ -65,6 +65,7 @@ type Config struct {
 	Ekko       Application `json:"ekko" yaml:"ekko"`
 	Stringx    Application `json:"stringx" yaml:"stringx"`
 	Orianna    Application `json:"orianna" yaml:"orianna"`
+	Sion       Application `json:"sion" yaml:"sion"`
 
 	Finmind Application `json:"finmind" yaml:"finmind"`
 }

@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "sion_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/sion",
+    visibility = ["//visibility:private"],
+    deps = ["//adapter/sion/cmd"],
+)
+
+go_binary(
+    name = "sion",
+    embed = [":sion_lib"],
+    visibility = ["//visibility:public"],
+)
