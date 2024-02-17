@@ -14,6 +14,9 @@ import (
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	servicer := newConsumer()
+	servicer, err := newConsumer()
+	if err != nil {
+		return nil, err
+	}
 	return servicer, nil
 }
