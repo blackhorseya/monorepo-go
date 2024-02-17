@@ -19,8 +19,10 @@ go_library(
         "//pkg/logging",
         "//pkg/notify",
         "//pkg/storage/mongodb",
+        "//pkg/transports/kafkax",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
+        "@com_github_segmentio_kafka_go//:kafka-go",
         "@org_uber_go_zap//:zap",
     ],
 )

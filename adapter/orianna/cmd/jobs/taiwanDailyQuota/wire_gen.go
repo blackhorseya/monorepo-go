@@ -11,12 +11,18 @@ import (
 	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/notify"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
+	"github.com/blackhorseya/monorepo-go/pkg/transports/kafkax"
+	"github.com/segmentio/kafka-go"
 )
 
 // Injectors from wire.go:
 
 func BuildInjector() (*Injector, error) {
 	notifier, err := notify.NewLineNotifier()
+	if err != nil {
+		return nil, err
+	}
+	writer, err := kafkax.NewWriter()
 	if err != nil {
 		return nil, err
 	}
@@ -30,6 +36,7 @@ func BuildInjector() (*Injector, error) {
 	}
 	mainInjector := &Injector{
 		notifier: notifier,
+		writer:   writer,
 		repo:     iStockRepo,
 	}
 	return mainInjector, nil
@@ -40,5 +47,6 @@ func BuildInjector() (*Injector, error) {
 // Injector is the injector for main.
 type Injector struct {
 	notifier notify.Notifier
+	writer   *kafka.Writer
 	repo     repo.IStockRepo
 }
