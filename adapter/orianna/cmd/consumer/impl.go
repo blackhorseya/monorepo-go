@@ -1,7 +1,6 @@
 package consumer
 
 import (
-	"encoding/json"
 	"os"
 	"os/signal"
 	"syscall"
@@ -9,7 +8,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
-	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/agg"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/transports/kafkax"
@@ -84,25 +82,11 @@ func (i *impl) execute(id int) {
 			continue
 		}
 
-		var got agg.Stock
-		err = json.Unmarshal(message.Value, &got)
-		if err != nil {
-			ctx.Error("unmarshal message error", zap.Error(err))
-			continue
-		}
-
-		var payload []byte
-		payload, err = got.MarshalJSON()
-		if err != nil {
-			ctx.Error("marshal message error", zap.Error(err))
-			continue
-		}
-
 		var result *lambda.InvokeOutput
 		result, err = i.client.Invoke(&lambda.InvokeInput{
 			FunctionName: aws.String("prod-calcLongUp"),
 			LogType:      aws.String("Tail"),
-			Payload:      payload,
+			Payload:      message.Value,
 		})
 		if err != nil {
 			ctx.Error("invoke lambda error", zap.Error(err))
