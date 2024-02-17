@@ -71,8 +71,8 @@ func (x *Stock) GetExchangeName() string {
 	return x.stock.ExchangeName
 }
 
-func (x *Stock) GetRecentQuota() model.StockQuota {
-	return x.recentQuota
+func (x *Stock) GetRecentQuota() *model.StockQuota {
+	return &x.recentQuota
 }
 
 // FlexMessage is used to create a flex message.

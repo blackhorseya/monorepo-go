@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/agg"
+	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
@@ -37,16 +38,19 @@ func Handler(request events.APIGatewayProxyRequest) (Response, error) {
 		}
 	}
 
-	var payload agg.Stock
-	err = json.Unmarshal(body, &payload)
+	var got agg.Stock
+	err = json.Unmarshal(body, &got)
 	if err != nil {
 		return handleError(err)
 	}
 
-	ctx := contextx.Background()
-	ctx.Info("received payload", zap.Any("payload", &payload))
+	// todo: 2024/2/17|sean|fake the logic
+	var candleType model.CandleType
+	if got.GetRecentQuota().GetOpen() < got.GetRecentQuota().GetClose() {
+		candleType = model.CandleTypeLongUp
+	}
 
-	return Response{StatusCode: http.StatusOK}, nil
+	return Response{StatusCode: http.StatusOK, Body: candleType.String()}, nil
 }
 
 func main() {
