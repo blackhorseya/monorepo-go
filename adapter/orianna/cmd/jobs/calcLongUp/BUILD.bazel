@@ -9,6 +9,7 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/jobs/calcLongUp",
     visibility = ["//visibility:private"],
     deps = [
+        "//entity/orianna/domain/market/agg",
         "//pkg/configx",
         "//pkg/contextx",
         "//pkg/logging",

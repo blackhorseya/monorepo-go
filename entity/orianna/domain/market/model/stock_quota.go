@@ -54,6 +54,30 @@ func (x *StockQuota) MarshalJSON() ([]byte, error) {
 	})
 }
 
+func (x *StockQuota) UnmarshalJSON(bytes []byte) error {
+	aux := &struct {
+		Open   float64 `json:"open,omitempty"`
+		High   float64 `json:"high,omitempty"`
+		Close  float64 `json:"close,omitempty"`
+		Low    float64 `json:"low,omitempty"`
+		Volume int     `json:"volume,omitempty"`
+		Value  float64 `json:"value,omitempty"`
+	}{}
+
+	if err := json.Unmarshal(bytes, &aux); err != nil {
+		return err
+	}
+
+	x.open = aux.Open
+	x.high = aux.High
+	x.close = aux.Close
+	x.low = aux.Low
+	x.volume = aux.Volume
+	x.value = aux.Value
+
+	return nil
+}
+
 func (x *StockQuota) GetOpen() float64 {
 	return x.open
 }
