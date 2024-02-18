@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "agg",
+    srcs = ["asset.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/agg",
+    visibility = ["//visibility:public"],
+    deps = ["//entity/sion/domain/rental/model"],
+)

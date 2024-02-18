@@ -1,0 +1,16 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "repo",
+    srcs = [
+        "asset.go",
+        "mock_asset.go",
+    ],
+    importpath = "github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/repo",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//entity/sion/domain/rental/agg",
+        "//pkg/contextx",
+        "@org_uber_go_mock//gomock",
+    ],
+)
