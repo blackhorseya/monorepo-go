@@ -113,7 +113,7 @@ func (i *impl) healthz(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Failure 500 {object} response.Response
 // @Router /callback [post]
-func (i *impl) callback(c *gin.Context) {
+func (i *impl) callback(c *gin.Context) { //nolint:gocognit // ignore
 	ctx, err := contextx.FromGin(c)
 	if err != nil {
 		_ = c.Error(err)
