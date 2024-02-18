@@ -7,4 +7,5 @@ import (
 // Asset is an aggregate root.
 type Asset struct {
 	model.Car
+	Distance float64 `json:"distance"`
 }

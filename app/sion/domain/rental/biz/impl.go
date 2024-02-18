@@ -1,6 +1,8 @@
 package biz
 
 import (
+	"sort"
+
 	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/agg"
 	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/biz"
 	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/model"
@@ -29,5 +31,18 @@ func (i *impl) ListByLocation(
 		return nil, 0, err
 	}
 
-	return cars, len(cars), nil
+	for _, car := range cars {
+		car.Distance = car.Location.DistanceTo(location, "K")
+	}
+
+	sort.Slice(cars, func(i, j int) bool {
+		return cars[i].Distance < cars[j].Distance
+	})
+
+	end := len(cars)
+	if opts.Size < end {
+		end = opts.Size
+	}
+
+	return cars[:end], len(cars), nil
 }

@@ -23,11 +23,11 @@ func (x *Location) DistanceTo(other *Location, unit string) float64 {
 	dist = dist * 60 * 1.1515
 
 	if unit == "K" {
-		dist = dist * 1.609344
+		dist *= 1.609344
 	}
 
 	if unit == "N" {
-		dist = dist * 0.8684
+		dist *= 0.8684
 	}
 
 	return dist
