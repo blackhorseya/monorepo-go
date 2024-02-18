@@ -2,7 +2,12 @@ syntax = "proto3";
 
 option go_package = "github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/model";
 
-message Item {
+message Car {
     string id = 1;
-    string name = 2;
+    Location location = 2;
+}
+
+message Location {
+    double latitude = 1;
+    double longitude = 2;
 }
