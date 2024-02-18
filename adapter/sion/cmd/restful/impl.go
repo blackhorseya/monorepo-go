@@ -43,6 +43,8 @@ func (i *impl) Start() error {
 	{
 		api.GET("/healthz", i.healthz)
 		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+		api.POST("/callback", i.callback)
 	}
 
 	err := i.server.Start(ctx)
@@ -90,5 +92,19 @@ func (i *impl) AwaitSignal() error {
 // @Failure 500 {object} response.Response
 // @Router /healthz [get]
 func (i *impl) healthz(c *gin.Context) {
+	c.JSON(http.StatusOK, response.OK)
+}
+
+// callback is used to handle the callback from the third-party service.
+// @Summary callback
+// @Description Handle the callback from the third-party service.
+// @Tags callback
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /callback [post]
+func (i *impl) callback(c *gin.Context) {
+	// todo: 2024/2/18|sean|implement the callback logic
 	c.JSON(http.StatusOK, response.OK)
 }
