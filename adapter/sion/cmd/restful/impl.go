@@ -130,17 +130,14 @@ func (i *impl) callback(c *gin.Context) {
 
 	for _, event := range events {
 		if event.Type == linebot.EventTypeMessage {
-			message, ok := event.Message.(*linebot.TextMessage)
-			if !ok {
-				continue
-			}
-
-			if message.Text == "ping" {
-				_, err = i.bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("pong")).Do()
-				if err != nil {
-					ctx.Error("reply line bot message error", zap.Error(err))
+			switch message := event.Message.(type) {
+			case *linebot.LocationMessage:
+				if _, err = i.bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Address)).Do(); err != nil {
+					ctx.Error("reply location message error", zap.Error(err))
 					_ = c.Error(err)
 				}
+			default:
+				ctx.Warn("unsupported message type", zap.String("type", string(event.Type)))
 			}
 		}
 	}
