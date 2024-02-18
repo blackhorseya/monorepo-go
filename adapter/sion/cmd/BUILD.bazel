@@ -10,6 +10,8 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/sion/cmd",
     visibility = ["//visibility:public"],
     deps = [
+        "//adapter/sion/cmd/restful",
+        "//pkg/cmdx",
         "//pkg/configx",
         "//pkg/logging",
         "@com_github_spf13_cobra//:cobra",

@@ -70,6 +70,9 @@ gen-swagger: ## generate swagger
 	## orianna
 	@swag init -q -d ./adapter/orianna,./app,./pkg,./entity -o ./adapter/orianna/api/docs
 
+	## sion
+	@swag init -q -d ./adapter/sion,./app,./pkg,./entity -o ./adapter/sion/api/docs
+
 gazelle-repos: ## run gazelle with bazel
 	@bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies -prune
 
