@@ -1,6 +1,7 @@
 package restful
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -108,6 +109,41 @@ func (i *impl) healthz(c *gin.Context) {
 // @Failure 500 {object} response.Response
 // @Router /callback [post]
 func (i *impl) callback(c *gin.Context) {
-	// todo: 2024/2/18|sean|implement the callback logic
+	ctx, err := contextx.FromGin(c)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	events, err := i.bot.ParseRequest(c.Request)
+	if err != nil {
+		if errors.Is(err, linebot.ErrInvalidSignature) {
+			ctx.Error("invalid line bot signature", zap.Error(err))
+			_ = c.Error(err)
+		} else {
+			ctx.Error("parse line bot request error", zap.Error(err))
+			_ = c.Error(err)
+		}
+
+		return
+	}
+
+	for _, event := range events {
+		if event.Type == linebot.EventTypeMessage {
+			message, ok := event.Message.(*linebot.TextMessage)
+			if !ok {
+				continue
+			}
+
+			if message.Text == "ping" {
+				_, err = i.bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("pong")).Do()
+				if err != nil {
+					ctx.Error("reply line bot message error", zap.Error(err))
+					_ = c.Error(err)
+				}
+			}
+		}
+	}
+
 	c.JSON(http.StatusOK, response.OK)
 }
