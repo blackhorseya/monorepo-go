@@ -10,7 +10,9 @@ import (
 	"syscall"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/sion/api/docs" // swagger docs
+	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/agg"
 	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/biz"
+	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/model"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -135,7 +137,29 @@ func (i *impl) callback(c *gin.Context) {
 		if event.Type == linebot.EventTypeMessage {
 			switch message := event.Message.(type) {
 			case *linebot.LocationMessage:
-				if _, err = i.bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Address)).Do(); err != nil {
+				target := &model.Location{
+					Latitude:  message.Latitude,
+					Longitude: message.Longitude,
+				}
+
+				var assets []*agg.Asset
+				assets, _, err = i.svc.ListByLocation(ctx, target, biz.ListByLocationOptions{Size: 5})
+				if err != nil {
+					ctx.Error("list asset by location error", zap.Error(err))
+					_ = c.Error(err)
+					return
+				}
+
+				var replyMessage strings.Builder
+				for _, asset := range assets {
+					replyMessage.WriteString(fmt.Sprintf(
+						"CarNo: %s\nLatitude: %f\nLongitude: %f\n\n",
+						asset.Id,
+						asset.Location.Latitude,
+						asset.Location.Longitude,
+					))
+				}
+				if _, err = i.bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(replyMessage.String())).Do(); err != nil {
 					ctx.Error("reply location message error", zap.Error(err))
 					_ = c.Error(err)
 				}
