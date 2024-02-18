@@ -2,6 +2,7 @@ package model
 
 import (
 	"math"
+	"strconv"
 )
 
 // DistanceTo will calculate the distance between two locations.
@@ -31,4 +32,8 @@ func (x *Location) DistanceTo(other *Location, unit string) float64 {
 	}
 
 	return dist
+}
+
+func (x *Location) GoogleMap() string {
+	return "https://www.google.com/maps/search/?api=1&query=" + strconv.FormatFloat(x.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(x.Longitude, 'f', -1, 64) //nolint:lll // ignore
 }

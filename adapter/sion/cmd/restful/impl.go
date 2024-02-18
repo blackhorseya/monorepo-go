@@ -113,7 +113,7 @@ func (i *impl) healthz(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Failure 500 {object} response.Response
 // @Router /callback [post]
-func (i *impl) callback(c *gin.Context) { //nolint:gocognit // ignore
+func (i *impl) callback(c *gin.Context) {
 	ctx, err := contextx.FromGin(c)
 	if err != nil {
 		_ = c.Error(err)
@@ -142,7 +142,7 @@ func (i *impl) callback(c *gin.Context) { //nolint:gocognit // ignore
 					Longitude: message.Longitude,
 				}
 
-				var assets []*agg.Asset
+				var assets agg.Assets
 				assets, _, err = i.svc.ListByLocation(ctx, target, biz.ListByLocationOptions{Size: 5})
 				if err != nil {
 					ctx.Error("list asset by location error", zap.Error(err))
@@ -150,16 +150,7 @@ func (i *impl) callback(c *gin.Context) { //nolint:gocognit // ignore
 					return
 				}
 
-				var replyMessage strings.Builder
-				for _, asset := range assets {
-					replyMessage.WriteString(fmt.Sprintf(
-						"CarNo: %s\nLatitude: %f\nLongitude: %f\n\n",
-						asset.Id,
-						asset.Location.Latitude,
-						asset.Location.Longitude,
-					))
-				}
-				if _, err = i.bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(replyMessage.String())).Do(); err != nil {
+				if _, err = i.bot.ReplyMessage(event.ReplyToken, assets.FlexMessage()).Do(); err != nil {
 					ctx.Error("reply location message error", zap.Error(err))
 					_ = c.Error(err)
 				}
