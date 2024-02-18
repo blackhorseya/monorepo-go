@@ -35,17 +35,17 @@ func (m *MockIAssetRepo) EXPECT() *MockIAssetRepoMockRecorder {
 	return m.recorder
 }
 
-// List mocks base method.
-func (m *MockIAssetRepo) List(ctx contextx.Contextx, opts ListOptions) ([]*agg.Asset, error) {
+// FetchAvailableCars mocks base method.
+func (m *MockIAssetRepo) FetchAvailableCars(ctx contextx.Contextx) ([]*agg.Asset, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", ctx, opts)
+	ret := m.ctrl.Call(m, "FetchAvailableCars", ctx)
 	ret0, _ := ret[0].([]*agg.Asset)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// List indicates an expected call of List.
-func (mr *MockIAssetRepoMockRecorder) List(ctx, opts interface{}) *gomock.Call {
+// FetchAvailableCars indicates an expected call of FetchAvailableCars.
+func (mr *MockIAssetRepoMockRecorder) FetchAvailableCars(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockIAssetRepo)(nil).List), ctx, opts)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchAvailableCars", reflect.TypeOf((*MockIAssetRepo)(nil).FetchAvailableCars), ctx)
 }
