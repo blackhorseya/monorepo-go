@@ -1,6 +1,7 @@
 package biz
 
 import (
+	"errors"
 	"reflect"
 	"testing"
 
@@ -40,6 +41,22 @@ func TestAll(t *testing.T) {
 }
 
 func (s *suiteTester) Test_impl_ListByLocation() {
+	loc1 := &model.Location{
+		Latitude:  0,
+		Longitude: 0,
+	}
+	assetList := []*agg.Asset{
+		{
+			Car: model.Car{
+				Id: "1",
+				Location: &model.Location{
+					Latitude:  0,
+					Longitude: 0,
+				},
+			},
+		},
+	}
+
 	type args struct {
 		ctx      contextx.Contextx
 		location *model.Location
@@ -53,7 +70,24 @@ func (s *suiteTester) Test_impl_ListByLocation() {
 		wantTotal   int
 		wantErr     bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "fetch then error",
+			args: args{location: loc1, mock: func() {
+				s.assets.EXPECT().FetchAvailableCars(gomock.Any()).Return(nil, errors.New("mock error")).Times(1)
+			}},
+			wantRentals: nil,
+			wantTotal:   0,
+			wantErr:     true,
+		},
+		{
+			name: "get nearby location then ok",
+			args: args{location: loc1, opts: biz.ListByLocationOptions{Page: 1, Size: 5}, mock: func() {
+				s.assets.EXPECT().FetchAvailableCars(gomock.Any()).Return(assetList, nil).Times(1)
+			}},
+			wantRentals: assetList,
+			wantTotal:   1,
+			wantErr:     false,
+		},
 	}
 	for _, tt := range tests {
 		s.T().Run(tt.name, func(t *testing.T) {

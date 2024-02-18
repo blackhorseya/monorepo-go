@@ -6,6 +6,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/model"
 	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"go.uber.org/zap"
 )
 
 type impl struct {
@@ -22,6 +23,11 @@ func (i *impl) ListByLocation(
 	location *model.Location,
 	opts biz.ListByLocationOptions,
 ) (rentals []*agg.Asset, total int, err error) {
-	// TODO implement me
-	panic("implement me")
+	cars, err := i.assets.FetchAvailableCars(ctx)
+	if err != nil {
+		ctx.Error("failed to fetch available cars", zap.Error(err))
+		return nil, 0, err
+	}
+
+	return cars, len(cars), nil
 }
