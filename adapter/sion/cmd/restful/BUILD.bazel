@@ -10,6 +10,9 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//adapter/sion/api/docs",
+        "//app/sion/domain/rental/biz",
+        "//app/sion/domain/rental/repo/irent",
+        "//entity/sion/domain/rental/biz",
         "//pkg/adapterx",
         "//pkg/configx",
         "//pkg/contextx",

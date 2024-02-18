@@ -7,6 +7,8 @@
 package restful
 
 import (
+	"github.com/blackhorseya/monorepo-go/app/sion/domain/rental/biz"
+	"github.com/blackhorseya/monorepo-go/app/sion/domain/rental/repo/irent"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/spf13/viper"
@@ -23,7 +25,15 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	servicer, err := newRestful(client)
+	iAssetRepo, err := irent.NewAssetRepo()
+	if err != nil {
+		return nil, err
+	}
+	iRentalBiz, err := biz.NewRentalBiz(iAssetRepo)
+	if err != nil {
+		return nil, err
+	}
+	servicer, err := newRestful(client, iRentalBiz)
 	if err != nil {
 		return nil, err
 	}

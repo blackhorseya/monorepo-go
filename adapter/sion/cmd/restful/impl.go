@@ -10,6 +10,7 @@ import (
 	"syscall"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/sion/api/docs" // swagger docs
+	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -25,9 +26,10 @@ import (
 type impl struct {
 	server *httpx.Server
 	bot    *linebot.Client
+	svc    biz.IRentalBiz
 }
 
-func newRestful(bot *linebot.Client) (adapterx.Servicer, error) {
+func newRestful(bot *linebot.Client, svc biz.IRentalBiz) (adapterx.Servicer, error) {
 	server, err := httpx.NewServer(contextx.Background())
 	if err != nil {
 		return nil, err
@@ -36,6 +38,7 @@ func newRestful(bot *linebot.Client) (adapterx.Servicer, error) {
 	return &impl{
 		server: server,
 		bot:    bot,
+		svc:    svc,
 	}, nil
 }
 
