@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "biz",
+    srcs = ["impl.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/app/sion/domain/rental/biz",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//entity/sion/domain/rental/agg",
+        "//entity/sion/domain/rental/biz",
+        "//entity/sion/domain/rental/model",
+        "//entity/sion/domain/rental/repo",
+        "//pkg/contextx",
+    ],
+)
+
+go_test(
+    name = "biz_test",
+    srcs = ["impl_test.go"],
+    embed = [":biz"],
+    deps = [
+        "//entity/sion/domain/rental/agg",
+        "//entity/sion/domain/rental/biz",
+        "//entity/sion/domain/rental/model",
+        "//entity/sion/domain/rental/repo",
+        "//pkg/contextx",
+        "@com_github_stretchr_testify//suite",
+        "@org_uber_go_mock//gomock",
+        "@org_uber_go_zap//:zap",
+    ],
+)
