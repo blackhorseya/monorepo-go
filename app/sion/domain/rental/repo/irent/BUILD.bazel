@@ -2,11 +2,15 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "irent",
-    srcs = ["irent.go"],
+    srcs = [
+        "irent.go",
+        "model.go",
+    ],
     importpath = "github.com/blackhorseya/monorepo-go/app/sion/domain/rental/repo/irent",
     visibility = ["//visibility:public"],
     deps = [
         "//entity/sion/domain/rental/agg",
+        "//entity/sion/domain/rental/model",
         "//entity/sion/domain/rental/repo",
         "//pkg/configx",
         "//pkg/contextx",
