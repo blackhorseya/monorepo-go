@@ -2,7 +2,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "model",
-    srcs = ["rental.pb.go"],
+    srcs = [
+        "location.go",
+        "rental.pb.go",
+    ],
     importpath = "github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/model",
     visibility = ["//visibility:public"],
     deps = [
