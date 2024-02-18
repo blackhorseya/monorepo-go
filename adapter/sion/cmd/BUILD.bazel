@@ -13,7 +13,9 @@ go_library(
         "//adapter/sion/cmd/restful",
         "//pkg/cmdx",
         "//pkg/configx",
+        "//pkg/contextx",
         "//pkg/logging",
         "@com_github_spf13_cobra//:cobra",
+        "@org_uber_go_zap//:zap",
     ],
 )

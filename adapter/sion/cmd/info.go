@@ -1,9 +1,10 @@
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/blackhorseya/monorepo-go/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/spf13/cobra"
+	"go.uber.org/zap"
 )
 
 // infoCmd represents the info command
@@ -11,7 +12,8 @@ var infoCmd = &cobra.Command{
 	Use:   "info",
 	Short: "print info",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("info called")
+		ctx := contextx.Background()
+		ctx.Info("print application", zap.Any("app", &configx.A))
 	},
 }
 
