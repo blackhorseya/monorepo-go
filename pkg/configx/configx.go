@@ -11,6 +11,7 @@ import (
 // Application defines the application struct.
 type Application struct {
 	Name         string `json:"name" yaml:"name"`
+	Version      string `json:"version" yaml:"version"`
 	ClientID     string `json:"client_id" yaml:"clientID"`
 	ClientSecret string `json:"client_secret" yaml:"clientSecret"`
 	Token        string `json:"token" yaml:"token"`
@@ -68,6 +69,7 @@ type Config struct {
 	Sion       Application `json:"sion" yaml:"sion"`
 
 	Finmind Application `json:"finmind" yaml:"finmind"`
+	IRent   Application `json:"irent" yaml:"irent"`
 }
 
 func (c *Config) String() string {

@@ -8,6 +8,7 @@ go_library(
     deps = [
         "//entity/sion/domain/rental/agg",
         "//entity/sion/domain/rental/repo",
+        "//pkg/configx",
         "//pkg/contextx",
     ],
 )

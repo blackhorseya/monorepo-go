@@ -3,6 +3,7 @@ package irent
 import (
 	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/agg"
 	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/repo"
+	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 )
 
@@ -14,8 +15,8 @@ type impl struct {
 // NewAssetRepo is a function to create a new asset repository.
 func NewAssetRepo() (repo.IAssetRepo, error) {
 	return &impl{
-		endpoint: "http://localhost:8080",
-		version:  "v1",
+		endpoint: configx.C.IRent.HTTP.URL,
+		version:  configx.C.IRent.Version,
 	}, nil
 }
 
