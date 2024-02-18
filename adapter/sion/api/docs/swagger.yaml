@@ -16,6 +16,25 @@ info:
   title: Sion API
   version: 0.1.0
 paths:
+  /callback:
+    post:
+      consumes:
+      - application/json
+      description: Handle the callback from the third-party service.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: callback
+      tags:
+      - callback
   /healthz:
     get:
       consumes:
