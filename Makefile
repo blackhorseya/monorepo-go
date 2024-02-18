@@ -81,7 +81,7 @@ gazelle: ## run gazelle with bazel
 
 ## docker
 .PHONY: docker-push
-docker-push: docker-push-shortenurl docker-push-ekko docker-push-orianna ## push docker image
+docker-push: docker-push-shortenurl docker-push-ekko docker-push-orianna docker-push-sion ## push docker image
 
 .PHONY: docker-push-shortenurl
 docker-push-shortenurl: ## push docker image
@@ -94,3 +94,7 @@ docker-push-ekko: ## push docker image
 .PHONY: docker-push-orianna
 docker-push-orianna: ## push docker image
 	bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //adapter/orianna:push
+
+.PHONY: docker-push-sion
+docker-push-sion: ## push docker image
+	bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //adapter/sion:push
