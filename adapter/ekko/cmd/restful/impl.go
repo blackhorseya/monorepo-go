@@ -11,6 +11,7 @@ import (
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/ekko/api/docs" // swagger docs
 	"github.com/blackhorseya/monorepo-go/entity/ekko/domain/workflow/biz"
+	"github.com/blackhorseya/monorepo-go/entity/ekko/domain/workflow/model"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -209,7 +210,7 @@ func (i *impl) callback(c *gin.Context) {
 
 			messages, err = i.handleMessage(ctx, message)
 			if err != nil {
-				ctx.Warn("handle message error", zap.Error(err))
+				ctx.Warn("handle message error", zap.Error(err), zap.String("text", message.Text))
 				continue
 			}
 
@@ -224,7 +225,7 @@ func (i *impl) callback(c *gin.Context) {
 	c.JSON(http.StatusOK, response.OK)
 }
 
-func (i *impl) handleMessage(_ contextx.Contextx, message *linebot.TextMessage) ([]linebot.SendingMessage, error) {
+func (i *impl) handleMessage(ctx contextx.Contextx, message *linebot.TextMessage) ([]linebot.SendingMessage, error) {
 	text := message.Text
 	if text == "ping" {
 		return []linebot.SendingMessage{
@@ -232,5 +233,21 @@ func (i *impl) handleMessage(_ contextx.Contextx, message *linebot.TextMessage) 
 		}, nil
 	}
 
-	return nil, nil
+	if text == "list" {
+		var todos model.Tickets
+		var err error
+		todos, _, err = i.svc.ListTodos(ctx, biz.ListTodosOptions{
+			Page: 1,
+			Size: 5,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		return []linebot.SendingMessage{
+			todos.FlexMessage(),
+		}, nil
+	}
+
+	return nil, errors.New("unknown message")
 }

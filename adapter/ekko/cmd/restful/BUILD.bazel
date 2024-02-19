@@ -13,6 +13,7 @@ go_library(
         "//app/ekko/domain/workflow/biz",
         "//app/ekko/domain/workflow/repo/mongodb",
         "//entity/ekko/domain/workflow/biz",
+        "//entity/ekko/domain/workflow/model",
         "//pkg/adapterx",
         "//pkg/configx",
         "//pkg/contextx",

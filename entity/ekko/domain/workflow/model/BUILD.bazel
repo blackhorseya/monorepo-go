@@ -5,4 +5,5 @@ go_library(
     srcs = ["ticket.go"],
     importpath = "github.com/blackhorseya/monorepo-go/entity/ekko/domain/workflow/model",
     visibility = ["//visibility:public"],
+    deps = ["@com_github_line_line_bot_sdk_go_v8//linebot"],
 )
