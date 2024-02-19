@@ -249,5 +249,22 @@ func (i *impl) handleMessage(ctx contextx.Contextx, message *linebot.TextMessage
 		}, nil
 	}
 
+	if strings.HasPrefix(text, "create.") {
+		title := strings.TrimPrefix(text, "create.")
+		title = strings.TrimSpace(title)
+		if title == "" {
+			return nil, errors.New("title is required")
+		}
+
+		ticket, err := i.svc.CreateTodo(ctx, nil, title)
+		if err != nil {
+			return nil, err
+		}
+
+		return []linebot.SendingMessage{
+			ticket.FlexMessage(),
+		}, nil
+	}
+
 	return nil, errors.New("unknown message")
 }

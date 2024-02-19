@@ -32,6 +32,11 @@ func (t *Ticket) BubbleContainer() *linebot.BubbleContainer {
 	}
 }
 
+// FlexMessage returns a flex message of the ticket.
+func (t *Ticket) FlexMessage() *linebot.FlexMessage {
+	return linebot.NewFlexMessage("Ticket", t.BubbleContainer())
+}
+
 // NewTicket creates a new ticket.
 func NewTicket(title string) (*Ticket, error) {
 	return &Ticket{
