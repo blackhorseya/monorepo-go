@@ -41,7 +41,7 @@ func (i *impl) ListTodos(
 	who *idM.User,
 	opts biz.ListTodosOptions,
 ) (todos []*wfM.Ticket, total int, err error) {
-	got, err := i.issues.List(ctx, issueR.ListOptions{})
+	got, err := i.issues.List(ctx, issueR.ListOptions{OwnerID: who.ID})
 	if err != nil {
 		return nil, 0, err
 	}

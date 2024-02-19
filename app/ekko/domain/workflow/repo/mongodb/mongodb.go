@@ -32,7 +32,8 @@ func (i *impl) List(ctx contextx.Contextx, opts repo.ListOptions) (items []agg.I
 	defer cancelFunc()
 
 	coll := i.rw.Database(dbName).Collection(collName)
-	cursor, err := coll.Find(timeout, bson.M{})
+	filter := bson.M{"owner_id": opts.OwnerID}
+	cursor, err := coll.Find(timeout, filter)
 	if err != nil {
 		return nil, err
 	}
