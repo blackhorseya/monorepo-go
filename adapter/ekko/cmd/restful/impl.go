@@ -208,7 +208,7 @@ func (i *impl) callback(c *gin.Context) {
 				continue
 			}
 
-			messages, err = i.handleMessage(ctx, message)
+			messages, err = i.handleMessage(ctx, event, message)
 			if err != nil {
 				ctx.Warn("handle message error", zap.Error(err), zap.String("text", message.Text))
 				continue
@@ -225,11 +225,21 @@ func (i *impl) callback(c *gin.Context) {
 	c.JSON(http.StatusOK, response.OK)
 }
 
-func (i *impl) handleMessage(ctx contextx.Contextx, message *linebot.TextMessage) ([]linebot.SendingMessage, error) {
+func (i *impl) handleMessage(
+	ctx contextx.Contextx,
+	event *linebot.Event,
+	message *linebot.TextMessage,
+) ([]linebot.SendingMessage, error) {
 	text := message.Text
 	if text == "ping" {
 		return []linebot.SendingMessage{
 			linebot.NewTextMessage("pong"),
+		}, nil
+	}
+
+	if text == "whoami" {
+		return []linebot.SendingMessage{
+			linebot.NewTextMessage(event.Source.UserID),
 		}, nil
 	}
 
