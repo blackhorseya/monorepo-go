@@ -224,7 +224,7 @@ func (i *impl) callback(c *gin.Context) {
 	c.JSON(http.StatusOK, response.OK)
 }
 
-func (i *impl) handleMessage(ctx contextx.Contextx, message *linebot.TextMessage) ([]linebot.SendingMessage, error) {
+func (i *impl) handleMessage(_ contextx.Contextx, message *linebot.TextMessage) ([]linebot.SendingMessage, error) {
 	text := message.Text
 	if text == "ping" {
 		return []linebot.SendingMessage{
