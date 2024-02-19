@@ -23,6 +23,7 @@ func newFromIssue(item agg.Issue) issue {
 		ID:        primitive.NewObjectID(),
 		Title:     item.GetTitle(),
 		Completed: item.GetCompleted(),
+		OwnerID:   item.GetOwnerID(),
 		CreatedAt: now,
 		UpdatedAt: now,
 	}
@@ -37,6 +38,7 @@ func (x *issue) ToAggregate() (agg.Issue, error) {
 
 	ret.SetID(x.ID.Hex())
 	ret.SetCompleted(x.Completed)
+	ret.SetOwnerID(x.OwnerID)
 
 	return ret, nil
 }

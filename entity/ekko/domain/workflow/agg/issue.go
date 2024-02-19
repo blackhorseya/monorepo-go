@@ -45,3 +45,13 @@ func (x *Issue) GetCompleted() bool {
 func (x *Issue) SetCompleted(completed bool) {
 	x.ticket.Completed = completed
 }
+
+// GetOwnerID returns the issue owner ID.
+func (x *Issue) GetOwnerID() string {
+	return x.ticket.OwnerID
+}
+
+// SetOwnerID sets the issue owner ID.
+func (x *Issue) SetOwnerID(ownerID string) {
+	x.ticket.OwnerID = ownerID
+}
