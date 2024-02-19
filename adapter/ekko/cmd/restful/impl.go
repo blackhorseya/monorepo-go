@@ -255,6 +255,11 @@ func (i *impl) handleMessage(
 		if err != nil {
 			return nil, err
 		}
+		if len(todos) == 0 {
+			return []linebot.SendingMessage{
+				linebot.NewTextMessage("no todos"),
+			}, nil
+		}
 
 		return []linebot.SendingMessage{
 			todos.FlexMessage(),
