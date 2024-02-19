@@ -42,10 +42,13 @@ func TestAll(t *testing.T) {
 }
 
 func (s *suiteTester) Test_impl_CreateTodo() {
+	user1 := &idM.User{
+		ID: "user1",
+	}
 	ticket1 := &wfM.Ticket{
 		Title: "title1",
 	}
-	issue1, _ := agg.NewIssue(ticket1.Title)
+	issue1, _ := agg.NewIssue(user1.ID, ticket1.Title)
 
 	type args struct {
 		ctx   contextx.Contextx
@@ -61,7 +64,7 @@ func (s *suiteTester) Test_impl_CreateTodo() {
 	}{
 		{
 			name: "create todo then error",
-			args: args{title: ticket1.Title, mock: func() {
+			args: args{who: user1, title: ticket1.Title, mock: func() {
 				s.issues.EXPECT().Create(gomock.Any(), issue1).
 					Return("", errors.New("mock error")).
 					Times(1)

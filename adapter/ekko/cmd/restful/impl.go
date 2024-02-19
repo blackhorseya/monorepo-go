@@ -10,6 +10,7 @@ import (
 	"syscall"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/ekko/api/docs" // swagger docs
+	idM "github.com/blackhorseya/monorepo-go/entity/ekko/domain/identity/model"
 	"github.com/blackhorseya/monorepo-go/entity/ekko/domain/workflow/biz"
 	"github.com/blackhorseya/monorepo-go/entity/ekko/domain/workflow/model"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
@@ -162,7 +163,7 @@ func (i *impl) CreateTodo(c *gin.Context) {
 		return
 	}
 
-	ret, err := i.svc.CreateTodo(ctx, nil, payload.Title)
+	ret, err := i.svc.CreateTodo(ctx, &idM.User{ID: "1"}, payload.Title)
 	if err != nil {
 		_ = c.Error(err)
 		return
@@ -266,7 +267,7 @@ func (i *impl) handleMessage(
 			return nil, errors.New("title is required")
 		}
 
-		ticket, err := i.svc.CreateTodo(ctx, nil, title)
+		ticket, err := i.svc.CreateTodo(ctx, &idM.User{ID: event.Source.UserID}, title)
 		if err != nil {
 			return nil, err
 		}

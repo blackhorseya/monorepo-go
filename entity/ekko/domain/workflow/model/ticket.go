@@ -9,6 +9,15 @@ type Ticket struct {
 	ID        string `json:"id"`
 	Title     string `json:"title,omitempty"`
 	Completed bool   `json:"completed,omitempty"`
+	OwnerID   string `json:"owner_id"`
+}
+
+// NewTicket creates a new ticket.
+func NewTicket(ownerID string, title string) (*Ticket, error) {
+	return &Ticket{
+		Title:   title,
+		OwnerID: ownerID,
+	}, nil
 }
 
 func (t *Ticket) BubbleContainer() *linebot.BubbleContainer {
@@ -35,13 +44,6 @@ func (t *Ticket) BubbleContainer() *linebot.BubbleContainer {
 // FlexMessage returns a flex message of the ticket.
 func (t *Ticket) FlexMessage() *linebot.FlexMessage {
 	return linebot.NewFlexMessage("Ticket", t.BubbleContainer())
-}
-
-// NewTicket creates a new ticket.
-func NewTicket(title string) (*Ticket, error) {
-	return &Ticket{
-		Title: title,
-	}, nil
 }
 
 // Tickets is a collection of tickets.

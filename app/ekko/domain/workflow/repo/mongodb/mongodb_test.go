@@ -58,7 +58,7 @@ func TestAll(t *testing.T) {
 }
 
 func (s *suiteTester) Test_impl_GetByID() {
-	issue1, _ := agg.NewIssue("title1")
+	issue1, _ := agg.NewIssue("1", "title1")
 	newIssue1 := newFromIssue(issue1)
 	got1, _ := newIssue1.ToAggregate()
 
@@ -103,7 +103,7 @@ func (s *suiteTester) Test_impl_GetByID() {
 }
 
 func (s *suiteTester) Test_impl_Create() {
-	created1, _ := agg.NewIssue("title1")
+	created1, _ := agg.NewIssue("1", "title1")
 
 	type args struct {
 		ctx  contextx.Contextx

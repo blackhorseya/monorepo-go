@@ -12,6 +12,7 @@ go_library(
         "//adapter/ekko/api/docs",
         "//app/ekko/domain/workflow/biz",
         "//app/ekko/domain/workflow/repo/mongodb",
+        "//entity/ekko/domain/identity/model",
         "//entity/ekko/domain/workflow/biz",
         "//entity/ekko/domain/workflow/model",
         "//pkg/adapterx",

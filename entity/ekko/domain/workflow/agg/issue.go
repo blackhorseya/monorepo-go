@@ -10,8 +10,8 @@ type Issue struct {
 }
 
 // NewIssue creates a new issue.
-func NewIssue(title string) (Issue, error) {
-	ticket, err := model.NewTicket(title)
+func NewIssue(ownerID, title string) (Issue, error) {
+	ticket, err := model.NewTicket(ownerID, title)
 	if err != nil {
 		return Issue{}, err
 	}

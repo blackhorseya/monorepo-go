@@ -19,7 +19,7 @@ func NewWorkflowBiz(issues issueR.IIssueRepo) (biz.IWorkflowBiz, error) {
 }
 
 func (i *impl) CreateTodo(ctx contextx.Contextx, who *idM.User, title string) (todo *wfM.Ticket, err error) {
-	issue, err := agg.NewIssue(title)
+	issue, err := agg.NewIssue(who.ID, title)
 	if err != nil {
 		return nil, err
 	}
