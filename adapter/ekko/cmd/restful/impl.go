@@ -51,6 +51,8 @@ func (i *impl) Start() error {
 
 		api.GET("/v1/todos", i.ListTodos)
 		api.POST("/v1/todos", i.CreateTodo)
+
+		api.POST("/callback", i.callback)
 	}
 
 	err := i.server.Start(ctx)
@@ -162,4 +164,17 @@ func (i *impl) CreateTodo(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, response.OK.WithData(ret))
+}
+
+// callback is used to handle the callback from the third-party service.
+// @Summary callback
+// @Description Handle the callback from the third-party service.
+// @Tags callback
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /callback [post]
+func (i *impl) callback(c *gin.Context) {
+	c.JSON(http.StatusOK, response.OK)
 }
