@@ -125,7 +125,7 @@ func (i *impl) ListTodos(c *gin.Context) {
 		return
 	}
 
-	ret, total, err := i.svc.ListTodos(ctx, biz.ListTodosOptions{})
+	ret, total, err := i.svc.ListTodos(ctx, &idM.User{ID: "1"}, biz.ListTodosOptions{})
 	if err != nil {
 		_ = c.Error(err)
 		return
@@ -244,10 +244,11 @@ func (i *impl) handleMessage(
 		}, nil
 	}
 
+	who := &idM.User{ID: event.Source.UserID}
 	if text == "list" {
 		var todos model.Tickets
 		var err error
-		todos, _, err = i.svc.ListTodos(ctx, biz.ListTodosOptions{
+		todos, _, err = i.svc.ListTodos(ctx, who, biz.ListTodosOptions{
 			Page: 1,
 			Size: 5,
 		})
@@ -267,7 +268,7 @@ func (i *impl) handleMessage(
 			return nil, errors.New("title is required")
 		}
 
-		ticket, err := i.svc.CreateTodo(ctx, &idM.User{ID: event.Source.UserID}, title)
+		ticket, err := i.svc.CreateTodo(ctx, who, title)
 		if err != nil {
 			return nil, err
 		}

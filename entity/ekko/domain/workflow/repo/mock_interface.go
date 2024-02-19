@@ -66,16 +66,16 @@ func (mr *MockIIssueRepoMockRecorder) GetByID(ctx, id interface{}) *gomock.Call 
 }
 
 // List mocks base method.
-func (m *MockIIssueRepo) List(ctx contextx.Contextx) ([]agg.Issue, error) {
+func (m *MockIIssueRepo) List(ctx contextx.Contextx, opts ListOptions) ([]agg.Issue, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", ctx)
+	ret := m.ctrl.Call(m, "List", ctx, opts)
 	ret0, _ := ret[0].([]agg.Issue)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockIIssueRepoMockRecorder) List(ctx interface{}) *gomock.Call {
+func (mr *MockIIssueRepoMockRecorder) List(ctx, opts interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockIIssueRepo)(nil).List), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockIIssueRepo)(nil).List), ctx, opts)
 }

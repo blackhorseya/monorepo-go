@@ -17,5 +17,5 @@ type ListTodosOptions struct {
 type IWorkflowBiz interface {
 	CreateTodo(ctx contextx.Contextx, who *idM.User, title string) (todo *wfM.Ticket, err error)
 
-	ListTodos(ctx contextx.Contextx, options ListTodosOptions) (todos []*wfM.Ticket, total int, err error)
+	ListTodos(ctx contextx.Contextx, who *idM.User, opts ListTodosOptions) (todos []*wfM.Ticket, total int, err error)
 }

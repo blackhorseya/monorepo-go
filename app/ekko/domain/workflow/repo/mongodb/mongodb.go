@@ -27,7 +27,7 @@ func NewIssueRepo(rw *mongo.Client) (repo.IIssueRepo, error) {
 	return &impl{rw: rw}, nil
 }
 
-func (i *impl) List(ctx contextx.Contextx) (items []agg.Issue, err error) {
+func (i *impl) List(ctx contextx.Contextx, opts repo.ListOptions) (items []agg.Issue, err error) {
 	timeout, cancelFunc := contextx.WithTimeout(ctx, timeoutDuration)
 	defer cancelFunc()
 

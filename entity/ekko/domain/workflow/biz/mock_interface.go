@@ -52,9 +52,9 @@ func (mr *MockIWorkflowBizMockRecorder) CreateTodo(ctx, who, title interface{}) 
 }
 
 // ListTodos mocks base method.
-func (m *MockIWorkflowBiz) ListTodos(ctx contextx.Contextx, options ListTodosOptions) ([]*model0.Ticket, int, error) {
+func (m *MockIWorkflowBiz) ListTodos(ctx contextx.Contextx, who *model.User, opts ListTodosOptions) ([]*model0.Ticket, int, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListTodos", ctx, options)
+	ret := m.ctrl.Call(m, "ListTodos", ctx, who, opts)
 	ret0, _ := ret[0].([]*model0.Ticket)
 	ret1, _ := ret[1].(int)
 	ret2, _ := ret[2].(error)
@@ -62,7 +62,7 @@ func (m *MockIWorkflowBiz) ListTodos(ctx contextx.Contextx, options ListTodosOpt
 }
 
 // ListTodos indicates an expected call of ListTodos.
-func (mr *MockIWorkflowBizMockRecorder) ListTodos(ctx, options interface{}) *gomock.Call {
+func (mr *MockIWorkflowBizMockRecorder) ListTodos(ctx, who, opts interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTodos", reflect.TypeOf((*MockIWorkflowBiz)(nil).ListTodos), ctx, options)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTodos", reflect.TypeOf((*MockIWorkflowBiz)(nil).ListTodos), ctx, who, opts)
 }

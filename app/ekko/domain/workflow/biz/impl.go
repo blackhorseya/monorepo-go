@@ -36,8 +36,12 @@ func (i *impl) CreateTodo(ctx contextx.Contextx, who *idM.User, title string) (t
 	}, nil
 }
 
-func (i *impl) ListTodos(ctx contextx.Contextx, opts biz.ListTodosOptions) (todos []*wfM.Ticket, total int, err error) {
-	got, err := i.issues.List(ctx)
+func (i *impl) ListTodos(
+	ctx contextx.Contextx,
+	who *idM.User,
+	opts biz.ListTodosOptions,
+) (todos []*wfM.Ticket, total int, err error) {
+	got, err := i.issues.List(ctx, issueR.ListOptions{})
 	if err != nil {
 		return nil, 0, err
 	}
