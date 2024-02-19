@@ -10,6 +10,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/biz"
 	mongodb2 "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/repo/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/spf13/viper"
 )
@@ -21,11 +22,15 @@ import (
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	client, err := mongodb.NewClient()
+	client, err := linebot.NewClient()
 	if err != nil {
 		return nil, err
 	}
-	iIssueRepo, err := mongodb2.NewIssueRepo(client)
+	mongoClient, err := mongodb.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	iIssueRepo, err := mongodb2.NewIssueRepo(mongoClient)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +38,7 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	servicer, err := newRestful(iWorkflowBiz)
+	servicer, err := newRestful(client, iWorkflowBiz)
 	if err != nil {
 		return nil, err
 	}
