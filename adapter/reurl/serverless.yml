@@ -18,21 +18,15 @@ provider:
   runtime: go1.x
   stage: ${opt:stage, 'prod'}
   region: ap-northeast-3
-  timeout: 900
+  timeout: 29
 
 package:
   individually: true
 
 functions:
-  hello:
-    handler: ./cmd/hello/
+  restful:
+    handler: ./cmd/restful
     events:
       - httpApi:
-          path: /hello
-          method: get
-  world:
-    handler: ./cmd/world/
-    events:
-      - httpApi:
-          path: /world
-          method: get
+          path: /
+          method: '*'

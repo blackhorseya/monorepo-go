@@ -1,9 +1,9 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_library(
-    name = "world_lib",
+    name = "restful_lib",
     srcs = ["main.go"],
-    importpath = "github.com/blackhorseya/monorepo-go/adapter/reurl/cmd/world",
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/reurl/cmd/restful",
     visibility = ["//visibility:private"],
     deps = [
         "@com_github_aws_aws_lambda_go//events",
@@ -12,7 +12,7 @@ go_library(
 )
 
 go_binary(
-    name = "world",
-    embed = [":world_lib"],
+    name = "restful",
+    embed = [":restful_lib"],
     visibility = ["//visibility:public"],
 )
