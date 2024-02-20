@@ -36,6 +36,4 @@ functions:
     handler: ./cmd/restful
     name: ${sls:stage}-reurl-restful
     events:
-      - http:
-          path: /{proxy+}
-          method: '*'
+      - http: ANY /{proxy+}
