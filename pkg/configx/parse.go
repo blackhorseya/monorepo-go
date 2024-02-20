@@ -115,5 +115,35 @@ func bindEnv(v *viper.Viper) error {
 		return err
 	}
 
+	err = v.BindEnv("reurl.http.mode", "REURL_HTTP_MODE")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("reurl.linebot.secret", "REURL_LINEBOT_SECRET")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("reurl.linebot.token", "REURL_LINEBOT_TOKEN")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("reurl.storage.redis.addr", "REURL_STORAGE_REDIS_ADDR")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("reurl.storage.redis.password", "REURL_STORAGE_REDIS_PASSWORD")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("reurl.storage.redis.db", "REURL_STORAGE_REDIS_DB")
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
