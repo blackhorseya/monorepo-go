@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"log"
-	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
+	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
+	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 )
 
 var (
@@ -17,15 +18,9 @@ var (
 	ginLambda *ginadapter.GinLambda
 )
 
-// Response is of type APIGatewayProxyResponse since we're leveraging the
-// AWS Lambda Proxy Request functionality (default behavior)
-//
-// https://serverless.com/framework/docs/providers/aws/events/apigateway/#lambda-proxy-integration
-type Response events.APIGatewayProxyResponse
-
 // Handler is our lambda handler invoked by the `lambda.Start` function call
-func Handler(ctx context.Context) (Response, error) {
-	return Response{StatusCode: http.StatusOK}, nil
+func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	return ginLambda.ProxyWithContext(ctx, req)
 }
 
 func main() {
@@ -41,10 +36,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	injector, err = BuildInjector()
+	server, err := httpx.NewServer(contextx.Background())
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	ginLambda = ginadapter.New(server.Router)
 
 	lambda.Start(Handler)
 }

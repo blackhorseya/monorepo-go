@@ -9,8 +9,8 @@ package main
 // Injectors from wire.go:
 
 func BuildInjector() (*Injector, error) {
-	injector := &Injector{}
-	return injector, nil
+	mainInjector := &Injector{}
+	return mainInjector, nil
 }
 
 // wire.go:
