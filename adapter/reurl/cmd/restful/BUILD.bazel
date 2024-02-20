@@ -13,6 +13,8 @@ go_library(
         "//app/domain/shortening/repo/redis",
         "//entity/domain/shortening/biz",
         "//pkg/configx",
+        "//pkg/contextx",
+        "//pkg/linebot",
         "//pkg/logging",
         "//pkg/response",
         "//pkg/storage/redis",
@@ -21,6 +23,8 @@ go_library(
         "@com_github_aws_aws_lambda_go//lambda",
         "@com_github_awslabs_aws_lambda_go_api_proxy//gin",
         "@com_github_gin_gonic_gin//:gin",
+        "@com_github_line_line_bot_sdk_go_v8//linebot",
+        "@org_uber_go_zap//:zap",
     ],
 )
 

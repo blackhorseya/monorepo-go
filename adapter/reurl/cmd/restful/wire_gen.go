@@ -10,8 +10,10 @@ import (
 	"github.com/blackhorseya/monorepo-go/app/domain/shortening/biz"
 	redis2 "github.com/blackhorseya/monorepo-go/app/domain/shortening/repo/redis"
 	biz2 "github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
+	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/redis"
 	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
+	linebot2 "github.com/line/line-bot-sdk-go/v8/linebot"
 )
 
 // Injectors from wire.go:
@@ -21,20 +23,25 @@ func BuildInjector() (*Injector, error) {
 	if err != nil {
 		return nil, err
 	}
-	client, err := redis.NewClient()
+	client, err := linebot.NewClient()
 	if err != nil {
 		return nil, err
 	}
-	storager, err := redis2.NewStorager(client)
+	redisClient, err := redis.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	storager, err := redis2.NewStorager(redisClient)
 	if err != nil {
 		return nil, err
 	}
 	iShorteningBiz := biz.NewShortening(storager)
-	injector := &Injector{
+	mainInjector := &Injector{
 		server: server,
+		bot:    client,
 		svc:    iShorteningBiz,
 	}
-	return injector, nil
+	return mainInjector, nil
 }
 
 // wire.go:
@@ -42,5 +49,6 @@ func BuildInjector() (*Injector, error) {
 // Injector is the injector for the restful service.
 type Injector struct {
 	server *httpx.Server
+	bot    *linebot2.Client
 	svc    biz2.IShorteningBiz
 }
