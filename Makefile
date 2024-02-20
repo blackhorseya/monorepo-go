@@ -61,9 +61,6 @@ gen-swagger: ## generate swagger
 	## stringx
 	@swag init -q -d ./adapter/stringx,./app,./pkg,./entity -o ./adapter/stringx/api/docs
 
-	## shortenurl
-	@swag init -q -d ./adapter/shortenurl,./app,./pkg,./entity -o ./adapter/shortenurl/api/docs
-
 	## ekko
 	@swag init -q -d ./adapter/ekko,./app,./pkg,./entity -o ./adapter/ekko/api/docs
 
@@ -81,11 +78,7 @@ gazelle: ## run gazelle with bazel
 
 ## docker
 .PHONY: docker-push
-docker-push: docker-push-shortenurl docker-push-ekko docker-push-orianna docker-push-sion ## push docker image
-
-.PHONY: docker-push-shortenurl
-docker-push-shortenurl: ## push docker image
-	bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //adapter/shortenurl:push
+docker-push: docker-push-ekko docker-push-orianna docker-push-sion ## push docker image
 
 .PHONY: docker-push-ekko
 docker-push-ekko: ## push docker image

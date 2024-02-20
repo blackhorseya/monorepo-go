@@ -37,3 +37,5 @@ functions:
     name: ${sls:stage}-reurl-restful
     events:
       - http: ANY /{proxy+}
+    environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
+
