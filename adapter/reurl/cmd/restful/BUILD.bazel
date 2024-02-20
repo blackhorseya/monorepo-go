@@ -2,14 +2,20 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_library(
     name = "restful_lib",
-    srcs = ["main.go"],
+    srcs = [
+        "main.go",
+        "wire_gen.go",
+    ],
     importpath = "github.com/blackhorseya/monorepo-go/adapter/reurl/cmd/restful",
     visibility = ["//visibility:private"],
     deps = [
+        "//app/domain/shortening/biz",
+        "//app/domain/shortening/repo/redis",
+        "//entity/domain/shortening/biz",
         "//pkg/configx",
-        "//pkg/contextx",
         "//pkg/logging",
         "//pkg/response",
+        "//pkg/storage/redis",
         "//pkg/transports/httpx",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",

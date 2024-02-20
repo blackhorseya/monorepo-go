@@ -9,14 +9,13 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
-	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
 	"github.com/blackhorseya/monorepo-go/pkg/response"
-	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/gin-gonic/gin"
 )
 
 var (
+	injector  *Injector
 	ginLambda *ginadapter.GinLambda
 )
 
@@ -38,22 +37,22 @@ func main() {
 		log.Fatal(err)
 	}
 
-	server, err := httpx.NewServer(contextx.Background())
+	injector, err = BuildInjector()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// register routes
-	server.Router.POST("/callback", func(c *gin.Context) {
+	injector.server.Router.POST("/callback", func(c *gin.Context) {
 		// todo: 2024/2/20|sean|implement callback
 		c.JSON(http.StatusOK, response.OK)
 	})
-	server.Router.GET("/:code", func(c *gin.Context) {
+	injector.server.Router.GET("/:code", func(c *gin.Context) {
 		// todo: 2024/2/20|sean|implement redirect
 		c.JSON(http.StatusOK, response.OK.WithData(c.Param("code")))
 	})
 
-	ginLambda = ginadapter.New(server.Router)
+	ginLambda = ginadapter.New(injector.server.Router)
 
 	lambda.Start(Handler)
 }

@@ -33,7 +33,7 @@ type impl struct {
 func newRestful(svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
-	server, err := httpx.NewServer(ctx)
+	server, err := httpx.NewServerWithContextx(ctx)
 	if err != nil {
 		return nil, err
 	}

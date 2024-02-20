@@ -21,7 +21,12 @@ type Server struct {
 }
 
 // NewServer is used to create a new http server.
-func NewServer(ctx contextx.Contextx) (*Server, error) {
+func NewServer() (*Server, error) {
+	return NewServerWithContextx(contextx.Background())
+}
+
+// NewServerWithContextx is used to create a new http server.
+func NewServerWithContextx(ctx contextx.Contextx) (*Server, error) {
 	return NewServerWithAPP(ctx, configx.A)
 }
 

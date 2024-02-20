@@ -34,7 +34,7 @@ type impl struct {
 func newRestful(bot *linebot.Client, svc biz.IWorkflowBiz) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
-	server, err := httpx.NewServer(ctx)
+	server, err := httpx.NewServerWithContextx(ctx)
 	if err != nil {
 		return nil, err
 	}
