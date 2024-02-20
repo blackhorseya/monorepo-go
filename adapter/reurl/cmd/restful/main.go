@@ -41,18 +41,20 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// register routes
-	injector.server.Router.POST("/callback", func(c *gin.Context) {
-		// todo: 2024/2/20|sean|implement callback
-		c.JSON(http.StatusOK, response.OK)
-	})
-	injector.server.Router.GET("/:code", func(c *gin.Context) {
-		// todo: 2024/2/20|sean|implement redirect
-		c.JSON(http.StatusOK, response.OK.WithData(c.Param("code")))
-	})
+	injector.registerRoutes()
 
 	ginLambda = ginadapter.New(injector.server.Router)
 
 	lambda.Start(Handler)
+}
+
+func (i *Injector) registerRoutes() {
+	i.server.Router.POST("/callback", func(c *gin.Context) {
+		// todo: 2024/2/20|sean|implement callback
+		c.JSON(http.StatusOK, response.OK)
+	})
+	i.server.Router.GET("/:code", func(c *gin.Context) {
+		// todo: 2024/2/20|sean|implement redirect
+		c.JSON(http.StatusOK, response.OK.WithData(c.Param("code")))
+	})
 }
