@@ -13,6 +13,7 @@ go_library(
         "//pkg/logging",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
+        "@com_github_awslabs_aws_lambda_go_api_proxy//gin",
     ],
 )
 
