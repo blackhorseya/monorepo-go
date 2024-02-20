@@ -67,6 +67,7 @@ type Config struct {
 	Stringx    Application `json:"stringx" yaml:"stringx"`
 	Orianna    Application `json:"orianna" yaml:"orianna"`
 	Sion       Application `json:"sion" yaml:"sion"`
+	ReURL      Application `json:"reurl" yaml:"reurl"`
 
 	Finmind Application `json:"finmind" yaml:"finmind"`
 	IRent   Application `json:"irent" yaml:"irent"`

@@ -11,8 +11,11 @@ custom:
   go:
     baseDir: . # folder where go.mod file lives, if set `handler` property should be set relatively to that folder
     binDir: bin # target folder for binary files
-    supportedRuntimes: [ "provided.al2" ] # the plugin compiles a function only if runtime is declared here (either on function or provider level)
-    buildProvidedRuntimeAsBootstrap: true # if enabled, builds and archive function with only single "bootstrap" binary (useful for runtimes like provided.al2)
+    cgo: 0 # CGO_ENABLED flag
+    cmd: 'GOARCH=amd64 GOOS=linux go build -ldflags="-s -w"' # compile command
+    monorepo: false # if enabled, builds function every directory (useful for monorepo where go.mod is managed by each function
+    supportedRuntimes: [ "go1.x" ] # the plugin compiles a function only if runtime is declared here (either on function or provider level)
+    buildProvidedRuntimeAsBootstrap: false # if enabled, builds and archive function with only single "bootstrap" binary (useful for runtimes like provided.al2)
   serverless-offline:
     httpPort: 1992
     host: 0.0.0.0
@@ -20,10 +23,10 @@ custom:
 
 provider:
   name: aws
-  runtime: provided.al2
+  runtime: go1.x
   stage: ${opt:stage, 'prod'}
   region: ap-northeast-3
-  timeout: 29
+  timeout: 900
 
 package:
   individually: true
@@ -31,6 +34,7 @@ package:
 functions:
   restful:
     handler: ./cmd/restful
+    name: ${sls:stage}-reurl-restful
     events:
       - http:
           path: /callback
