@@ -2,7 +2,6 @@ package agg
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/blackhorseya/monorepo-go/entity/sion/domain/rental/model"
 	"github.com/line/line-bot-sdk-go/v8/linebot"
@@ -53,8 +52,6 @@ func (x Assets) FlexMessage() *linebot.FlexMessage {
 	for _, asset := range x {
 		contents = append(contents, asset.BubbleContainer())
 	}
-
-	log.Println(contents)
 
 	return linebot.NewFlexMessage("Car List", &linebot.CarouselContainer{
 		Type:     linebot.FlexContainerTypeCarousel,
