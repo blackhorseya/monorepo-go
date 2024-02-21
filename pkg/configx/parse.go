@@ -85,6 +85,30 @@ func bindEnv(v *viper.Viper) error {
 		return err
 	}
 
+	err = bindEnvForOrianna(v)
+	if err != nil {
+		return err
+	}
+
+	err = bindEnvForSion(v)
+	if err != nil {
+		return err
+	}
+
+	err = bindEnvForReURL(v)
+	if err != nil {
+		return err
+	}
+
+	err = bindEnvForIRent(v)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func bindEnvForOrianna(v *viper.Viper) (err error) {
 	err = v.BindEnv("orianna.storage.mongodb.dsn", "ORIANNA_STORAGE_MONGODB_DSN")
 	if err != nil {
 		return err
@@ -115,6 +139,10 @@ func bindEnv(v *viper.Viper) error {
 		return err
 	}
 
+	return nil
+}
+
+func bindEnvForReURL(v *viper.Viper) (err error) {
 	err = v.BindEnv("reurl.http.mode", "REURL_HTTP_MODE")
 	if err != nil {
 		return err
@@ -141,6 +169,44 @@ func bindEnv(v *viper.Viper) error {
 	}
 
 	err = v.BindEnv("reurl.storage.redis.db", "REURL_STORAGE_REDIS_DB")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func bindEnvForSion(v *viper.Viper) (err error) {
+	err = v.BindEnv("sion.http.url", "SION_HTTP_URL")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("sion.http.mode", "SION_HTTP_MODE")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("sion.linebot.secret", "SION_LINEBOT_SECRET")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("sion.linebot.token", "SION_LINEBOT_TOKEN")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func bindEnvForIRent(v *viper.Viper) (err error) {
+	err = v.BindEnv("irent.version", "IRENT_VERSION")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("irent.http.url", "IRENT_HTTP_URL")
 	if err != nil {
 		return err
 	}
