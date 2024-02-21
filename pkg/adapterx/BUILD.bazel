@@ -5,4 +5,5 @@ go_library(
     srcs = ["adapterx.go"],
     importpath = "github.com/blackhorseya/monorepo-go/pkg/adapterx",
     visibility = ["//visibility:public"],
+    deps = ["@com_github_gin_gonic_gin//:gin"],
 )
