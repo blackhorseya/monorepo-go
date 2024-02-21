@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "reurl_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/blackhorseya/monorepo-go/adapter/reurl",
+    visibility = ["//visibility:private"],
+    deps = ["//adapter/reurl/cmd"],
+)
+
+go_binary(
+    name = "reurl",
+    embed = [":reurl_lib"],
+    visibility = ["//visibility:public"],
+)
