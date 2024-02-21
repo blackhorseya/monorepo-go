@@ -5,7 +5,6 @@ configValidationMode: error
 
 plugins:
   - serverless-go-plugin
-  - serverless-offline
 
 custom:
   go:
@@ -16,10 +15,6 @@ custom:
     monorepo: false # if enabled, builds function every directory (useful for monorepo where go.mod is managed by each function
     supportedRuntimes: [ "go1.x" ] # the plugin compiles a function only if runtime is declared here (either on function or provider level)
     buildProvidedRuntimeAsBootstrap: false # if enabled, builds and archive function with only single "bootstrap" binary (useful for runtimes like provided.al2)
-  serverless-offline:
-    httpPort: 1992
-    host: 0.0.0.0
-    useDocker: true
 
 provider:
   name: aws
@@ -33,7 +28,7 @@ package:
 
 functions:
   restful:
-    handler: ./cmd/restful
+    handler: ./cmd/lambda
     name: ${sls:stage}-reurl-restful
     events:
       - http: ANY /{proxy+}
