@@ -6,8 +6,13 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/reurl/cmd/lambda",
     visibility = ["//visibility:private"],
     deps = [
+        "//adapter/reurl/cmd/restful",
+        "//pkg/configx",
+        "//pkg/logging",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
+        "@com_github_awslabs_aws_lambda_go_api_proxy//gin",
+        "@com_github_spf13_viper//:viper",
     ],
 )
 
