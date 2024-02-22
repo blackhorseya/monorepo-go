@@ -2,16 +2,21 @@ package restful
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
 
+	_ "github.com/blackhorseya/monorepo-go/adapter/reurl/api/docs" // swagger docs
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
+	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
 )
 
@@ -85,11 +90,43 @@ func (i *impl) AwaitSignal() error {
 }
 
 func (i *impl) InitRouting() error {
-	// todo: 2024/2/23|sean|implement the routing
+	api := i.server.Router.Group("/api")
+	{
+		api.GET("/healthz", i.healthz)
+		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+		api.POST("/callback", i.callback)
+	}
 
 	return nil
 }
 
 func (i *impl) GetRouter() *gin.Engine {
 	return i.server.Router
+}
+
+// healthz is used to check the health of the service.
+// @Summary healthz
+// @Description Check the health of the service.
+// @Tags healthz
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /healthz [get]
+func (i *impl) healthz(c *gin.Context) {
+	c.JSON(http.StatusOK, response.OK)
+}
+
+// callback is used to handle the callback from the third-party service.
+// @Summary callback
+// @Description Handle the callback from the third-party service.
+// @Tags callback
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /callback [post]
+func (i *impl) callback(c *gin.Context) {
+	c.JSON(http.StatusOK, response.OK)
 }

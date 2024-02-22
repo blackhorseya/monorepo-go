@@ -58,8 +58,8 @@ gen-mocks: ## generate mocks
 	@$(GO) generate ./...
 
 gen-swagger: ## generate swagger
-	## stringx
-	@swag init -q -d ./adapter/stringx,./app,./pkg,./entity -o ./adapter/stringx/api/docs
+	## reurl
+	@swag init -q -d ./adapter/reurl,./app,./pkg,./entity -o ./adapter/reurl/api/docs
 
 	## ekko
 	@swag init -q -d ./adapter/ekko,./app,./pkg,./entity -o ./adapter/ekko/api/docs
