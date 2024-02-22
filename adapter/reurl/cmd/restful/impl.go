@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"strings"
@@ -151,7 +152,56 @@ func (i *impl) callback(c *gin.Context) {
 
 		return
 	}
-	_ = events
+
+	var messages []linebot.SendingMessage
+	for _, event := range events {
+		if event.Type == linebot.EventTypeMessage {
+			message, ok := event.Message.(*linebot.TextMessage)
+			if !ok {
+				continue
+			}
+
+			messages, err = i.handleMessage(ctx, event, message)
+			if err != nil {
+				ctx.Warn("handle message error", zap.Error(err), zap.String("text", message.Text))
+				continue
+			}
+
+			_, err = i.bot.ReplyMessage(event.ReplyToken, messages...).Do()
+			if err != nil {
+				_ = c.Error(err)
+				return
+			}
+		}
+	}
 
 	c.JSON(http.StatusOK, response.OK)
+}
+
+func (i *impl) handleMessage(
+	ctx contextx.Contextx,
+	event *linebot.Event,
+	message *linebot.TextMessage,
+) ([]linebot.SendingMessage, error) {
+	text := message.Text
+	if text == "ping" {
+		return []linebot.SendingMessage{
+			linebot.NewTextMessage("pong"),
+		}, nil
+	}
+
+	if text == "whoami" {
+		return []linebot.SendingMessage{
+			linebot.NewTextMessage(event.Source.UserID),
+		}, nil
+	}
+
+	uri, err := url.ParseRequestURI(text)
+	if err == nil {
+		return []linebot.SendingMessage{
+			linebot.NewTextMessage(uri.String()),
+		}, nil
+	}
+
+	return nil, errors.New("unknown message")
 }
