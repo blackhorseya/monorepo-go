@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"strings"
@@ -199,5 +200,17 @@ func (i *impl) handleMessage(
 		}, nil
 	}
 
-	return nil, errors.New("unknown message")
+	uri, err := url.ParseRequestURI(text)
+	if err != nil {
+		return nil, err
+	}
+
+	record, err := i.svc.CreateShortenedURL(ctx, uri.String())
+	if err != nil {
+		return nil, err
+	}
+
+	return []linebot.SendingMessage{
+		linebot.NewTextMessage(record.ShortUrl),
+	}, nil
 }
