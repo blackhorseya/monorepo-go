@@ -1,6 +1,7 @@
 package restful
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -15,6 +16,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/response"
 	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/gin-gonic/gin"
+	"github.com/line/line-bot-sdk-go/v8/linebot"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
@@ -22,9 +24,10 @@ import (
 
 type impl struct {
 	server *httpx.Server
+	bot    *linebot.Client
 }
 
-func newService() (adapterx.Servicer, error) {
+func newService(bot *linebot.Client) (adapterx.Servicer, error) {
 	server, err := httpx.NewServer()
 	if err != nil {
 		return nil, err
@@ -32,10 +35,11 @@ func newService() (adapterx.Servicer, error) {
 
 	return &impl{
 		server: server,
+		bot:    bot,
 	}, nil
 }
 
-func newRestful() (adapterx.Restful, error) {
+func newRestful(bot *linebot.Client) (adapterx.Restful, error) {
 	server, err := httpx.NewServer()
 	if err != nil {
 		return nil, err
@@ -43,6 +47,7 @@ func newRestful() (adapterx.Restful, error) {
 
 	return &impl{
 		server: server,
+		bot:    bot,
 	}, nil
 }
 
@@ -128,5 +133,25 @@ func (i *impl) healthz(c *gin.Context) {
 // @Failure 500 {object} response.Response
 // @Router /callback [post]
 func (i *impl) callback(c *gin.Context) {
+	ctx, err := contextx.FromGin(c)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	events, err := i.bot.ParseRequest(c.Request)
+	if err != nil {
+		if errors.Is(err, linebot.ErrInvalidSignature) {
+			ctx.Error("invalid line bot signature", zap.Error(err))
+			_ = c.Error(err)
+		} else {
+			ctx.Error("parse line bot request error", zap.Error(err))
+			_ = c.Error(err)
+		}
+
+		return
+	}
+	_ = events
+
 	c.JSON(http.StatusOK, response.OK)
 }

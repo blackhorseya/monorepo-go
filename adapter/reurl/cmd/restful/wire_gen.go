@@ -8,13 +8,22 @@ package restful
 
 import (
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
+	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/spf13/viper"
+)
+
+import (
+	_ "github.com/blackhorseya/monorepo-go/adapter/reurl/api/docs"
 )
 
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
-	servicer, err := newService()
+	client, err := linebot.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	servicer, err := newService(client)
 	if err != nil {
 		return nil, err
 	}
@@ -22,7 +31,11 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 }
 
 func NewRestful(v *viper.Viper) (adapterx.Restful, error) {
-	restful, err := newRestful()
+	client, err := linebot.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	restful, err := newRestful(client)
 	if err != nil {
 		return nil, err
 	}
