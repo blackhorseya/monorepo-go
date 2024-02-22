@@ -4,13 +4,13 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"net/url"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
 
 	_ "github.com/blackhorseya/monorepo-go/adapter/reurl/api/docs" // swagger docs
+	shortB "github.com/blackhorseya/monorepo-go/entity/domain/shortening/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -26,9 +26,10 @@ import (
 type impl struct {
 	server *httpx.Server
 	bot    *linebot.Client
+	svc    shortB.IShorteningBiz
 }
 
-func newService(bot *linebot.Client) (adapterx.Servicer, error) {
+func newService(bot *linebot.Client, svc shortB.IShorteningBiz) (adapterx.Servicer, error) {
 	server, err := httpx.NewServer()
 	if err != nil {
 		return nil, err
@@ -37,10 +38,11 @@ func newService(bot *linebot.Client) (adapterx.Servicer, error) {
 	return &impl{
 		server: server,
 		bot:    bot,
+		svc:    svc,
 	}, nil
 }
 
-func newRestful(bot *linebot.Client) (adapterx.Restful, error) {
+func newRestful(bot *linebot.Client, svc shortB.IShorteningBiz) (adapterx.Restful, error) {
 	server, err := httpx.NewServer()
 	if err != nil {
 		return nil, err
@@ -49,6 +51,7 @@ func newRestful(bot *linebot.Client) (adapterx.Restful, error) {
 	return &impl{
 		server: server,
 		bot:    bot,
+		svc:    svc,
 	}, nil
 }
 
@@ -193,13 +196,6 @@ func (i *impl) handleMessage(
 	if text == "whoami" {
 		return []linebot.SendingMessage{
 			linebot.NewTextMessage(event.Source.UserID),
-		}, nil
-	}
-
-	uri, err := url.ParseRequestURI(text)
-	if err == nil {
-		return []linebot.SendingMessage{
-			linebot.NewTextMessage(uri.String()),
 		}, nil
 	}
 

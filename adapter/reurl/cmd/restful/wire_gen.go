@@ -7,8 +7,11 @@
 package restful
 
 import (
+	"github.com/blackhorseya/monorepo-go/app/domain/shortening/biz"
+	redis2 "github.com/blackhorseya/monorepo-go/app/domain/shortening/repo/redis"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/linebot"
+	"github.com/blackhorseya/monorepo-go/pkg/storage/redis"
 	"github.com/spf13/viper"
 )
 
@@ -23,7 +26,16 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	servicer, err := newService(client)
+	redisClient, err := redis.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	storager, err := redis2.NewStorager(redisClient)
+	if err != nil {
+		return nil, err
+	}
+	iShorteningBiz := biz.NewShortening(storager)
+	servicer, err := newService(client, iShorteningBiz)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +47,16 @@ func NewRestful(v *viper.Viper) (adapterx.Restful, error) {
 	if err != nil {
 		return nil, err
 	}
-	restful, err := newRestful(client)
+	redisClient, err := redis.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	storager, err := redis2.NewStorager(redisClient)
+	if err != nil {
+		return nil, err
+	}
+	iShorteningBiz := biz.NewShortening(storager)
+	restful, err := newRestful(client, iShorteningBiz)
 	if err != nil {
 		return nil, err
 	}
