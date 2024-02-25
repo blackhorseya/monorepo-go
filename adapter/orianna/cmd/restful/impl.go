@@ -45,21 +45,24 @@ func newService(svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Servicer, err
 	}, nil
 }
 
+func newRestful(svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Restful, error) {
+	s, err := newService(svc, bot)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.(adapterx.Restful), nil
+}
+
 func (i *impl) Start() error {
 	ctx := contextx.Background()
 
-	i.server.Router.POST("/callback", i.callback)
-
-	// register router
-	api := i.server.Router.Group("/api")
-	{
-		api.GET("/healthz", i.healthz)
-		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-		v1.Handle(api.Group("/v1"), i.svc)
+	err := i.InitRouting()
+	if err != nil {
+		return err
 	}
 
-	err := i.server.Start(ctx)
+	err = i.server.Start(ctx)
 	if err != nil {
 		return err
 	}
@@ -92,6 +95,25 @@ func (i *impl) AwaitSignal() error {
 	}
 
 	return nil
+}
+
+func (i *impl) InitRouting() error {
+	i.server.Router.POST("/callback", i.callback)
+
+	// register router
+	api := i.server.Router.Group("/api")
+	{
+		api.GET("/healthz", i.healthz)
+		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+		v1.Handle(api.Group("/v1"), i.svc)
+	}
+
+	return nil
+}
+
+func (i *impl) GetRouter() *gin.Engine {
+	return i.server.Router
 }
 
 // healthz is used to check the health of the service.
