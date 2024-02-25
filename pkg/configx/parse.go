@@ -109,6 +109,16 @@ func bindEnv(v *viper.Viper) error {
 }
 
 func bindEnvForOrianna(v *viper.Viper) (err error) {
+	err = v.BindEnv("orianna.http.port", "ORIANNA_HTTP_PORT")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("orianna.http.model", "ORIANNA_HTTP_MODE")
+	if err != nil {
+		return err
+	}
+
 	err = v.BindEnv("orianna.storage.mongodb.dsn", "ORIANNA_STORAGE_MONGODB_DSN")
 	if err != nil {
 		return err
@@ -135,6 +145,16 @@ func bindEnvForOrianna(v *viper.Viper) (err error) {
 	}
 
 	err = v.BindEnv("orianna.mq.kafka.password", "ORIANNA_MQ_KAFKA_PASSWORD")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("orianna.linebot.secret", "ORIANNA_LINEBOT_SECRET")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("orianna.linebot.token", "ORIANNA_LINEBOT_TOKEN")
 	if err != nil {
 		return err
 	}

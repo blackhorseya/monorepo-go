@@ -25,6 +25,14 @@ package:
   individually: true
 
 functions:
+  # api
+  restful:
+    handler: ./cmd/lambda/
+    name: ${sls:stage}-restful
+    events:
+      - http: ANY /{proxy+}
+    environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
+
   # jobs
   taiwanStockInfo:
     handler: ./cmd/jobs/taiwanStockInfo/
