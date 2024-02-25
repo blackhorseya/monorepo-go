@@ -18,6 +18,6 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 		linebot.NewClient,
 		mongodb.NewClient,
 		biz.ProviderSet,
-		newRestful,
+		newService,
 	))
 }

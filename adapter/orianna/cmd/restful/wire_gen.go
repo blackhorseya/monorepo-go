@@ -38,7 +38,7 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	servicer, err := newRestful(iMarketBiz, linebotClient)
+	servicer, err := newService(iMarketBiz, linebotClient)
 	if err != nil {
 		return nil, err
 	}

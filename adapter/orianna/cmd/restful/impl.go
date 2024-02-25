@@ -30,7 +30,7 @@ type impl struct {
 	bot    *linebot.Client
 }
 
-func newRestful(svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Servicer, error) {
+func newService(svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Servicer, error) {
 	ctx := contextx.Background()
 
 	server, err := httpx.NewServerWithContextx(ctx)
