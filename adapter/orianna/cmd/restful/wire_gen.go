@@ -44,3 +44,27 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	}
 	return servicer, nil
 }
+
+func NewRestful() (adapterx.Restful, error) {
+	client, err := mongodb.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	iStockRepo, err := mongodb2.NewStockRepo(client)
+	if err != nil {
+		return nil, err
+	}
+	iMarketBiz, err := biz.NewMarketBiz(iStockRepo)
+	if err != nil {
+		return nil, err
+	}
+	linebotClient, err := linebot.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	restful, err := newRestful(iMarketBiz, linebotClient)
+	if err != nil {
+		return nil, err
+	}
+	return restful, nil
+}
