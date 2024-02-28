@@ -14,4 +14,5 @@ type IStockRepo interface {
 	BulkUpsertInfo(ctx contextx.Contextx, stocks []agg.Stock) error
 	BulkUpdateQuota(ctx contextx.Contextx, stocks []agg.Stock) error
 	UpsertEarningsCall(ctx contextx.Contextx, stock agg.Stock) error
+	BulkAppendEarningsCall(ctx contextx.Contextx, stocks []agg.Stock) error
 }
