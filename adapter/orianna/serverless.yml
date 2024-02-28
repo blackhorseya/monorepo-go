@@ -61,6 +61,16 @@ functions:
           timezone: Asia/Taipei
     environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
 
+  fetchEarningsCall:
+    handler: ./cmd/jobs/fetchEarningsCall/
+    name: ${sls:stage}-fetchEarningsCall
+    events:
+      - schedule:
+          method: scheduler
+          rate: cron(45 17 * * ? *)
+          timezone: Asia/Taipei
+    environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
+
   # calc
   calcLongUp:
     handler: ./cmd/jobs/calcLongUp/
