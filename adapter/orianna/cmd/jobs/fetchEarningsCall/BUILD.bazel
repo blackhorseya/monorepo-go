@@ -11,6 +11,7 @@ go_library(
         "//pkg/logging",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
+        "@com_github_gocolly_colly_v2//:colly",
         "@org_uber_go_zap//:zap",
     ],
 )

@@ -13,6 +13,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
+	"github.com/gocolly/colly/v2"
 	"go.uber.org/zap"
 )
 
@@ -22,6 +23,8 @@ const (
 
 func Handler() (events.APIGatewayProxyResponse, error) {
 	ctx := contextx.Background()
+	coll := colly.NewCollector()
+	_ = coll
 
 	payload := url.Values{}
 	payload.Set("encodeURIComponent", "1")
