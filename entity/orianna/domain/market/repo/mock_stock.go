@@ -36,9 +36,9 @@ func (m *MockIStockRepo) EXPECT() *MockIStockRepoMockRecorder {
 }
 
 // BulkAppendEarningsCall mocks base method.
-func (m *MockIStockRepo) BulkAppendEarningsCall(ctx contextx.Contextx, stocks []agg.Stock) error {
+func (m *MockIStockRepo) BulkAppendEvents(ctx contextx.Contextx, stocks []agg.Stock) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BulkAppendEarningsCall", ctx, stocks)
+	ret := m.ctrl.Call(m, "BulkAppendEvents", ctx, stocks)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
@@ -46,7 +46,7 @@ func (m *MockIStockRepo) BulkAppendEarningsCall(ctx contextx.Contextx, stocks []
 // BulkAppendEarningsCall indicates an expected call of BulkAppendEarningsCall.
 func (mr *MockIStockRepoMockRecorder) BulkAppendEarningsCall(ctx, stocks interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BulkAppendEarningsCall", reflect.TypeOf((*MockIStockRepo)(nil).BulkAppendEarningsCall), ctx, stocks)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BulkAppendEvents", reflect.TypeOf((*MockIStockRepo)(nil).BulkAppendEvents), ctx, stocks)
 }
 
 // BulkUpdateQuota mocks base method.

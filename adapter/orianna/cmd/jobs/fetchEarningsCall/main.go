@@ -14,7 +14,6 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/logging"
 	"github.com/blackhorseya/monorepo-go/pkg/timex"
 	"github.com/gocolly/colly/v2"
-	"github.com/google/uuid"
 	"go.uber.org/zap"
 )
 
@@ -36,6 +35,7 @@ func Handler() (events.APIGatewayProxyResponse, error) {
 		ctx.Info("visiting", zap.String("url", r.URL.String()))
 	})
 
+	var stocks []agg.Stock
 	c.OnHTML("#myTable > tbody", func(e *colly.HTMLElement) {
 		e.ForEach("tr", func(i int, tr *colly.HTMLElement) {
 			split := strings.Split(tr.ChildText("td:nth-child(3)"), "至")
@@ -69,23 +69,17 @@ func Handler() (events.APIGatewayProxyResponse, error) {
 
 			at := time.Date(atDate.Year(), atDate.Month(), atDate.Day(), atTime.Hour(), atTime.Minute(), 0, 0, loc)
 
-			call := model.EarningsCall{
-				ID:         uuid.New(),
-				Symbol:     tr.ChildText("td:nth-child(1)"),
-				Host:       "",
+			event := model.Event{
+				ID:         "",
+				Type:       model.EventTypeEarningsCall,
 				OccurredAt: at,
 			}
-			ctx.Info("fetching", zap.Any("call", call))
 
 			stock := agg.NewStock(&model.Stock{
-				Symbol: call.Symbol,
+				Symbol: tr.ChildText("td:nth-child(1)"),
 			})
-			stock.EarningsCalls[at] = call
-			err = injector.repo.UpsertEarningsCall(ctx, stock)
-			if err != nil {
-				ctx.Error("upsert earnings call error", zap.Error(err))
-				return
-			}
+			stock.Events = append(stock.Events, event)
+			stocks = append(stocks, stock)
 		})
 	})
 
@@ -98,6 +92,11 @@ func Handler() (events.APIGatewayProxyResponse, error) {
 		"year":               "113",
 		"month":              "02",
 	})
+	if err != nil {
+		return events.APIGatewayProxyResponse{}, err
+	}
+
+	err = injector.repo.BulkAppendEvents(ctx, stocks)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}

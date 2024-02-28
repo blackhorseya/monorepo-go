@@ -22,7 +22,6 @@ go_library(
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
         "@com_github_gocolly_colly_v2//:colly",
-        "@com_github_google_uuid//:uuid",
         "@org_mongodb_go_mongo_driver//mongo",
         "@org_uber_go_zap//:zap",
     ],
