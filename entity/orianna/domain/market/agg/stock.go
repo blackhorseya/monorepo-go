@@ -10,8 +10,9 @@ import (
 
 // Stock is an aggregate root that represents the stock.
 type Stock struct {
-	stock       *model.Stock
-	recentQuota model.StockQuota
+	stock         *model.Stock
+	recentQuota   model.StockQuota
+	earningsCalls []model.EarningsCall
 }
 
 // NewStock is the constructor of Stock.
