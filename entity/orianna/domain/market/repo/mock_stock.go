@@ -92,3 +92,17 @@ func (mr *MockIStockRepoMockRecorder) List(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockIStockRepo)(nil).List), ctx)
 }
+
+// UpsertEarningsCall mocks base method.
+func (m *MockIStockRepo) UpsertEarningsCall(ctx contextx.Contextx, stock agg.Stock) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpsertEarningsCall", ctx, stock)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpsertEarningsCall indicates an expected call of UpsertEarningsCall.
+func (mr *MockIStockRepoMockRecorder) UpsertEarningsCall(ctx, stock interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpsertEarningsCall", reflect.TypeOf((*MockIStockRepo)(nil).UpsertEarningsCall), ctx, stock)
+}
