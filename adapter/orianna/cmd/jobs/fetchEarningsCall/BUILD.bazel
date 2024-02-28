@@ -6,12 +6,15 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/jobs/fetchEarningsCall",
     visibility = ["//visibility:private"],
     deps = [
+        "//entity/orianna/domain/market/model",
         "//pkg/configx",
         "//pkg/contextx",
         "//pkg/logging",
+        "//pkg/timex",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
         "@com_github_gocolly_colly_v2//:colly",
+        "@com_github_google_uuid//:uuid",
         "@org_uber_go_zap//:zap",
     ],
 )
