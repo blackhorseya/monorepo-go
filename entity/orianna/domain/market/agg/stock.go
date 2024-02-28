@@ -12,7 +12,7 @@ import (
 type Stock struct {
 	stock         *model.Stock
 	recentQuota   model.StockQuota
-	earningsCalls []model.EarningsCall
+	EarningsCalls []model.EarningsCall `json:"earnings_calls,omitempty"`
 }
 
 // NewStock is the constructor of Stock.
