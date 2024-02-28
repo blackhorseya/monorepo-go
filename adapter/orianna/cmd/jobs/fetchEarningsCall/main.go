@@ -1,12 +1,7 @@
 package main
 
 import (
-	"errors"
-	"io"
 	"log"
-	"net/http"
-	"net/url"
-	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -23,40 +18,31 @@ const (
 
 func Handler() (events.APIGatewayProxyResponse, error) {
 	ctx := contextx.Background()
-	coll := colly.NewCollector()
-	_ = coll
 
-	payload := url.Values{}
-	payload.Set("encodeURIComponent", "1")
-	payload.Set("step", "1")
-	payload.Set("firstin", "1")
-	payload.Set("off", "1")
-	payload.Set("TYPEK", "sii")
-	payload.Set("year", "113")
-	payload.Set("month", "02")
+	c := colly.NewCollector()
+	c.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("Content-Type", "application/x-www-form-urlencoded")
+		ctx.Info("visiting", zap.String("url", r.URL.String()))
+	})
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, baseURL, strings.NewReader(payload.Encode()))
+	c.OnHTML("#myTable > tbody", func(e *colly.HTMLElement) {
+		e.ForEach("tr", func(i int, tr *colly.HTMLElement) {
+			ctx.Info("fetching", zap.String("symbol", tr.ChildText("td:nth-child(1)")))
+		})
+	})
+
+	err := c.Post(baseURL, map[string]string{
+		"encodeURIComponent": "1",
+		"step":               "1",
+		"firstin":            "1",
+		"off":                "1",
+		"TYPEK":              "sii",
+		"year":               "113",
+		"month":              "02",
+	})
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return events.APIGatewayProxyResponse{}, err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return events.APIGatewayProxyResponse{}, errors.New("status code is not 200, got " + resp.Status)
-	}
-
-	got, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return events.APIGatewayProxyResponse{}, err
-	}
-
-	ctx.Info("got", zap.String("body", string(got)))
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
