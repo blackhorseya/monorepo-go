@@ -4,9 +4,11 @@ go_library(
     name = "model",
     srcs = [
         "candle_type.go",
+        "earnings_call.go",
         "stock.go",
         "stock_quota.go",
     ],
     importpath = "github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/model",
     visibility = ["//visibility:public"],
+    deps = ["@com_github_google_uuid//:uuid"],
 )
