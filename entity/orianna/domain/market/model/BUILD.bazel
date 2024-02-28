@@ -5,6 +5,7 @@ go_library(
     srcs = [
         "candle_type.go",
         "earnings_call.go",
+        "event.go",
         "stock.go",
         "stock_quota.go",
     ],

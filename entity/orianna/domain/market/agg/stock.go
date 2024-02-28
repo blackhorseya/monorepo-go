@@ -14,6 +14,7 @@ type Stock struct {
 	stock         *model.Stock
 	recentQuota   model.StockQuota
 	EarningsCalls map[time.Time]model.EarningsCall `json:"earnings_calls,omitempty"`
+	Events        []model.Event                    `json:"events,omitempty"`
 }
 
 // NewStock is the constructor of Stock.
