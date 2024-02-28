@@ -7,6 +7,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/agg"
 	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/model"
 	"github.com/blackhorseya/monorepo-go/pkg/configx"
 	"github.com/blackhorseya/monorepo-go/pkg/contextx"
@@ -22,7 +23,8 @@ const (
 )
 
 var (
-	loc, _ = time.LoadLocation("Asia/Taipei")
+	loc, _   = time.LoadLocation("Asia/Taipei")
+	injector *Injector
 )
 
 func Handler() (events.APIGatewayProxyResponse, error) {
@@ -74,6 +76,16 @@ func Handler() (events.APIGatewayProxyResponse, error) {
 				OccurredAt: at,
 			}
 			ctx.Info("fetching", zap.Any("call", call))
+
+			stock := agg.NewStock(&model.Stock{
+				Symbol: call.Symbol,
+			})
+			stock.EarningsCalls[at] = call
+			err = injector.repo.UpsertEarningsCall(ctx, stock)
+			if err != nil {
+				ctx.Error("upsert earnings call error", zap.Error(err))
+				return
+			}
 		})
 	})
 
@@ -104,6 +116,11 @@ func main() {
 	configx.ReplaceApplication(configx.C.Orianna)
 
 	err = logging.InitWithConfig(configx.C.Log)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	injector, err = BuildInjector()
 	if err != nil {
 		log.Fatal(err)
 	}

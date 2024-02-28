@@ -19,15 +19,17 @@ type Stock struct {
 // NewStock is the constructor of Stock.
 func NewStock(stock *model.Stock) Stock {
 	return Stock{
-		stock: stock,
+		stock:         stock,
+		EarningsCalls: make(map[time.Time]model.EarningsCall),
 	}
 }
 
 // NewStockWithQuota is the constructor of Stock with recent quota.
 func NewStockWithQuota(stock *model.Stock, recentQuota model.StockQuota) Stock {
 	return Stock{
-		stock:       stock,
-		recentQuota: recentQuota,
+		stock:         stock,
+		recentQuota:   recentQuota,
+		EarningsCalls: make(map[time.Time]model.EarningsCall),
 	}
 }
 
