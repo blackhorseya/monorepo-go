@@ -7,9 +7,11 @@ go_library(
     visibility = ["//visibility:private"],
     deps = [
         "//pkg/configx",
+        "//pkg/contextx",
         "//pkg/logging",
         "@com_github_aws_aws_lambda_go//events",
         "@com_github_aws_aws_lambda_go//lambda",
+        "@org_uber_go_zap//:zap",
     ],
 )
 
