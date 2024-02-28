@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -93,17 +94,34 @@ func Handler() (events.APIGatewayProxyResponse, error) {
 		"month":              "02",
 	})
 	if err != nil {
-		return events.APIGatewayProxyResponse{}, err
+		return handleError(err)
 	}
 
 	err = injector.repo.BulkAppendEvents(ctx, stocks)
 	if err != nil {
-		return events.APIGatewayProxyResponse{}, err
+		return handleError(err)
+	}
+
+	err = injector.notifier.SendText(ctx, "[FetchEarningsCall] dataset has been updated")
+	if err != nil {
+		ctx.Warn("failed to send notification", zap.Error(err))
 	}
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
 	}, nil
+}
+
+func handleError(err error) (events.APIGatewayProxyResponse, error) {
+	ctx := contextx.Background()
+
+	if injector.notifier != nil {
+		_ = injector.notifier.SendText(ctx, fmt.Sprintf("[FetchEarningsCall] failed to execute the job: %v", err))
+	}
+
+	ctx.Error("failed to execute the job", zap.Error(err))
+
+	return events.APIGatewayProxyResponse{}, err
 }
 
 func main() {
