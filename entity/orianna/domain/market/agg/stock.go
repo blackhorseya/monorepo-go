@@ -3,6 +3,7 @@ package agg
 import (
 	"encoding/json"
 	"strconv"
+	"time"
 
 	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/model"
 	"github.com/line/line-bot-sdk-go/v8/linebot"
@@ -12,7 +13,7 @@ import (
 type Stock struct {
 	stock         *model.Stock
 	recentQuota   model.StockQuota
-	EarningsCalls []model.EarningsCall `json:"earnings_calls,omitempty"`
+	EarningsCalls map[time.Time]model.EarningsCall `json:"earnings_calls,omitempty"`
 }
 
 // NewStock is the constructor of Stock.
