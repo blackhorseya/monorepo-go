@@ -35,6 +35,20 @@ func (m *MockIEventRepo) EXPECT() *MockIEventRepoMockRecorder {
 	return m.recorder
 }
 
+// BulkUpsert mocks base method.
+func (m *MockIEventRepo) BulkUpsert(ctx contextx.Contextx, items []*agg.Event) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "BulkUpsert", ctx, items)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// BulkUpsert indicates an expected call of BulkUpsert.
+func (mr *MockIEventRepoMockRecorder) BulkUpsert(ctx, items interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BulkUpsert", reflect.TypeOf((*MockIEventRepo)(nil).BulkUpsert), ctx, items)
+}
+
 // Create mocks base method.
 func (m *MockIEventRepo) Create(ctx contextx.Contextx, item *agg.Event) error {
 	m.ctrl.T.Helper()

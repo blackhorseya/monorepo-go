@@ -18,4 +18,5 @@ type IEventRepo interface {
 	GetByID(ctx contextx.Contextx, id string) (item agg.Event, err error)
 	List(ctx contextx.Contextx, opts ListOptions) (items []agg.Event, total int, err error)
 	Create(ctx contextx.Contextx, item *agg.Event) (err error)
+	BulkUpsert(ctx contextx.Contextx, items []*agg.Event) (err error)
 }
