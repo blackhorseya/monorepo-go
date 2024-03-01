@@ -8,11 +8,6 @@ definitions:
       msg:
         type: string
     type: object
-  restful.createTodoPayload:
-    properties:
-      title:
-        type: string
-    type: object
 info:
   contact:
     email: blackhorseya@gmail.com
@@ -59,48 +54,4 @@ paths:
       summary: healthz
       tags:
       - healthz
-  /v1/todos:
-    get:
-      consumes:
-      - application/json
-      description: List all todos
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: List todos
-      tags:
-      - todos
-    post:
-      consumes:
-      - application/json
-      description: Create a todo
-      parameters:
-      - description: payload
-        in: body
-        name: payload
-        required: true
-        schema:
-          $ref: '#/definitions/restful.createTodoPayload'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/response.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/response.Response'
-      summary: Create a todo
-      tags:
-      - todos
 swagger: "2.0"

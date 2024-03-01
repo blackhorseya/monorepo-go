@@ -97,9 +97,6 @@ func (i *impl) InitRouting() error {
 		api.GET("/healthz", i.healthz)
 		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-		api.GET("/v1/todos", i.ListTodos)
-		api.POST("/v1/todos", i.CreateTodo)
-
 		api.POST("/callback", i.callback)
 	}
 
@@ -121,69 +118,6 @@ func (i *impl) GetRouter() *gin.Engine {
 // @Router /healthz [get]
 func (i *impl) healthz(c *gin.Context) {
 	c.JSON(http.StatusOK, response.OK)
-}
-
-// ListTodos is used to list all todos.
-// @Summary List todos
-// @Description List all todos
-// @Tags todos
-// @Accept json
-// @Produce json
-// @Success 200 {object} response.Response
-// @Failure 500 {object} response.Response
-// @Router /v1/todos [get]
-func (i *impl) ListTodos(c *gin.Context) {
-	ctx, err := contextx.FromGin(c)
-	if err != nil {
-		_ = c.Error(err)
-		return
-	}
-
-	ret, total, err := i.svc.ListTodos(ctx, &idM.User{ID: "1"}, biz.ListTodosOptions{})
-	if err != nil {
-		_ = c.Error(err)
-		return
-	}
-
-	c.Header("X-Total-Count", fmt.Sprintf("%d", total))
-	c.JSON(http.StatusOK, response.OK.WithData(ret))
-}
-
-type createTodoPayload struct {
-	Title string `json:"title"`
-}
-
-// CreateTodo is used to create a todo.
-// @Summary Create a todo
-// @Description Create a todo
-// @Tags todos
-// @Accept json
-// @Produce json
-// @Param payload body createTodoPayload true "payload"
-// @Success 201 {object} response.Response
-// @Failure 500 {object} response.Response
-// @Router /v1/todos [post]
-func (i *impl) CreateTodo(c *gin.Context) {
-	ctx, err := contextx.FromGin(c)
-	if err != nil {
-		_ = c.Error(err)
-		return
-	}
-
-	var payload createTodoPayload
-	err = c.ShouldBindJSON(&payload)
-	if err != nil {
-		_ = c.Error(err)
-		return
-	}
-
-	ret, err := i.svc.CreateTodo(ctx, &idM.User{ID: "1"}, payload.Title)
-	if err != nil {
-		_ = c.Error(err)
-		return
-	}
-
-	c.JSON(http.StatusCreated, response.OK.WithData(ret))
 }
 
 // callback is used to handle the callback from the third-party service.
