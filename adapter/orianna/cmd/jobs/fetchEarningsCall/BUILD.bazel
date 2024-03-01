@@ -9,7 +9,7 @@ go_library(
     importpath = "github.com/blackhorseya/monorepo-go/adapter/orianna/cmd/jobs/fetchEarningsCall",
     visibility = ["//visibility:private"],
     deps = [
-        "//app/orianna/domain/market/repo/stock/mongodb",
+        "//app/orianna/domain/market/repo/event/mongodb",
         "//entity/orianna/domain/market/agg",
         "//entity/orianna/domain/market/model",
         "//entity/orianna/domain/market/repo",

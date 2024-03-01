@@ -36,7 +36,7 @@ func Handler() (events.APIGatewayProxyResponse, error) {
 		ctx.Info("visiting", zap.String("url", r.URL.String()))
 	})
 
-	var stocks []agg.Stock
+	var eventList []*agg.Event
 	c.OnHTML("#myTable > tbody", func(e *colly.HTMLElement) {
 		e.ForEach("tr", func(i int, tr *colly.HTMLElement) {
 			split := strings.Split(tr.ChildText("td:nth-child(3)"), "至")
@@ -70,17 +70,9 @@ func Handler() (events.APIGatewayProxyResponse, error) {
 
 			at := time.Date(atDate.Year(), atDate.Month(), atDate.Day(), atTime.Hour(), atTime.Minute(), 0, 0, loc)
 
-			event := model.Event{
-				ID:         "",
-				Type:       model.EventTypeEarningsCall,
-				OccurredAt: at,
-			}
-
-			stock := agg.NewStock(&model.Stock{
-				Symbol: tr.ChildText("td:nth-child(1)"),
-			})
-			stock.Events = append(stock.Events, event)
-			stocks = append(stocks, stock)
+			symbol := strings.TrimSpace(tr.ChildText("td:nth-child(1)"))
+			event := model.NewEvent(symbol, model.EventTypeEarningsCall, at)
+			eventList = append(eventList, &agg.Event{Event: event})
 		})
 	})
 
@@ -97,7 +89,7 @@ func Handler() (events.APIGatewayProxyResponse, error) {
 		return handleError(err)
 	}
 
-	err = injector.repo.BulkAppendEvents(ctx, stocks)
+	err = injector.repo.BulkUpsert(ctx, eventList)
 	if err != nil {
 		return handleError(err)
 	}

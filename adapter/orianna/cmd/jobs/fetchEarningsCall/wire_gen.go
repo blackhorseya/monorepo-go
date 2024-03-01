@@ -7,7 +7,7 @@
 package main
 
 import (
-	mongodb2 "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/stock/mongodb"
+	mongodb2 "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/event/mongodb"
 	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/notify"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
@@ -25,16 +25,16 @@ func BuildInjector() (*Injector, error) {
 	if err != nil {
 		return nil, err
 	}
-	iStockRepo, err := mongodb2.NewStockRepo(client)
+	iEventRepo, err := mongodb2.NewEventRepo(client)
 	if err != nil {
 		return nil, err
 	}
-	injector := &Injector{
+	mainInjector := &Injector{
 		rw:       client,
 		notifier: notifier,
-		repo:     iStockRepo,
+		repo:     iEventRepo,
 	}
-	return injector, nil
+	return mainInjector, nil
 }
 
 // wire.go:
@@ -43,5 +43,5 @@ func BuildInjector() (*Injector, error) {
 type Injector struct {
 	rw       *mongo.Client
 	notifier notify.Notifier
-	repo     repo.IStockRepo
+	repo     repo.IEventRepo
 }
