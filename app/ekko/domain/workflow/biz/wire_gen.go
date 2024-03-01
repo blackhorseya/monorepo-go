@@ -7,7 +7,7 @@
 package biz
 
 import (
-	mongodb2 "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/repo/mongodb"
+	mongodb2 "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/repo/issue/mongodb"
 	"github.com/blackhorseya/monorepo-go/entity/ekko/domain/workflow/biz"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/google/wire"

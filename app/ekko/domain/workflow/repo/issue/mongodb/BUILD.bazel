@@ -6,7 +6,7 @@ go_library(
         "model.go",
         "mongodb.go",
     ],
-    importpath = "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/repo/mongodb",
+    importpath = "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/repo/issue/mongodb",
     visibility = ["//visibility:public"],
     deps = [
         "//entity/ekko/domain/workflow/agg",

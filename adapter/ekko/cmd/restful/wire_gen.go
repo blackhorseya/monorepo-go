@@ -7,17 +7,14 @@
 package restful
 
 import (
+	_ "github.com/blackhorseya/monorepo-go/adapter/ekko/api/docs"
 	"github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/biz"
-	mongodb2 "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/repo/mongodb"
+	mongodb2 "github.com/blackhorseya/monorepo-go/app/ekko/domain/workflow/repo/issue/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/spf13/viper"
-)
-
-import (
-	_ "github.com/blackhorseya/monorepo-go/adapter/ekko/api/docs"
 )
 
 // Injectors from wire.go:
