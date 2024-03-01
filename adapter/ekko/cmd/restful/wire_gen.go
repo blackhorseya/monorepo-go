@@ -43,10 +43,7 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	servicer, err := newService(server, client, iWorkflowBiz)
-	if err != nil {
-		return nil, err
-	}
+	servicer := newService(server, client, iWorkflowBiz)
 	return servicer, nil
 }
 
@@ -71,9 +68,6 @@ func NewRestful() (adapterx.Restful, error) {
 	if err != nil {
 		return nil, err
 	}
-	restful, err := newRestful(server, client, iWorkflowBiz)
-	if err != nil {
-		return nil, err
-	}
+	restful := newRestful(server, client, iWorkflowBiz)
 	return restful, nil
 }
