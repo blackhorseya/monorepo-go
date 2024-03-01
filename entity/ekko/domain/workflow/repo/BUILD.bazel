@@ -3,8 +3,8 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "repo",
     srcs = [
-        "interface.go",
-        "mock_interface.go",
+        "issue.go",
+        "mock_issue.go",
     ],
     importpath = "github.com/blackhorseya/monorepo-go/entity/ekko/domain/workflow/repo",
     visibility = ["//visibility:public"],
