@@ -7,16 +7,13 @@
 package restful
 
 import (
+	_ "github.com/blackhorseya/monorepo-go/adapter/orianna/api/docs"
 	"github.com/blackhorseya/monorepo-go/app/orianna/domain/market/biz"
-	mongodb2 "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/mongodb"
+	mongodb2 "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/stock/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/spf13/viper"
-)
-
-import (
-	_ "github.com/blackhorseya/monorepo-go/adapter/orianna/api/docs"
 )
 
 // Injectors from wire.go:

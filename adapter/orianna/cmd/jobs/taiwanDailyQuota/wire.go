@@ -5,7 +5,7 @@
 package main
 
 import (
-	"github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/mongodb"
+	"github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/stock/mongodb"
 	"github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/repo"
 	"github.com/blackhorseya/monorepo-go/pkg/notify"
 	mongodbx "github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
