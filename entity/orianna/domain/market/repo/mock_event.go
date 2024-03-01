@@ -36,7 +36,7 @@ func (m *MockIEventRepo) EXPECT() *MockIEventRepoMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockIEventRepo) Create(ctx contextx.Contextx, item agg.Event) error {
+func (m *MockIEventRepo) Create(ctx contextx.Contextx, item *agg.Event) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, item)
 	ret0, _ := ret[0].(error)

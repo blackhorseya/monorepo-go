@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -26,6 +27,17 @@ func (x *EventType) String() string {
 // Event is an entity that represents an event.
 type Event struct {
 	ID         string    `json:"id"`
+	Symbol     string    `json:"symbol,omitempty"`
 	Type       EventType `json:"type,omitempty"`
 	OccurredAt time.Time `json:"occurred_at,omitempty"`
+}
+
+// NewEvent is to create a new event.
+func NewEvent(symbol string, typ EventType, occurredAt time.Time) *Event {
+	return &Event{
+		ID:         fmt.Sprintf("%s-%d-%d", symbol, typ, occurredAt.Unix()),
+		Symbol:     symbol,
+		Type:       typ,
+		OccurredAt: occurredAt,
+	}
 }
