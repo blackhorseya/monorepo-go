@@ -31,14 +31,15 @@ type impl struct {
 	svc    biz.IWorkflowBiz
 }
 
-func newRestful(bot *linebot.Client, svc biz.IWorkflowBiz) (adapterx.Servicer, error) {
-	ctx := contextx.Background()
+func newService(server *httpx.Server, bot *linebot.Client, svc biz.IWorkflowBiz) (adapterx.Servicer, error) {
+	return &impl{
+		server: server,
+		bot:    bot,
+		svc:    svc,
+	}, nil
+}
 
-	server, err := httpx.NewServerWithContextx(ctx)
-	if err != nil {
-		return nil, err
-	}
-
+func newRestful(server *httpx.Server, bot *linebot.Client, svc biz.IWorkflowBiz) (adapterx.Restful, error) {
 	return &impl{
 		server: server,
 		bot:    bot,
@@ -49,19 +50,12 @@ func newRestful(bot *linebot.Client, svc biz.IWorkflowBiz) (adapterx.Servicer, e
 func (i *impl) Start() error {
 	ctx := contextx.Background()
 
-	// register router
-	api := i.server.Router.Group("/api")
-	{
-		api.GET("/healthz", i.healthz)
-		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-		api.GET("/v1/todos", i.ListTodos)
-		api.POST("/v1/todos", i.CreateTodo)
-
-		api.POST("/callback", i.callback)
+	err := i.InitRouting()
+	if err != nil {
+		return err
 	}
 
-	err := i.server.Start(ctx)
+	err = i.server.Start(ctx)
 	if err != nil {
 		return err
 	}
@@ -94,6 +88,26 @@ func (i *impl) AwaitSignal() error {
 	}
 
 	return nil
+}
+
+func (i *impl) InitRouting() error {
+	// register router
+	api := i.server.Router.Group("/api")
+	{
+		api.GET("/healthz", i.healthz)
+		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+		api.GET("/v1/todos", i.ListTodos)
+		api.POST("/v1/todos", i.CreateTodo)
+
+		api.POST("/callback", i.callback)
+	}
+
+	return nil
+}
+
+func (i *impl) GetRouter() *gin.Engine {
+	return i.server.Router
 }
 
 // healthz is used to check the health of the service.
