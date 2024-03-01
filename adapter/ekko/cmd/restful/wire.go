@@ -23,3 +23,13 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 		newService,
 	))
 }
+
+func NewRestful() (adapterx.Restful, error) {
+	panic(wire.Build(
+		mongodbx.NewClient,
+		linebot.NewClient,
+		httpx.NewServer,
+		biz.ProviderSet,
+		newRestful,
+	))
+}

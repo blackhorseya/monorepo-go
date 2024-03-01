@@ -49,3 +49,31 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	}
 	return servicer, nil
 }
+
+func NewRestful() (adapterx.Restful, error) {
+	server, err := httpx.NewServer()
+	if err != nil {
+		return nil, err
+	}
+	client, err := linebot.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	mongoClient, err := mongodb.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	iIssueRepo, err := mongodb2.NewIssueRepo(mongoClient)
+	if err != nil {
+		return nil, err
+	}
+	iWorkflowBiz, err := biz.NewWorkflowBiz(iIssueRepo)
+	if err != nil {
+		return nil, err
+	}
+	restful, err := newRestful(server, client, iWorkflowBiz)
+	if err != nil {
+		return nil, err
+	}
+	return restful, nil
+}
