@@ -105,6 +105,11 @@ func bindEnv(v *viper.Viper) error {
 		return err
 	}
 
+	err = bindEnvForEkko(v)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -227,6 +232,30 @@ func bindEnvForIRent(v *viper.Viper) (err error) {
 	}
 
 	err = v.BindEnv("irent.http.url", "IRENT_HTTP_URL")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func bindEnvForEkko(v *viper.Viper) (err error) {
+	err = v.BindEnv("ekko.http.mode", "EKKO_HTTP_MODE")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("ekko.linebot.secret", "EKKO_LINEBOT_SECRET")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("ekko.linebot.token", "EKKO_LINEBOT_TOKEN")
+	if err != nil {
+		return err
+	}
+
+	err = v.BindEnv("ekko.storage.mongodb.dsn", "EKKO_STORAGE_MONGODB_DSN")
 	if err != nil {
 		return err
 	}
