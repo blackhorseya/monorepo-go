@@ -1,4 +1,4 @@
-service: sion
+service: ekko
 
 frameworkVersion: '3'
 configValidationMode: error
