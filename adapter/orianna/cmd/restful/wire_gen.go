@@ -13,6 +13,7 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
+	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/spf13/viper"
 )
 
@@ -23,6 +24,10 @@ import (
 // Injectors from wire.go:
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
+	server, err := httpx.NewServer()
+	if err != nil {
+		return nil, err
+	}
 	client, err := mongodb.NewClient()
 	if err != nil {
 		return nil, err
@@ -43,7 +48,7 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	servicer, err := newService(iMarketBiz, linebotClient)
+	servicer, err := newService(server, iMarketBiz, linebotClient)
 	if err != nil {
 		return nil, err
 	}
@@ -51,6 +56,10 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 }
 
 func NewRestful() (adapterx.Restful, error) {
+	server, err := httpx.NewServer()
+	if err != nil {
+		return nil, err
+	}
 	client, err := mongodb.NewClient()
 	if err != nil {
 		return nil, err
@@ -71,7 +80,7 @@ func NewRestful() (adapterx.Restful, error) {
 	if err != nil {
 		return nil, err
 	}
-	restful, err := newRestful(iMarketBiz, linebotClient)
+	restful, err := newRestful(server, iMarketBiz, linebotClient)
 	if err != nil {
 		return nil, err
 	}

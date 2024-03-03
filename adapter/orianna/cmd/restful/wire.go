@@ -9,12 +9,14 @@ import (
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
+	"github.com/blackhorseya/monorepo-go/pkg/transports/httpx"
 	"github.com/google/wire"
 	"github.com/spf13/viper"
 )
 
 func New(v *viper.Viper) (adapterx.Servicer, error) {
 	panic(wire.Build(
+		httpx.NewServer,
 		linebot.NewClient,
 		mongodb.NewClient,
 		biz.ProviderSet,
@@ -24,6 +26,7 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 
 func NewRestful() (adapterx.Restful, error) {
 	panic(wire.Build(
+		httpx.NewServer,
 		linebot.NewClient,
 		mongodb.NewClient,
 		biz.ProviderSet,

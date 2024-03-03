@@ -30,14 +30,7 @@ type impl struct {
 	bot    *linebot.Client
 }
 
-func newService(svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Servicer, error) {
-	ctx := contextx.Background()
-
-	server, err := httpx.NewServerWithContextx(ctx)
-	if err != nil {
-		return nil, err
-	}
-
+func newService(server *httpx.Server, svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Servicer, error) {
 	return &impl{
 		server: server,
 		svc:    svc,
@@ -45,8 +38,8 @@ func newService(svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Servicer, err
 	}, nil
 }
 
-func newRestful(svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Restful, error) {
-	s, err := newService(svc, bot)
+func newRestful(server *httpx.Server, svc biz.IMarketBiz, bot *linebot.Client) (adapterx.Restful, error) {
+	s, err := newService(server, svc, bot)
 	if err != nil {
 		return nil, err
 	}
