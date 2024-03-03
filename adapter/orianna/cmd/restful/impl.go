@@ -197,6 +197,20 @@ func (i *impl) handleMessage(ctx contextx.Contextx, message *linebot.TextMessage
 		}, nil
 	}
 
+	if text == "events" {
+		events, _, err := i.svc.ListEvents(ctx, biz.ListEventsOptions{
+			Page: 1,
+			Size: 5,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		return []linebot.SendingMessage{
+			events.FlexMessage(),
+		}, nil
+	}
+
 	return []linebot.SendingMessage{
 		linebot.NewTextMessage("I don't understand what you said."),
 	}, nil
