@@ -12,6 +12,7 @@ go_library(
         "//adapter/orianna/api/docs",
         "//adapter/orianna/cmd/restful/v1:restful",
         "//app/orianna/domain/market/biz",
+        "//app/orianna/domain/market/repo/event/mongodb",
         "//app/orianna/domain/market/repo/stock/mongodb",
         "//entity/orianna/domain/market/biz",
         "//pkg/adapterx",

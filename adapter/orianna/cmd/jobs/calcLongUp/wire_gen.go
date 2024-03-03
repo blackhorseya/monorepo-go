@@ -17,10 +17,10 @@ func BuildInjector() (*Injector, error) {
 	if err != nil {
 		return nil, err
 	}
-	injector := &Injector{
+	mainInjector := &Injector{
 		notifier: notifier,
 	}
-	return injector, nil
+	return mainInjector, nil
 }
 
 // wire.go:

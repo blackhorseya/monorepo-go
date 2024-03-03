@@ -7,13 +7,17 @@
 package restful
 
 import (
-	_ "github.com/blackhorseya/monorepo-go/adapter/orianna/api/docs"
 	"github.com/blackhorseya/monorepo-go/app/orianna/domain/market/biz"
+	mongodb3 "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/event/mongodb"
 	mongodb2 "github.com/blackhorseya/monorepo-go/app/orianna/domain/market/repo/stock/mongodb"
 	"github.com/blackhorseya/monorepo-go/pkg/adapterx"
 	"github.com/blackhorseya/monorepo-go/pkg/linebot"
 	"github.com/blackhorseya/monorepo-go/pkg/storage/mongodb"
 	"github.com/spf13/viper"
+)
+
+import (
+	_ "github.com/blackhorseya/monorepo-go/adapter/orianna/api/docs"
 )
 
 // Injectors from wire.go:
@@ -27,7 +31,11 @@ func New(v *viper.Viper) (adapterx.Servicer, error) {
 	if err != nil {
 		return nil, err
 	}
-	iMarketBiz, err := biz.NewMarketBiz(iStockRepo)
+	iEventRepo, err := mongodb3.NewEventRepo(client)
+	if err != nil {
+		return nil, err
+	}
+	iMarketBiz, err := biz.NewMarketBiz(iStockRepo, iEventRepo)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +59,11 @@ func NewRestful() (adapterx.Restful, error) {
 	if err != nil {
 		return nil, err
 	}
-	iMarketBiz, err := biz.NewMarketBiz(iStockRepo)
+	iEventRepo, err := mongodb3.NewEventRepo(client)
+	if err != nil {
+		return nil, err
+	}
+	iMarketBiz, err := biz.NewMarketBiz(iStockRepo, iEventRepo)
 	if err != nil {
 		return nil, err
 	}
