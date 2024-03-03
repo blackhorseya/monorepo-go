@@ -28,7 +28,7 @@ functions:
   # api
   restful:
     handler: ./cmd/lambda/
-    name: ${sls:stage}-restful
+    name: ${sls:stage}-orianna-restful
     events:
       - http: ANY /{proxy+}
     environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
