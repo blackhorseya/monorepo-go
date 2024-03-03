@@ -8,6 +8,7 @@ go_library(
         "event.go",
         "stock.go",
         "stock_quota.go",
+        "ticker.go",
     ],
     importpath = "github.com/blackhorseya/monorepo-go/entity/orianna/domain/market/model",
     visibility = ["//visibility:public"],
