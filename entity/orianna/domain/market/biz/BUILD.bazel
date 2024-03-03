@@ -10,6 +10,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//entity/orianna/domain/market/agg",
+        "//entity/orianna/domain/market/model",
         "//pkg/contextx",
         "@org_uber_go_mock//gomock",
     ],
