@@ -76,6 +76,7 @@ func Handler() (events.APIGatewayProxyResponse, error) {
 		})
 	})
 
+	now := time.Now().In(loc)
 	err := c.Post(baseURL, map[string]string{
 		"encodeURIComponent": "1",
 		"step":               "1",
@@ -83,7 +84,7 @@ func Handler() (events.APIGatewayProxyResponse, error) {
 		"off":                "1",
 		"TYPEK":              "sii",
 		"year":               "113",
-		"month":              "02",
+		"month":              now.Format("01"),
 	})
 	if err != nil {
 		return handleError(err)

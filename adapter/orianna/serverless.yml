@@ -72,11 +72,11 @@ functions:
     environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
 
   # calc
-  calcLongUp:
-    handler: ./cmd/jobs/calcLongUp/
-    name: ${sls:stage}-calcLongUp
-    events:
-      - http:
-          method: post
-          path: /calc-long-up
-    environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
+#  calcLongUp:
+#    handler: ./cmd/jobs/calcLongUp/
+#    name: ${sls:stage}-calcLongUp
+#    events:
+#      - http:
+#          method: post
+#          path: /calc-long-up
+#    environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
