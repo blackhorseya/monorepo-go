@@ -51,10 +51,10 @@ func (mr *MockIMarketBizMockRecorder) GetStockBySymbol(ctx, symbol interface{}) 
 }
 
 // ListEvents mocks base method.
-func (m *MockIMarketBiz) ListEvents(ctx contextx.Contextx, opts ListEventsOptions) ([]*agg.Event, int, error) {
+func (m *MockIMarketBiz) ListEvents(ctx contextx.Contextx, opts ListEventsOptions) (agg.Events, int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListEvents", ctx, opts)
-	ret0, _ := ret[0].([]*agg.Event)
+	ret0, _ := ret[0].(agg.Events)
 	ret1, _ := ret[1].(int)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2

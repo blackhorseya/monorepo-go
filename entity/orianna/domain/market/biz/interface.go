@@ -19,5 +19,5 @@ type ListEventsOptions struct {
 type IMarketBiz interface {
 	ListStocks(ctx contextx.Contextx) ([]agg.Stock, error)
 	GetStockBySymbol(ctx contextx.Contextx, symbol string) (agg.Stock, error)
-	ListEvents(ctx contextx.Contextx, opts ListEventsOptions) (items []*agg.Event, total int, err error)
+	ListEvents(ctx contextx.Contextx, opts ListEventsOptions) (items agg.Events, total int, err error)
 }

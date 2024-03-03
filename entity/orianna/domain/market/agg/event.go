@@ -8,3 +8,6 @@ import (
 type Event struct {
 	*model.Event
 }
+
+// Events is a collection of Event.
+type Events []*Event
