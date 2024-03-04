@@ -6,6 +6,8 @@ go_library(
         "candle_type.go",
         "earnings_call.go",
         "event.go",
+        "interval.go",
+        "kline.go",
         "stock.go",
         "stock_quota.go",
         "ticker.go",
