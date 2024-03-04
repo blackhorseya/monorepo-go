@@ -1,4 +1,4 @@
-service: orianna
+service: orianna-legacy
 
 frameworkVersion: '3'
 
@@ -28,7 +28,7 @@ functions:
   # api
   restful:
     handler: ./cmd/lambda/
-    name: ${sls:stage}-orianna-restful
+    name: ${sls:stage}-${self:service}-restful
     events:
       - http: ANY /{proxy+}
     environment: ${file(./deployments/${opt:stage, 'prod'}/.env.yaml)}
