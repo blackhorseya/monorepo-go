@@ -61,15 +61,6 @@ gen-swagger: ## generate swagger
 	## reurl
 	@swag init -q -d ./adapter/reurl,./app,./pkg,./entity -o ./adapter/reurl/api/docs
 
-	## ekko
-	@swag init -q -d ./adapter/ekko,./app,./pkg,./entity -o ./adapter/ekko/api/docs
-
-	## orianna
-	@swag init -q -d ./adapter/orianna,./app,./pkg,./entity -o ./adapter/orianna/api/docs
-
-	## sion
-	@swag init -q -d ./adapter/sion,./app,./pkg,./entity -o ./adapter/sion/api/docs
-
 gazelle-repos: ## run gazelle with bazel
 	@bazel run //:gazelle -- update-repos -from_file=go.mod -to_macro=deps.bzl%go_dependencies -prune
 
@@ -78,8 +69,4 @@ gazelle: ## run gazelle with bazel
 
 ## docker
 .PHONY: docker-push
-docker-push: docker-push-sion ## push docker image
-
-.PHONY: docker-push-sion
-docker-push-sion: ## push docker image
-	bazel run --platforms=@io_bazel_rules_go//go/toolchain:linux_amd64 //adapter/sion:push
+docker-push: ## push docker image
